@@ -23,4 +23,13 @@ myfiles[[2]]
 
 myfiles.melt=lapply(myfiles, function(x) melt(x,id.vars=c(1)))
 
-       
+#Read multiple CSVs
+path <- "data/"
+files <- list.files(path=path, pattern="*.csv")
+for(file in files)
+{
+  perpos <- which(strsplit(file, "")[[1]]==".")
+  assign(
+    gsub(" ","",substr(file, 1, perpos-1)), 
+    read.csv(sep=",",header=T,paste(path,file,sep="")))
+}   
