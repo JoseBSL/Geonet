@@ -5,6 +5,7 @@ library(tidyverse)
 library(reshape)
 library(taxize)
 
+options(stringsAsFactors = FALSE)
 reference=read.csv("data/ref/references.csv",header=T)
 str(reference)
 
@@ -16,7 +17,11 @@ climate_zone <- data.frame(climate_zone,
 reference <- data.frame(reference,ClimateZ=LookupCZ(climate_zone))
 table(reference$ClimateZ)
 reference[reference$ClimateZ=="Climate Zone info missing",]
-##GALAPAGOS and MAURITIUS
+
+##GALAPAGOS and MAURITIUS 
+
+reference[26,11]=c("BWh")
+reference[60,11]=c("Af")
 
 
 
@@ -52,21 +57,14 @@ colnames(myfiles.melt.agg)=c("Plant","Pollinator","Network","Int")
 myfiles.melt.agg.z=myfiles.melt.agg[!myfiles.melt.agg$Int==0,]
 
 
-<<<<<<< HEAD
+
 plant_family=tax_name(query=word(myfiles.melt.agg.z$Plant,1),
-=======
-plant_family=tax_name(query=word(myfiles.melt.agg$Plant,1),
->>>>>>> f5ba93357a7cf93c4836066d2dad3832f622c465
                                        get=c("family"),db="ncbi", 
                                        division_filter = "Plantae",rank_query="genus")[3]
 
 myfiles.melt.agg$Pollinator=gsub("\\."," ",myfiles.melt.agg$Pollinator)
 
-<<<<<<< HEAD
-myfiles.melt.agg[,c("Poll.Family","Poll.Order")]=tax_name(query=word(myfiles.melt.agg.z$Pollinator[1:10],1),
-=======
-myfiles.melt.agg[,c("Poll.Family","Poll.Order")]=tax_name(query=word(myfiles.melt.agg$Pollinator[1:10],1),
->>>>>>> f5ba93357a7cf93c4836066d2dad3832f622c465
+myfiles.melt.agg.z[,c("Poll.Family","Poll.Order")]=tax_name(query=word(myfiles.melt.agg.z$Pollinator[1:10],1),
                       get=c("family","order"),db="ncbi", 
                       division_filter = "Anthropoda",rank_query="genus")[3:4]
 
