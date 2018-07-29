@@ -27,7 +27,7 @@ reference[60,11]=c("Af")
 
 
 # First apply read.csv, then rbind
-path <- "data/"
+
 files = list.files(pattern="*.csv")
 myfiles = lapply(files, function(x) read.csv(x, stringsAsFactors = FALSE, sep=","))
 
@@ -57,12 +57,57 @@ colnames(myfiles.melt.agg)=c("Plant","Pollinator","Network","Int")
 myfiles.melt.agg.z=myfiles.melt.agg[!myfiles.melt.agg$Int==0,]
 
 
+myfiles.melt.agg.z$Pollinator=gsub("\\."," ",myfiles.melt.agg.z$Pollinator)
 
-plant_family=tax_name(query=word(myfiles.melt.agg.z$Plant,1),
+myfiles.melt.agg.z.4=split(myfiles.melt.agg.z , f = c(rep(1,9555),rep(2,9555),rep(3,9554),rep(4,9554)))
+
+
+#plant_family_1=tax_name(query=word(myfiles.melt.agg.z.4$`1`$Plant,1),
+get=c("family"),db="ncbi", 
+division_filter = "Plantae",rank_query="genus")
+
+#plant_family_2=tax_name(query=word(myfiles.melt.agg.z.4$`2`$Plant,1),
+                        get=c("family"),db="ncbi", 
+                        division_filter = "Plantae",rank_query="genus")
+
+
+#plant_family_3=tax_name(query=word(myfiles.melt.agg.z.4$`3`$Plant,1),
+get=c("family"),db="ncbi", 
+division_filter = "Plantae",rank_query="genus")
+#plant_family_4=tax_name(query=word(myfiles.melt.agg.z.4$`4`$Plant,1),
+                        get=c("family"),db="ncbi", 
+                        division_filter = "Plantae",rank_query="genus")
+
+
+
+
+
+poll_family_1=tax_name(query=word(myfiles.melt.agg.z.4$`1`$Plant,1),
+get=c("family"),db="ncbi", 
+division_filter = "Plantae",rank_query="genus")
+
+poll_family_2=tax_name(query=word(myfiles.melt.agg.z.4$`2`$Plant,1),
+get=c("family"),db="ncbi", 
+division_filter = "Plantae",rank_query="genus")
+
+
+poll_family_3=tax_name(query=word(myfiles.melt.agg.z.4$`3`$Plant,1),
+get=c("family"),db="ncbi", 
+division_filter = "Plantae",rank_query="genus")
+poll_family_4=tax_name(query=word(myfiles.melt.agg.z.4$`4`$Plant,1),
+get=c("family"),db="ncbi", 
+division_filter = "Plantae",rank_query="genus")
+
+sum(is.na(plant_family_2$family))
+
+
+
+plant_family=tax_name(query=word(myfiles.melt.agg.z[myfiles.melt.agg.z$Network==c("M_PL_015"),]$Plant,1),
                                        get=c("family"),db="ncbi", 
-                                       division_filter = "Plantae",rank_query="genus")[3]
+                                       division_filter = "Plantae",rank_query="genus")
 
-myfiles.melt.agg$Pollinator=gsub("\\."," ",myfiles.melt.agg$Pollinator)
+
+
 
 myfiles.melt.agg.z[,c("Poll.Family","Poll.Order")]=tax_name(query=word(myfiles.melt.agg.z$Pollinator[1:10],1),
                       get=c("family","order"),db="ncbi", 
