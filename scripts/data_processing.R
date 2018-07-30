@@ -55,28 +55,31 @@ myfiles.melt.agg$value=ifelse(myfiles.melt.agg$value > 0, 1, 0)
 colnames(myfiles.melt.agg)=c("Plant","Pollinator","Network","Int")
 
 myfiles.melt.agg.z=myfiles.melt.agg[!myfiles.melt.agg$Int==0,]
-
-
 myfiles.melt.agg.z$Pollinator=gsub("\\."," ",myfiles.melt.agg.z$Pollinator)
+
+myfiles.melt.agg.mun=dplyr::filter(myfiles.melt.agg.z, !grepl('Unidentified', Pollinator))
+
+myfiles.melt.agg.poll=myfiles.melt.agg.mun
+myfiles.melt.agg.plant=myfiles.melt.agg.z
 
 myfiles.melt.agg.z.4=split(myfiles.melt.agg.z , f = c(rep(1,9555),rep(2,9555),rep(3,9554),rep(4,9554)))
 
 
 #plant_family_1=tax_name(query=word(myfiles.melt.agg.z.4$`1`$Plant,1),
-get=c("family"),db="ncbi", 
-division_filter = "Plantae",rank_query="genus")
+#get=c("family"),db="ncbi", 
+#division_filter = "Plantae",rank_query="genus")
 
 #plant_family_2=tax_name(query=word(myfiles.melt.agg.z.4$`2`$Plant,1),
-                        get=c("family"),db="ncbi", 
-                        division_filter = "Plantae",rank_query="genus")
+#                        get=c("family"),db="ncbi", 
+#                        division_filter = "Plantae",rank_query="genus")
 
 
 #plant_family_3=tax_name(query=word(myfiles.melt.agg.z.4$`3`$Plant,1),
-get=c("family"),db="ncbi", 
-division_filter = "Plantae",rank_query="genus")
+#get=c("family"),db="ncbi", 
+#division_filter = "Plantae",rank_query="genus")
 #plant_family_4=tax_name(query=word(myfiles.melt.agg.z.4$`4`$Plant,1),
-                        get=c("family"),db="ncbi", 
-                        division_filter = "Plantae",rank_query="genus")
+#                        get=c("family"),db="ncbi", 
+#                        division_filter = "Plantae",rank_query="genus")
 
 
 
@@ -98,20 +101,11 @@ poll_family_4=tax_name(query=word(myfiles.melt.agg.z.4$`4`$Plant,1),
 get=c("family"),db="ncbi", 
 division_filter = "Plantae",rank_query="genus")
 
-sum(is.na(plant_family_2$family))
+#FILL PLANT FAMILY NA's
+
+plant_family_1[plant_family_1$query ==  c("Linaria") & is.na(plant_family_1$family),3]="Plantaginaceae"
 
 
-
-plant_family=tax_name(query=word(myfiles.melt.agg.z[myfiles.melt.agg.z$Network==c("M_PL_015"),]$Plant,1),
-                                       get=c("family"),db="ncbi", 
-                                       division_filter = "Plantae",rank_query="genus")
-
-
-
-
-myfiles.melt.agg.z[,c("Poll.Family","Poll.Order")]=tax_name(query=word(myfiles.melt.agg.z$Pollinator[1:10],1),
-                      get=c("family","order"),db="ncbi", 
-                      division_filter = "Anthropoda",rank_query="genus")[3:4]
 
 
 
