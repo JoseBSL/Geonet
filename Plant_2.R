@@ -1,0 +1,43 @@
+plant_family_2[is.na(plant_family_2$family),]
+sum(is.na(plant_family_2$family))
+head(plant_family_2[is.na(plant_family_2$family),])
+plant_family_2[plant_family_2$query ==  c("Hebe") & is.na(plant_family_2$family),3]="Plantaginaceae"
+plant_family_2[plant_family_2$query ==  c("Isotoma") & is.na(plant_family_2$family),3]="Campanulaceae"
+plant_family_2[plant_family_2$query ==  c("Dracuphyllum") & is.na(plant_family_2$family),3]="Ericaceae"
+plant_family_2[plant_family_2$query ==  c("Brachyome") & is.na(plant_family_2$family),3]="Asteraceae"
+#Bad spelling of Brachyome
+plant_family_2[plant_family_2$query ==  c("Viola") & is.na(plant_family_2$family),3]="Violaceae"
+plant_family_2[plant_family_2$query ==  c("Drapetes") & is.na(plant_family_2$family),3]="Thymelaeaceae"
+plant_family_2[plant_family_2$query ==  c("Besmoscelis") & is.na(plant_family_2$family),3]="Unresolved"
+#Not able to find it
+plant_family_2[plant_family_2$query ==  c("Shultesia") & is.na(plant_family_2$family),3]="Gentianaceae"
+plant_family_2[plant_family_2$query ==  c("Synqonanthus") & is.na(plant_family_2$family),3]="Eriocaulaceae"
+plant_family_2[plant_family_2$query ==  c("Pterolepis") & is.na(plant_family_2$family),3]="	Melastomataceae"
+plant_family_2[plant_family_2$query ==  c("Saggitaria") & is.na(plant_family_2$family),3]="	Alismataceae"
+plant_family_2[plant_family_2$query ==  c("Tyttnera") & is.na(plant_family_2$family),3]="Unresolved"
+#Not able to find it
+plant_family_2[plant_family_2$query ==  c("Trfolium") & is.na(plant_family_2$family),3]="Fabaceae"
+plant_family_2[plant_family_2$query ==  c("Montricharida") & is.na(plant_family_2$family),3]="Araceae"
+plant_family_2[plant_family_2$query ==  c("Thalia") & is.na(plant_family_2$family),3]="Marantaceae"
+plant_family_2[plant_family_2$query ==  c("Clusia") & is.na(plant_family_2$family),3]="Clusiaceae"
+head(plant_family_2[is.na(plant_family_2$family),])
+plant_family_2[plant_family_2$query ==  c("Pagameopsis") & is.na(plant_family_2$family),3]="Rubiaceae"
+plant_family_2[plant_family_2$query ==  c("Stegolepsis") & is.na(plant_family_2$family),3]="Rapateaceae"
+plant_family_2[plant_family_2$query ==  c("Brocchinia") & is.na(plant_family_2$family),3]="Bromeliaceae"
+plant_family_2[plant_family_2$query ==  c("Meriana") & is.na(plant_family_2$family),3]=" Convolvulaceae"
+plant_family_2[plant_family_2$query ==  c("Befaria") & is.na(plant_family_2$family),3]="Ericaceae"
+plant_family_2[plant_family_2$query ==  c("Chromolanea") & is.na(plant_family_2$family),3]="Asteraceae"
+plant_family_2[plant_family_2$query ==  c("Luma") & is.na(plant_family_2$family),3]="Myrtaceae"
+plant_family_2[plant_family_2$query ==  c("Tribulus") & is.na(plant_family_2$family),3]=" Zygophyllaceae"
+plant_family_2[plant_family_2$query ==  c("Blechum") & is.na(plant_family_2$family),3]="Acanthaceae"
+plant_family_2[plant_family_2$query ==  c("Ascleptas") & is.na(plant_family_2$family),3]="Apocynaceae"
+plant_family_2[plant_family_2$query ==  c("Byrsonia") & is.na(plant_family_2$family),3]="Malpighiaceae"
+plant_family_2[plant_family_2$query ==  c("Reseada") & is.na(plant_family_2$family),3]="Resedaceae"
+plant_family_2[plant_family_2$query ==  c("Beta") & is.na(plant_family_2$family),3]="Amaranthaceae"
+plant_family_2[plant_family_2$query ==  c("Portlandia") & is.na(plant_family_2$family),3]="Loganiaceae"
+plant_family_2[plant_family_2$query ==  c("Erica") & is.na(plant_family_2$family),3]="Ericaceae"
+plant_family_2[plant_family_2$query ==  c("Stellaria") & is.na(plant_family_2$family),3]=" Caryophyllaceae"
+plant_family_2[plant_family_2$query ==  c("Unidentified") & is.na(plant_family_2$family),3]="Unresolved"
+plant_family_2[plant_family_2$query ==  c("Sida") & is.na(plant_family_2$family),3]="Malvaceae"
+plant_family_2[plant_family_2$query ==  c("Chiococa") & is.na(plant_family_2$family),3]="	Rubiaceae"
+plant_family_2[plant_family_2$query ==  c("Jasminoserius") & is.na(plant_family_2$family),3]="	Rubiaceae"
