@@ -85,21 +85,6 @@ myfiles.melt.agg.z.4=split(myfiles.melt.agg.z , f = c(rep(1,9555),rep(2,9555),re
 
 
 
-poll_family_1=tax_name(query=word(myfiles.melt.agg.z.4$`1`$Plant,1),
-get=c("family"),db="ncbi", 
-division_filter = "Plantae",rank_query="genus")
-
-poll_family_2=tax_name(query=word(myfiles.melt.agg.z.4$`2`$Plant,1),
-get=c("family"),db="ncbi", 
-division_filter = "Plantae",rank_query="genus")
-
-
-poll_family_3=tax_name(query=word(myfiles.melt.agg.z.4$`3`$Plant,1),
-get=c("family"),db="ncbi", 
-division_filter = "Plantae",rank_query="genus")
-poll_family_4=tax_name(query=word(myfiles.melt.agg.z.4$`4`$Plant,1),
-get=c("family"),db="ncbi", 
-division_filter = "Plantae",rank_query="genus")
 
 #FILL PLANT FAMILY NA's
 
@@ -322,6 +307,7 @@ plant_family[plant_family$query ==  c("Pitcaimia") & is.na(plant_family$family),
 plant_family[plant_family$query ==  c("Osmorrhiza") & is.na(plant_family$family),3]="Apiaceae"
 plant_family[plant_family$query ==  c("Ascerates") & is.na(plant_family$family),3]="Apocynaceae"
 plant_family[plant_family$query ==  c("Metothria") & is.na(plant_family$family),3]="Cucurbitaceae" #Melothria
+plant_family[plant_family$query ==  c("Stanleya") & is.na(plant_family$family),3]="Brassicaceae" #Melothria
 
 #\tAlismataceae
 #\tMelastomataceae
@@ -330,8 +316,15 @@ plant_family[plant_family$family==c("\tAlismataceae"),]$family="Alismataceae"
 plant_family[plant_family$family==c("\tMelastomataceae"),]$family="Melastomataceae"
 plant_family[plant_family$family==c("Asparagaceae)"),]$family="Asparagaceae"
 
-table(plant_family$family)
-sum(is.na(plant_family$family))
 
-tr8(species_list=c("Abies alba"),download_list=c("life_form_P"))
+plant_families=as.data.frame(unique(plant_family$family))
+
+
+plant_family_split=split(plant_families, c(rep(1,40),rep(2,40),rep(3,40),rep(4,40),rep(5,39)))
+
+write.csv(plant_family_split$`1`,"plant_family_1.csv")
+write.csv(plant_family_split$`2`,"plant_family_2.csv")
+write.csv(plant_family_split$`3`,"plant_family_3.csv")
+write.csv(plant_family_split$`4`,"plant_family_4.csv")
+write.csv(plant_family_split$`5`,"plant_family_5.csv")
 
