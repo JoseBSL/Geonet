@@ -9,24 +9,16 @@ str(Pollinator)
 
 (7325+1000)-(832*9)
 
-myfiles.melt.agg.z.10=split(Pollinator,c(rep(1,226),
-                                                        rep(2,226),
-                                                        rep(3,226),
-                                                        rep(4,226),
-                                                        rep(5,226),
-                                                        rep(6,226),
-                                                        rep(7,832),
-                                                        rep(8,832),
-                                                        rep(9,832),
-                                                        rep(10,837)))
 
-#poll_famord=tax_name(query=Pollinator[,1],
+poll_famord=tax_name(query=Pollinator[,1],
                        get=c("family","order"),db="ncbi", 
-                       division_filter = "Arthropoda",rank_query="genus")
+                       division_filter = "invertebrates",rank_query="genus")
 poll_famord$Pollinator=Pollinator[,1]
 str(poll_famord[is.na(poll_famord$family),])
 
-885/5
+
+
+885-119
 poll_fam_ord_split=split(poll_famord[is.na(poll_famord$family),],c(rep(1,177),
                                                               rep(2,177),
                                                               rep(3,177),
@@ -34,8 +26,31 @@ poll_fam_ord_split=split(poll_famord[is.na(poll_famord$family),],c(rep(1,177),
                                                               rep(5,177)))
 
 
-write.csv(poll_fam_ord_split$`1`,"pol_family_1.csv")
-write.csv(poll_fam_ord_split$`2`,"pol_family_2.csv")
-write.csv(poll_fam_ord_split$`3`,"pol_family_3.csv")
-write.csv(poll_fam_ord_split$`4`,"pol_family_4.csv")
-write.csv(poll_fam_ord_split$`5`,"pol_family_5.csv")
+write.csv(poll_fam_ord_split$`1`,"data/pol_family_1.csv")
+write.csv(poll_fam_ord_split$`2`,"data/pol_family_2.csv")
+write.csv(poll_fam_ord_split$`3`,"data/pol_family_3.csv")
+write.csv(poll_fam_ord_split$`4`,"data/pol_family_4.csv")
+write.csv(poll_fam_ord_split$`5`,"data/pol_family_5.csv")
+
+Apodiformes
+Passeriformes
+Squamata
+Trombidiformes
+poll_famord$Order=as.factor(poll_famord$Order)
+poll_famord[poll_famord$Order %in% c("Apodiformes"),]
+poll_famord[poll_famord$Order %in% c("Passeriformes"),]
+
+maybe_birds=unique(myfiles.melt.agg.z[myfiles.melt.agg.z$Genus %in% 
+                            poll_famord[poll_famord$Order %in% c("Apodiformes","Passeriformes","Trombidiformes"),]$Genus,]$Network)
+
+
+maybe_geckos=unique(myfiles.melt.agg.z[myfiles.melt.agg.z$Genus %in% 
+                                         poll_famord[poll_famord$Order %in% c("Squamata"),]$Genus,]$Network)
+
+
+##BIRD GENERA
+poll_famord[poll_famord$Order %in% c("Apodiformes","Passeriformes","Trombidiformes"),]
+
+
+##REPTILE GENERA
+poll_famord[poll_famord$Order %in% c("Squamata"),]$Genus,]

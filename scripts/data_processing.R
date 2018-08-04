@@ -4,8 +4,10 @@ library(kgc)
 library(tidyverse)
 library(reshape)
 library(taxize)
+devtools::install_github("kunstler/BIOMEplot")
+library(ggbiome)
 
-options(stringsAsFactors = FALSE)
+goptions(stringsAsFactors = FALSE)
 reference=read.csv("data/ref/references.csv",header=T)
 str(reference)
 
@@ -18,11 +20,13 @@ reference <- data.frame(reference,ClimateZ=LookupCZ(climate_zone))
 table(reference$ClimateZ)
 reference[reference$ClimateZ=="Climate Zone info missing",]
 
+
 ##GALAPAGOS and MAURITIUS 
 
 reference[26,11]=c("BWh")
 reference[60,11]=c("Af")
 
+gd_get_biome(reference, si_lat="Latitude", si_long=Longitude, merge_deserts = FALSE)
 
 
 
