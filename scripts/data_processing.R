@@ -4,11 +4,11 @@ library(kgc)
 library(tidyverse)
 library(reshape)
 library(taxize)
-devtools::install_github("kunstler/BIOMEplot")
-library(ggbiome)
+
 
 goptions(stringsAsFactors = FALSE)
-reference=read.csv("data/ref/references.csv",header=T)
+reference=read.cs
+v("data/ref/references.csv",header=T)
 str(reference)
 
 climate_zone=reference[,c("ID","Longitude","Latitude")]
@@ -34,6 +34,7 @@ gd_get_biome(reference, si_lat="Latitude", si_long=Longitude, merge_deserts = FA
 
 files = list.files(pattern="*.csv")
 myfiles = lapply(files, function(x) read.csv(x, stringsAsFactors = FALSE, sep=","))
+str(myfiles)
 
 #Read multiple CSVs
 path <- "data/"
@@ -51,9 +52,13 @@ for(file in files)
 names(myfiles)=left(files,8)
 names(myfiles)
 
+##Melt list items to long form
+#myfiles.melt=lapply(myfiles, function(x) melt(x,id.vars=c(1)))
 
-myfiles.melt=lapply(myfiles, function(x) melt(x,id.vars=c(1)))
+#Melt
 myfiles.melt=melt(myfiles,id.vars=c(1))
+
+#Aggregate - merges 
 myfiles.melt.agg=aggregate(value ~ X + variable+L1,data=myfiles.melt, FUN=sum)
 myfiles.melt.agg$value=ifelse(myfiles.melt.agg$value > 0, 1, 0)
 colnames(myfiles.melt.agg)=c("Plant","Pollinator","Network","Int")
@@ -61,12 +66,12 @@ colnames(myfiles.melt.agg)=c("Plant","Pollinator","Network","Int")
 myfiles.melt.agg.z=myfiles.melt.agg[!myfiles.melt.agg$Int==0,]
 myfiles.melt.agg.z$Pollinator=gsub("\\."," ",myfiles.melt.agg.z$Pollinator)
 
-myfiles.melt.agg.mun=dplyr::filter(myfiles.melt.agg.z, !grepl('Unidentified', Pollinator))
+#myfiles.melt.agg.mun=dplyr::filter(myfiles.melt.agg.z, !grepl('Unidentified', Pollinator))
 
-myfiles.melt.agg.poll=myfiles.melt.agg.mun
-myfiles.melt.agg.plant=myfiles.melt.agg.z
+#myfiles.melt.agg.poll=myfiles.melt.agg.mun
+#myfiles.melt.agg.plant=myfiles.melt.agg.z
 
-myfiles.melt.agg.z.4=split(myfiles.melt.agg.z , f = c(rep(1,9555),rep(2,9555),rep(3,9554),rep(4,9554)))
+#myfiles.melt.agg.z.4=split(myfiles.melt.agg.z , f = c(rep(1,9555),rep(2,9555),rep(3,9554),rep(4,9554)))
 
 
 #plant_family_1=tax_name(query=word(myfiles.melt.agg.z.4$`1`$Plant,1),

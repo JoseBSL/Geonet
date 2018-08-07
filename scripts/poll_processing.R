@@ -6,17 +6,14 @@ library(stringr)
 
 Pollinator=as.data.frame(unique(word(myfiles.melt.agg.z$Pollinator),1))
 str(Pollinator)
-
-(7325+1000)-(832*9)
-
-
+colnames(Pollinator)[1]="Genus"
 poll_famord=tax_name(query=Pollinator[,1],
-                       get=c("family","order"),db="ncbi", 
-                       division_filter = "invertebrates",rank_query="genus")
+                       get=c("family","order"),division_filter=c("Arthropoda"),db="ncbi",rank_query="genus")
+
 poll_famord$Pollinator=Pollinator[,1]
 str(poll_famord[is.na(poll_famord$family),])
-
-
+head(poll_famord)
+poll_famord[poll_famord$Genus %in% c("Anolis"),]
 
 885-119
 poll_fam_ord_split=split(poll_famord[is.na(poll_famord$family),],c(rep(1,177),
@@ -45,7 +42,7 @@ maybe_birds=unique(myfiles.melt.agg.z[myfiles.melt.agg.z$Genus %in%
 
 
 maybe_geckos=unique(myfiles.melt.agg.z[myfiles.melt.agg.z$Genus %in% 
-                                         poll_famord[poll_famord$Order %in% c("Squamata"),]$Genus,]$Network)
+                                         poll_famord[poll_famord$Order %in% c("Squamata"),]$Genus,])
 
 
 ##BIRD GENERA
