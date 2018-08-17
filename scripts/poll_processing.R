@@ -10,13 +10,13 @@ colnames(Pollinator)[1]="Genus"
 poll_famord=tax_name(query=Pollinator[,1],
                        get=c("family","order"),division_filter=c("Arthropoda"),db="ncbi",rank_query="genus")
 
-poll_famord$Pollinator=Pollinator[,1]
-str(poll_famord[is.na(poll_famord$family),])
-head(poll_famord)
-poll_famord[poll_famord$Genus %in% c("Anolis"),]
+poll_famord$Genus=Pollinator[,1]
 
-885-119
-poll_fam_ord_split=split(poll_famord[is.na(poll_famord$family),],c(rep(1,177),
+str(poll_famord[is.na(poll_famord$family),])
+
+884/5
+176+176+176+177+177
+poll_fam_ord_split=split(poll_famord[is.na(poll_famord$family),],c(rep(1,176),
                                                               rep(2,177),
                                                               rep(3,177),
                                                               rep(4,177),

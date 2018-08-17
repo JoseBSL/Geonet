@@ -1,4 +1,4 @@
-,db,query,family,order,Genus,
+,db,query,family,order,Genus,note
 1518,ncbi,1166,Tachinidae,Diptera,Linnaenya,
 1523,ncbi,1383,Asilidae,Diptera,Neaitamus,
 1526,ncbi,1570,Scarabaeidae,Coleoptera,Paraserica,
@@ -117,7 +117,7 @@
 1778,ncbi,14,Cicadellidae,Hemiptera,Acopsis,
 1780,ncbi,609,Melyridae,Coleoptera,Dasytinae,
 1781,ncbi,1202,Lygaeidae,Coleoptera,Lygaeidae,
-1782,ncbi,1,??,Diptera,Acalyptrate,
+1782,ncbi,1,NA,Diptera,Acalyptrate,
 1783,ncbi,429,Braconidae,Hymenoptera,Cheloninae,
 1785,ncbi,1242,Cerambycidae,Coleoptera,Mauritiborium,
 1787,ncbi,1829,Pterophoridae,Lepidoptera,Pterophoridae,

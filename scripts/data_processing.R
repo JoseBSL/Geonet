@@ -4,31 +4,35 @@ library(kgc)
 library(tidyverse)
 library(reshape)
 library(taxize)
+library(plyr)
+library(dplyr)
+library(stringi)
+library(stringr)
 
+options(stringsAsFactors = FALSE)
+reference=read.csv("data/ref/references.csv",header=T)
+colnames(reference)[1]="Network"
 
-goptions(stringsAsFactors = FALSE)
-reference=read.cs
-v("data/ref/references.csv",header=T)
-str(reference)
+left = function (string,char){
+  substr(string,1,char)
+}
+reference$ID=left(reference$Network,8)
+
+reference=reference[!duplicated(reference$ID),]
+
 
 climate_zone=reference[,c("ID","Longitude","Latitude")]
-str(climate_zone)
 climate_zone <- data.frame(climate_zone,
                    rndCoord.lon = RoundCoordinates(climate_zone$Longitude),
                    rndCoord.lat = RoundCoordinates(climate_zone$Latitude))
 reference <- data.frame(reference,ClimateZ=LookupCZ(climate_zone))
-table(reference$ClimateZ)
 reference[reference$ClimateZ=="Climate Zone info missing",]
 
-
-##GALAPAGOS and MAURITIUS 
-
+##GALAPAGOS and MAURITIUS missing
+reference$ClimateZ=as.character(reference$ClimateZ)
 reference[26,11]=c("BWh")
 reference[60,11]=c("Af")
-
-gd_get_biome(reference, si_lat="Latitude", si_long=Longitude, merge_deserts = FALSE)
-
-
+table(reference$ClimateZ)
 
 # First apply read.csv, then rbind
 
@@ -48,7 +52,7 @@ for(file in files)
 } 
 
 
-
+#NAme list objects/networks
 names(myfiles)=left(files,8)
 names(myfiles)
 
@@ -326,14 +330,102 @@ plant_family[plant_family$family==c("\tMelastomataceae"),]$family="Melastomatace
 plant_family[plant_family$family==c("Asparagaceae)"),]$family="Asparagaceae"
 
 
-plant_families=as.data.frame(unique(plant_family$family))
 
 
-plant_family_split=split(plant_families, c(rep(1,40),rep(2,40),rep(3,40),rep(4,40),rep(5,39)))
 
-write.csv(plant_family_split$`1`,"plant_family_1.csv")
-write.csv(plant_family_split$`2`,"plant_family_2.csv")
-write.csv(plant_family_split$`3`,"plant_family_3.csv")
-write.csv(plant_family_split$`4`,"plant_family_4.csv")
-write.csv(plant_family_split$`5`,"plant_family_5.csv")
+###Pollinator processing
+
+pf1=read.csv("data/processing/pol_family_1_LK.csv")
+pf2=read.csv("data/processing/pol_family_2_corrected.csv")
+pf3=read.csv("data/processing/pol_family_3_JS.csv")
+pf4=read.csv("data/processing/Manu networks.csv")
+pf5=read.csv("data/processing/pol_family_5_MH.csv")
+
+poll_5=rbind.data.frame(pf1,pf2,pf3,pf4,pf5)
+
+poll_5_1=poll_5[,2:6]
+
+
+poll_5_1$query=as.character(poll_5_1$query)
+poll_famord$query=as.character(poll_famord$query)
+
+
+
+
+poll_famord_5 <- left_join(poll_famord,poll_5_1, by = "query") %>% # this will generate age.x and age.y
+  mutate(Order = ifelse(is.na(order.x), as.character(order.y), order.x),
+         Family = ifelse(is.na(family.x), as.character(family.y), family.x)) %>% # we generate a joint 'age' variable
+  select(-db.y,-family.y, -order.y,-family.x,-order.x, -Genus.y) 
+
+
+### Plant / Pollinator genera columns
+myfiles.melt.agg.z$PGenus=word(myfiles.melt.agg.z$Plant,1)
+myfiles.melt.agg.z$IGenus=word(myfiles.melt.agg.z$Pollinator,1)
+
+colnames(plant_family)[2]="PGenus"
+colnames(poll_famord_5)[3]="IGenus"
+
+#Remove plants from bird networks - plant_family was made with these networks
+minus_plant=setdiff(plant_family$PGenus,myfiles.melt.agg.z$PGenus)
+
+#remove plant families from bird networks
+custom.subset <- function(df, keywords) {
+  y <- df[apply(df, 1, function(x) all(!x %in% keywords)),]
+  return(y)
+}
+
+plant_family_subset=custom.subset(plant_family, minus_plant)
+
+#add plant families
+geonet=merge(myfiles.melt.agg.z,unique(plant_family_subset), by = "PGenus") 
+
+#add pollinator families
+geonet=merge(geonet,poll_famord_5, by = "IGenus")
+
+geonet=geonet[,-c(1:2)]
+colnames(geonet)[8]="Poll_Family"
+colnames(geonet)[6]="Plant_Family"
+
+str(geonet)
+geonet[,c("Network","Order","Poll_Family","Plant_Family")]
+
+geonet <- geonet %>% mutate_if(is.character,as.factor)
+str(geonet)
+
+g=geonet%>%
+group_by(Network, Order) %>%
+  summarise(order_links=sum(Int))
+
+g2=g%>%
+  group_by(Network) %>%
+  summarise(int_tot=sum(order_links))
+
+g3=merge(g,g2)
+g3$prop_links=g3$order_links/g3$int_tot
+
+
+
+g4=merge(g3,reference,by="Network")
+
+ggplot(filter(g4, prop_links>0.25),aes(x=prop_links,y=Latitude,col=Order))+geom_point()+
+  theme_bw()#+facet_wrap(~left(ClimateZ,1))
+
+library(glmmTMB)
+prop1=glmmTMB(prop_links~left(ClimateZ,1)*Order+(1|Network),family=beta_family(link = "logit")
+,data=g4[between(g4$prop_links, 0.1, 0.99),])
+summary(prop1)
+
+prop1=glm(prop_links~left(ClimateZ,1)*Order,family=binomial(link = "logit")
+              ,data=g4[between(g4$prop_links, 0.1, 0.99),])
+
+g4[between(g4$prop_links, 0.1, 0.99),]
+
+range(g4$prop_links)
+
+geoNA=geonet[is.na(geonet$Order),]
+
+library(brms)
+
+brm(prop_links~left(ClimateZ,1)+Order+(1|Network),family=Beta()
+        ,data=filter(g4, prop_links<1))
 
