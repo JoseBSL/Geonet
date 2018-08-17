@@ -8,6 +8,8 @@ library(plyr)
 library(dplyr)
 library(stringi)
 library(stringr)
+library(tidyr)
+library(glmmTMB)
 
 options(stringsAsFactors = FALSE)
 reference=read.csv("data/ref/references.csv",header=T)
@@ -403,16 +405,65 @@ g2=g%>%
 g3=merge(g,g2)
 g3$prop_links=g3$order_links/g3$int_tot
 
-
-
 g4=merge(g3,reference,by="Network")
 
-ggplot(filter(g4, prop_links>0.25),aes(x=prop_links,y=Latitude,col=Order))+geom_point()+
-  theme_bw()#+facet_wrap(~left(ClimateZ,1))
+#subset data by insect order
+g.sub <- subset(g4, Order %in% c("Hymenoptera", "Diptera", "Lepidoptera"))
+g.sub$clim.left <- left(g.sub$ClimateZ,1)
 
-library(glmmTMB)
-prop1=glmmTMB(prop_links~left(ClimateZ,1)*Order+(1|Network),family=beta_family(link = "logit")
-,data=g4[between(g4$prop_links, 0.1, 0.99),])
+#change value of 1
+g.sub$prop_links[169] = 0.99999
+
+#run insect order:climate region model
+prop1=glmmTMB(prop_links~clim.left*Order+(1|Network),
+              family=beta_family(link = "logit"),
+              data=g.sub)
+
+#run posthoc pairwise comparision
+prop1.ls <- emmeans(prop1, pairwise ~ Order|clim.left, level = .95, adjust = "fdr")
+
+#generate letters for groups
+prop1.CLD <- CLD(prop1.ls$contrasts, Letters = letters, level = .95, adjust = "fdr")
+
+#add a max value column
+max.prop <- g.sub %>% group_by(Order, clim.left) %>% summarise(max = max(prop_links+0.2))
+
+max.prop.2 <- merge(max.prop, prop1.CLD)
+
+#plot it
+p <- ggplot()
+p <- p + xlab("Climate zone") + ylab("Proportion of links")
+p <- p + theme(text = element_text(size=18))
+p <- p + geom_violin(data=g.sub, aes(x=clim.left, y=prop_links, color=Order),
+                     alpha=0.4,adjust = 1,scale = "width")
+p <- p + geom_jitter(data=g.sub, aes(x=clim.left, y=prop_links, color=Order, fill=Order),
+                     alpha=1, size=2.5, position = position_jitter(width = 0.25))
+p <- p + geom_text(data = max.prop.2, aes(x = clim.left, y=max, label=.group))
+p <- p + facet_wrap(~Order)
+p <- p + theme(panel.grid.minor = element_blank(),
+               panel.background = element_blank(),
+               axis.line = element_line(colour = "black")) +
+  theme(panel.border=element_rect(colour = "black", fill = "NA", size = 1)) +
+  theme(axis.text.x=element_text(angle= 360, hjust = 0.5, vjust = 0.5, size =16),
+        axis.text.y=element_text(angle= 360, hjust = 0.5, vjust = 0.5, size =16),
+        axis.title.y=element_text(size=24, vjust = 1),
+        axis.title.x=element_text(size=24, vjust = 1),
+        axis.text=element_text(colour = "black"))+
+  theme(strip.background = element_rect(colour="NA", fill=NA),
+        strip.text = element_text(size=20))
+p <- p + theme(panel.spacing.x=unit(1, "lines"),panel.spacing.y=unit(1, "lines"))
+p <- p + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
+p <- p + scale_color_brewer(palette="Set1")
+p <- p + scale_fill_brewer(palette="Set1")
+p <- p + theme(legend.position="none")
+p
+
+
+g5 <- g4 %>% complete(Order, nesting(Network), fill = list(prop_links = 0))
+
+library(lme4)
+prop1=glmer(prop_links~left(ClimateZ,1)*Order+(1|Network),family=beta_family(link = "logit")
+,data=g5[between(g5$prop_links, 0.2, 0.99),])
 summary(prop1)
 
 prop1=glm(prop_links~left(ClimateZ,1)*Order,family=binomial(link = "logit")
@@ -424,8 +475,12 @@ range(g4$prop_links)
 
 geoNA=geonet[is.na(geonet$Order),]
 
+
+
 library(brms)
 
 brm(prop_links~left(ClimateZ,1)+Order+(1|Network),family=Beta()
         ,data=filter(g4, prop_links<1))
 
+ggplot(filter(g4, prop_links>0.25),aes(x=prop_links,y=Latitude,col=Order))+geom_point()+
+  theme_bw()#+facet_wrap(~left(ClimateZ,1))
