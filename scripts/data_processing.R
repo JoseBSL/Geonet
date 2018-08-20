@@ -418,9 +418,9 @@ g.sub$prop_links[169] = 0.99999
 prop1=glmmTMB(prop_links~clim.left*Order+(1|Network),
               family=beta_family(link = "logit"),
               data=g.sub)
-
+summary(prop1)
 #run posthoc pairwise comparision
-prop1.ls <- emmeans(prop1, pairwise ~ Order|clim.left, level = .95, adjust = "fdr")
+prop1.ls <- emmeans(prop1, pairwise ~ clim.left|Order, level = .95, adjust = "fdr")
 
 #generate letters for groups
 prop1.CLD <- CLD(prop1.ls$contrasts, Letters = letters, level = .95, adjust = "fdr")
@@ -470,7 +470,7 @@ p <- p + geom_violin(data=g.sub, aes(x=clim.left, y=prop_links, color=Order),
                      alpha=0.4,adjust = 1,scale = "width")
 p <- p + geom_jitter(data=g.sub, aes(x=clim.left, y=prop_links, color=Order, fill=Order),
                      alpha=1, size=2.5, position = position_jitter(width = 0.25))
-p <- p + geom_text(data = max.prop.2, aes(x = clim.left, y=max, label=.group))
+#p <- p + geom_text(data = max.prop.2, aes(x = clim.left, y=max, label=.group))
 p <- p + facet_wrap(~Order)
 p <- p + theme(panel.grid.minor = element_blank(),
                panel.background = element_blank(),
