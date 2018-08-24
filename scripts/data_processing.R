@@ -408,7 +408,7 @@ g3$prop_links=g3$order_links/g3$int_tot
 g4=merge(g3,reference,by="Network")
 
 #subset data by insect order
-g.sub <- subset(g4, Order %in% c("Hymenoptera", "Diptera", "Lepidoptera"))
+g.sub <- subset(g4, Order %in% c("Hymenoptera", "Diptera", "Lepidoptera")
 g.sub$clim.left <- left(g.sub$ClimateZ,1)
 
 #change value of 1
