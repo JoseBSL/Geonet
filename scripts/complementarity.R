@@ -8,6 +8,7 @@ sp.comp <- list(sp.comp)
 
 sp.comp.or <- c()
 sp.comp.or <- list(sp.comp.or)
+
 #run loop over each site
 for (j in levels(ppp[, 1])){
   web <- subset(ppp, site == j)#iterate over site
