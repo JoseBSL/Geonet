@@ -2,18 +2,14 @@
 library(gridExtra)
 library(vegan)
 library(reshape2)
+str(geonet)
+poldist=geonet %>% group_by(Network,clim) %>% count(PolFamily)
 
-poldist2=geonet %>% group_by(Network,Clim) %>% count(Family)
-geonet$Family
-
-poldist2=dcast(poldist2, Network + Clim ~ Family, 
+poldist=dcast(poldist, Network + clim ~ PolFamily, 
               fun.aggregate = sum, na.rm =T, value.var="n", fill = 0)
-rownames(poldist2)=poldist2[,1]
-poldist2=poldist2[,-1]
-str(poldist2)
-poldist.matrix=vegdist(poldist2[,3:314],method="jaccard",binary=TRUE) #Presence-absence
-
-isSymmetric(pfdist.matrix)
+rownames(poldist)=poldist[,1]
+poldist=poldist[,-1]
+poldist.matrix=vegdist(poldist[,2:length(poldist)],method="jaccard",binary=TRUE) #Presence-absence
 
 mj2=metaMDS(poldist.matrix)
 
@@ -76,7 +72,6 @@ ctest <- data.frame(rda1=pol.plant.pro$Yrot[,1],
                     rda2=pol.plant.pro$Yrot[,2],xrda1=pol.plant.pro$X[,1],
                     xrda2=pol.plant.pro$X[,2])
 
-
 ggplot(ctest) +
   geom_point(aes(x=rda1, y=rda2),pch=1) +
   geom_point(aes(x=xrda1, y=xrda2),pch=2) +
@@ -84,8 +79,3 @@ ggplot(ctest) +
   theme_bw()+ylab("Dimension 2")+xlab("Dimension 1")
 
 
-
-clim.plant.pt = multipatt(pfdist, poldist2$Clim, control = how(nperm=999)) 
-clim.poll.pt = multipatt(poldist2[,3:314], poldist2$Clim, control = how(nperm=999)) 
-summary(clim.pt, indvalcomp=TRUE) 
-summary(clim.poll.pt, indvalcomp=TRUE) 

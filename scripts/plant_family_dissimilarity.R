@@ -3,32 +3,15 @@ library(dplyr)
 library(reshape2)
 library(vegan)
 
-reference$Clim=left(reference$ClimateZ,1)
-str(geonet)
-str(reference)
 reference=droplevels(reference)
-
-reference[reference$Network%in% "M_PL_013",]
-
-pfdist=geonet %>% group_by(Network) %>% count(Plant_Family)
-
-
-pfdist=dcast(pfdist, Network ~ Plant_Family, 
+str(geonet)
+pfdist=geonet %>% group_by(Network,clim) %>% count(Pfamily)
+pfdist=dcast(pfdist, Network +clim ~ Pfamily, 
       fun.aggregate = sum, na.rm =T, value.var="n", fill = 0)
-str(pfdist)
 rownames(pfdist)=pfdist[,1]
 pfdist=pfdist[,-1]
 
-pfdist2=geonet %>% group_by(Network,Clim) %>% count(Plant_Family)
-
-
-pfdist2=dcast(pfdist2, Network + Clim ~ Plant_Family, 
-             fun.aggregate = sum, na.rm =T, value.var="n", fill = 0)
-
-
-pfdist.matrix=vegdist(pfdist,method="jaccard",binary=TRUE) #Presence-absence
-
-isSymmetric(pfdist.matrix)
+pfdist.matrix=vegdist(pfdist[,2:length(pfdist)],method="jaccard",binary=TRUE) #Presence-absence
 
 mj=metaMDS(pfdist.matrix)
 str(reference)

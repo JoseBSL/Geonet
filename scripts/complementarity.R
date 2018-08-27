@@ -53,10 +53,10 @@ for (j in levels(geo.wide[, 1])){
   #call any individual matrix from that list using nulls[[x]], where x is the number of the matrix you want to call
   null.comp <- data.frame(matrix(, nrow=reps, ncol(web)))
   for (i in 1:reps) {
-    null.comp[i, ] <- t(colMeans(as.matrix(vegdist(t(nulls[[i]]), binary=T, upper = T))))#add colMeans if this doesn't work
+    null.comp[i, ] <- t(colMeans(as.matrix(vegdist(t(nulls[[i]]), "jaccard",binary=T, upper = T))))#add colMeans if this doesn't work
   }
   null.comp <- na.omit(null.comp)
-  webcomp <- t(colMeans(as.matrix(vegdist(t(web), binary=T, upper = T))))
+  webcomp <- t(colMeans(as.matrix(vegdist(t(web), "jaccard",binary=T, upper = T))))
   colnames(null.comp) <- colnames(webcomp)
   
   comp <- rbind(null.comp,webcomp)#Add observed connectance into distribution
@@ -74,13 +74,14 @@ sp.comp <- rbind.fill(lapply(sp.comp, as.data.frame))
 sp.comp$Network <- levels(geonet$Network)
 sp.comp.melt <- melt(sp.comp, "Network", variable.name = "Pollinator", value.name = "value", na.rm = TRUE)
 
+str(geonet)
 #add order and family to dataframe
-geo.uni <- unique(geonet[c("Pollinator", "Family", "Order")])
+geo.uni <- unique(geonet[c("Pollinator", "PolFamily", "PolOrder")])
 sp.comp.order <- merge(sp.comp.melt,geo.uni, by="Pollinator")
 
 #calculate mean generalism
 comp.order.ave <- sp.comp.order %>%
-  group_by(Network, Order) %>%
+  group_by(Network, PolOrder) %>%
   summarise(Generalism=mean(value))
 
 #################################################
