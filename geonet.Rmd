@@ -7,6 +7,10 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+###NOTES
+#Removed hummingbird/bird only netowrks and bee only network (M_PL_059)
+
 ##libraries
 library(gridExtra)
 library(reshape2)
@@ -69,8 +73,9 @@ reference[reference$ID %in% "M_PL_045",c("ele")] = 1 #iffy
 reference[reference$ID %in% "M_PL_052",c("ele")] = 139 
 reference[reference$ID %in% "M_PL_060",c("ele")] = 1 #iffy
 
+##remove bee only network M_PL_059
 
-
+reference=reference[!reference$ID %in% "M_PL_059",]
 ##read in plant families from taxize
 
 plant_family=read.csv("data/processing/plant_family.csv")
@@ -86,6 +91,8 @@ setwd("~/Dropbox/PhD/Rprojects/Geonet")
 #NAme list objects/networks
 names(myfiles)=left(files,8)
 names(myfiles)
+
+##remove bee only network M_PL_059
 
 #Melt
 myfiles.melt=melt(myfiles,id.vars=c(1))
@@ -159,6 +166,8 @@ g4=merge(g3,reference,by="Network")
 
 #subset data by insect order
 g.sub <- subset(g4, PolOrder %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+
+
 
 ```
 
@@ -243,9 +252,6 @@ comp.order.ave <- sp.comp.order %>%
   summarise(Generalism=mean(value))
 
 #################################################
-
-
-
 
 ```
 
@@ -436,3 +442,17 @@ p3
 ```
 
 
+```{r test prop links across climate and elevation}
+library(MuMIn)
+library(lme4)
+g.sub
+str(g.sub)
+
+prop1=glmmTMB(prop_links~PolOrder*scale(ele)*clim+(1|Network),
+              family=beta_family(link = "logit"),
+              data=g.sub)
+prop.dredge=dredge(prop1)
+prop.mods=get.models(prop.dredge,subset = TRUE)
+summary(prop.mods[[1]])
+
+```
