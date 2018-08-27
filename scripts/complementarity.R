@@ -1,16 +1,26 @@
 #################################################
-#correct niche complementarity for sampling effort with Bascompte null model
+#correct number of links for sampling effort with Bascompte null model
 #################################################
+library(reshape2)
+library(vegan)
+library(plyr)
+library(dplyr)
 
-#create empty listy
+#cast long format dataframe
+geo.wide <- dcast(geonet, Network + Plant ~ Pollinator, value.var = "Int")
+geo.wide[is.na(geo.wide)] <- 0
+
+#gg <- subset(geo.wide, Network %in% c("M_PL_001")) %>% droplevels
+#create empty list
 sp.comp <- c()
 sp.comp <- list(sp.comp)
 
 sp.comp.or <- c()
 sp.comp.or <- list(sp.comp.or)
+
 #run loop over each site
-for (j in levels(ppp[, 1])){
-  web <- subset(ppp, site == j)#iterate over site
+for (j in levels(geo.wide[, 1])){
+  web <- subset(geo.wide, Network == j)#iterate over site
   web <- web[,c(-1,-2)]
   web = web[,colSums(web) > 0]#remove species with no links at each site
   
@@ -31,7 +41,7 @@ for (j in levels(ppp[, 1])){
   }
   
   #Begin permutation test (two tailed)
-  reps <- 1000 #set number of permutations
+  reps <- 100 #set number of permutations
   
   #Create a list with spaces for each output matrix  
   nulls<-vector("list",reps)  
@@ -61,12 +71,16 @@ for (j in levels(ppp[, 1])){
 
 #convert list to dataframe
 sp.comp <- rbind.fill(lapply(sp.comp, as.data.frame))
-sp.comp$site <- levels(plant.site.consumed$site)
-sp.comp.melt <- melt(sp.comp, "site", variable.name = "plant_sp", value.name = "no.comp.null", na.rm = TRUE)
-#sp.links.melt$metric <- "no.links.null"
+sp.comp$Network <- levels(geonet$Network)
+sp.comp.melt <- melt(sp.comp, "Network", variable.name = "Pollinator", value.name = "value", na.rm = TRUE)
 
-sp.comp.or <- rbind.fill(lapply(sp.comp.or, as.data.frame))
-sp.comp.or$site <- levels(plant.site.consumed$site)
-sp.comp.or.melt <- melt(sp.comp.or, "site", variable.name = "plant_sp", value.name = "comp", na.rm = TRUE)
+#add order and family to dataframe
+geo.uni <- unique(geonet[c("Pollinator", "Family", "Order")])
+sp.comp.order <- merge(sp.comp.melt,geo.uni, by="Pollinator")
+
+#calculate mean generalism
+comp.order.ave <- sp.comp.order %>%
+  group_by(Network, Order) %>%
+  summarise(Generalism=mean(value))
 
 #################################################
