@@ -9,15 +9,13 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ##libraries
 library(gridExtra)
-library(dplyr)
 library(reshape2)
 library(vegan)
 library(kgc)
-library(tidyverse)
-library(reshape)
 library(taxize)
 library(plyr)
 library(dplyr)
+library(ggplot2)
 library(stringi)
 library(stringr)
 library(tidyr)
@@ -92,8 +90,15 @@ names(myfiles)
 #Melt
 myfiles.melt=melt(myfiles,id.vars=c(1))
 
+##Extra long format networks
+valerie1=read.csv("data/newdata/mauritius_valerie.csv")
+valerie2=read.csv("data/newdata/ilha_das_flores_valerie.csv")
+
 #Aggregate - merges 
 myfiles.melt.agg=aggregate(value ~ X + variable+L1,data=myfiles.melt, FUN=sum)
+str(myfiles.melt.agg)
+str(valerie1)
+#myfiles.melt.agg=rbind(myfiles.melt.agg,valerie1,valerie2)
 myfiles.melt.agg$value=ifelse(myfiles.melt.agg$value > 0, 1, 0)
 colnames(myfiles.melt.agg)=c("Plant","Pollinator","Network","Int")
 
@@ -110,20 +115,18 @@ myfiles.melt.agg.z$IGenus=word(myfiles.melt.agg.z$Pollinator,1)
 #Remove plants from bird networks - plant_family was made with these networks
 minus_plant=setdiff(plant_family$PGenus,myfiles.melt.agg.z$PGenus)
 
-#remove plant families from bird networks
-custom.subset <- function(df, keywords) {
-  y <- df[apply(df, 1, function(x) all(!x %in% keywords)),]
-  return(y)
-}
 
-plant_family_subset=custom.subset(plant_family, minus_plant)
+#remove plant families from bird networks
+plant_family_subset=plant_family[!rowSums(plant_family==minus_plant),]%>%droplevels()
+  
+setdiff(plant_family_subset$PGenus,myfiles.melt.agg.z$PGenus)
 
 #add plant families
 str(myfiles.melt.agg.z)
 str(plant_family_subset)
 myfiles.melt.agg.z <- myfiles.melt.agg.z %>% mutate_if(is.character,as.factor)
-geonet=merge(myfiles.melt.agg.z,plant_family_subset[,c("PGenus","family","order")], by = "PGenus")
-str(reference)
+geonet=merge(myfiles.melt.agg.z,
+             plant_family_subset[!duplicated(plant_family_subset$PGenus),c("PGenus","family","order")], by = "PGenus") 
 str(geonet)
 colnames(geonet)[7:8]=c("Pfamily","Porder")
 geonet=merge(geonet,reference[,c("ele","clim","Network","Connectance","Latitude","Longitude")], by = "Network")
@@ -138,6 +141,7 @@ geonet[geonet$PolFamily%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae",
 geonet[geonet$PolFamily%in%c("Syrphidae"),c("PolOrder")]="Syrphidae"
 
 geonet <- geonet %>% mutate_if(is.character,as.factor)
+str(geonet)
 
 g=geonet%>%
 group_by(Network, PolOrder) %>%
@@ -154,19 +158,281 @@ g3$prop_links=g3$order_links/g3$int_tot
 g4=merge(g3,reference,by="Network")
 
 #subset data by insect order
-g.sub <- subset(g4, Order %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+g.sub <- subset(g4, PolOrder %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
 
-str(g.sub)
-range(g.sub$prop_links)
+```
+
+```{r jaccard null}
+#cast long format dataframe
+str(geonet)
+geo.wide <- dcast(geonet, Network + Plant ~ Pollinator, value.var = "Int")
+geo.wide[is.na(geo.wide)] <- 0
+
+#gg <- subset(geo.wide, Network %in% c("M_PL_001")) %>% droplevels
+#create empty list
+sp.comp <- c()
+sp.comp <- list(sp.comp)
+
+sp.comp.or <- c()
+sp.comp.or <- list(sp.comp.or)
+
+#run loop over each site
+for (j in levels(geo.wide[, 1])){
+  web <- subset(geo.wide, Network == j)#iterate over site
+  web <- web[,c(-1,-2)]
+  web = web[,colSums(web) > 0]#remove species with no links at each site
+  
+  #Null model II from Bascompte et al. (2003). Creates random networks by probabilistically fixing row and column marginal totals. The expected number of links is same as observed number. Rodriguez-Girona and Santamaria (2006) showed that this null model has the best compromise between Type I and Type II errors
+  #Run this code once to create the null model function
+  null.model.II <- function(web){
+    web <- as.matrix(web > 0) + 0
+    # calculate the probability based on row marginals. Creates matrix same size as web, with row sums divided by number of columns (to get probability of a 1 in each cell of each row), repeated across all columns for each row.
+    row.probs <- matrix(rowSums(web)/ncol(web),nrow(web),ncol(web))
+    # calculate the probability based on column marginals (again, repeated for whole column). Transpose used instead of byrow=T
+    col.probs <- t(matrix(colSums(web)/nrow(web),ncol(web),nrow(web)))
+    # calculate the element by element mean of this probabilities
+    mat.probs <- (row.probs + col.probs) / 2.0
+    # generate a random matrix with 1s proportional to the above probabilities. rbinom(n, size, prob) n is number of observations, size is number of trials, prob is prob of success in each trial
+    mat.null <- matrix(rbinom(nrow(web)*ncol(web),1,as.vector(mat.probs)),nrow(web),ncol(web))  
+    # return that matrix in all its glory
+    return(mat.null)
+  }
+  
+  #Begin permutation test (two tailed)
+  reps <- 100 #set number of permutations
+  
+  #Create a list with spaces for each output matrix  
+  nulls<-vector("list",reps)  
+  for (i in 1:reps) {
+    nulls[[i]]<-null.model.II(web)
+    nulls[[i]] <- nulls[[i]][ rowSums(nulls[[i]])!=0, ]
+  }
+  
+  #call any individual matrix from that list using nulls[[x]], where x is the number of the matrix you want to call
+  null.comp <- data.frame(matrix(, nrow=reps, ncol(web)))
+  for (i in 1:reps) {
+    null.comp[i, ] <- t(colMeans(as.matrix(vegdist(t(nulls[[i]]), "jaccard",binary=T, upper = T))))#add colMeans if this doesn't work
+  }
+  null.comp <- na.omit(null.comp)
+  webcomp <- t(colMeans(as.matrix(vegdist(t(web), "jaccard",binary=T, upper = T))))
+  colnames(null.comp) <- colnames(webcomp)
+  
+  comp <- rbind(null.comp,webcomp)#Add observed connectance into distribution
+  
+  sd <- apply(null.comp, 2, sd)#calculate standard deviation
+  
+  sp.comp[[j]] <- abs((webcomp - colMeans(null.comp))/sd)#print results into list
+  
+  sp.comp.or[[j]] <- webcomp#print results into list
+  
+}
+
+#convert list to dataframe
+sp.comp <- rbind.fill(lapply(sp.comp, as.data.frame))
+sp.comp$Network <- levels(geonet$Network)
+sp.comp.melt <- melt(sp.comp, "Network", variable.name = "Pollinator", value.name = "value", na.rm = TRUE)
+
+str(geonet)
+#add order and family to dataframe
+geo.uni <- unique(geonet[c("Pollinator", "PolFamily", "PolOrder")])
+sp.comp.order <- merge(sp.comp.melt,geo.uni, by="Pollinator")
+
+#calculate mean generalism
+comp.order.ave <- sp.comp.order %>%
+  group_by(Network, PolOrder) %>%
+  summarise(Generalism=mean(value))
+
+#################################################
+
+
+
 
 ```
 
 
-```{r cars}
-summary(cars)
+```{r jaccard}
+
+myfiles.jac=lapply(myfiles,function(x) vegdist(t(x[,-1]), method="jaccard",binary=TRUE))
+myfiles.jac.long=lapply(myfiles.jac,function(x) melt(as.matrix(x)))
+myfiles.jac.long=do.call("rbind",myfiles.jac.long)
+
+myfiles.jac.long$Network=left(rownames(myfiles.jac.long),8)
+
+head(myfiles.jac.long)
+colnames(myfiles.jac.long)[1:2]=c("Poll_sp1","Poll_sp2")
+
+myfiles.jac.long$IGenus=word(gsub("\\."," ",myfiles.jac.long$Poll_sp1),1)
+head(myfiles.jac.long)
+myfiles.jac.long=merge(myfiles.jac.long,poll_famord_5[,c("IGenus","Order","Family")], by = "IGenus")
+head(myfiles.jac.long)
+colnames(myfiles.jac.long)=c("PGenus1","Poll_sp1","Poll_sp2","jac","Network","Order1","Family1")
+head(myfiles.jac.long)
+myfiles.jac.long$IGenus=word(gsub("\\."," ",myfiles.jac.long$Poll_sp2),1)
+myfiles.jac.long=merge(myfiles.jac.long,poll_famord_5[,c("IGenus","Order","Family")], by = "IGenus")
+colnames(myfiles.jac.long)=c("PGenus2","PGenus1","Poll_sp1","Poll_sp2","jac","Network","Order1","Family1","Order2","Family2")
+str(reference)
+head(myfiles.jac.long)
+reference$Clim=left(reference$ClimateZ,1)
+
+myfiles.jac.long=merge(myfiles.jac.long,reference[,c("Latitude","Longitude","Clim","Network","Connectance","ele")], by = "Network")
+str(myfiles.jac.long)
+head(myfiles.jac.long)
+myfiles.jac.long[myfiles.jac.long$Family1%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order1")]="Bee"
+myfiles.jac.long[myfiles.jac.long$Family1%in%c("Syrphidae"),c("Order1")]="Syrphidae"
+
+myfiles.jac.long[myfiles.jac.long$Family1%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order1")]="Bee"
+myfiles.jac.long[myfiles.jac.long$Family1%in%c("Syrphidae"),c("Order1")]="Syrphidae"
+
+myfiles.jac.long.sub1=subset(myfiles.jac.long, Order1 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+myfiles.jac.long.sub1=subset(myfiles.jac.long, Order2 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+
+
+myfiles.jac.long.sub1$jac.fam=paste(myfiles.jac.long.sub1$Family1,myfiles.jac.long.sub1$Family2,sep="_")
+myfiles.jac.long.sub1$jac.ord=paste(myfiles.jac.long.sub1$Order1,myfiles.jac.long.sub1$Order2,sep="_")
+str((myfiles.jac.long.sub1))
+
+jac.sub <- subset(myfiles.jac.long.sub1, Order2 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+jac.sub<- subset(jac.sub, Order1 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+
+jac.sub=split(jac.sub,jac.sub$Network)
+
+lapply(jac.sub)
+
 ```
 
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r dissimilarity}
+
+####PLANT FAMILY DISSIMILARITY####
+pfdist=geonet %>% group_by(Network,clim,ele) %>% count(Pfamily)
+pfdist=dcast(pfdist, Network + clim +ele ~ Pfamily, 
+      fun.aggregate = sum, na.rm =T, value.var="n", fill = 0)
+rownames(pfdist)=pfdist[,1]
+str(pfdist)
+
+pfdist.matrix=vegdist(pfdist[,4:length(pfdist)],method="jaccard",binary=TRUE) #Presence-absence
+
+mj=metaMDS(pfdist.matrix)
+
+NMDS = data.frame(MDS1 = mj$points[,1], MDS2 = mj$points[,2],site=unique(pfdist$Network), clim=pfdist$clim)
+
+#unable to create ellipse for B (to few points)... need to add them manually at some stage
+NMDS <- subset(NMDS, clim %in% c("A", "C","D", "E"))%>%droplevels
+
+#create ellipse function (this is hidden in vegan)
+veganCovEllipse <- function (cov, center = c(0, 0), scale = 1, npoints = 100)
+{
+  theta <- (0:npoints) * 2 * pi/npoints
+  Circle <- cbind(cos(theta), sin(theta))
+  t(center + scale * t(Circle %*% chol(cov)))
+}
+
+df_ell <- data.frame()
+for(g in levels(NMDS$clim)){
+  df_ell <- rbind(df_ell, cbind(as.data.frame(with(NMDS[NMDS$clim==g,],
+                                                   veganCovEllipse(cov.wt(cbind(MDS1,MDS2),wt=rep(1/length(MDS1),length(MDS1)))$cov,center=c(mean(MDS1),mean(MDS2)))))
+                                ,group=g))
+}
+
+p <- ggplot(data = NMDS, aes(MDS1, MDS2))
+p <- p + geom_point(aes(colour = clim), size=2)
+#p <- p + geom_text(aes(label = site, colour=landuse), vjust = -0.8)
+p <- p + geom_path(data=df_ell, aes(x=MDS1, y=MDS2,colour=group), size=1, linetype=2)
+p <- p + theme(panel.grid.minor = element_blank(),
+               panel.background = element_blank(),
+               axis.line = element_line(colour = "black")) +
+  theme(panel.border=element_rect(colour = "black", fill = "NA", size = 1)) +
+  theme(axis.text.y=element_text(angle= 360, hjust = 0.5, vjust = 0.5, size =12),
+        axis.title.y=element_text(size=16, vjust = 1),
+        axis.text.x=element_text(angle= 360, hjust = 0.5, vjust = 0.5, size =12),
+        axis.title.x=element_text(size=16, vjust = 1),
+        axis.text=element_text(colour = "black"))
+p <- p + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
+p <- p + scale_colour_brewer(palette = "Dark2")
+
+#################
+#pollinator dissimilarity
+####################
+poldist=geonet %>% group_by(Network,clim,ele) %>% count(PolFamily)
+
+poldist=dcast(poldist, Network + clim + ele ~ PolFamily, 
+              fun.aggregate = sum, na.rm =T, value.var="n", fill = 0)
+rownames(poldist)=poldist[,1]
+
+poldist.matrix=vegdist(poldist[,4:length(poldist)],method="jaccard",binary=TRUE) #Presence-absence
+
+mj2=metaMDS(poldist.matrix)
+
+NMDS1 = data.frame(MDS1 = mj2$points[,1], MDS2 = mj2$points[,2],site=unique(poldist$Network), clim=poldist$clim)
+
+#unable to create ellipse for B (to few points)... need to add them manually at some stage
+NMDS1 <- subset(NMDS1, clim %in% c("A", "C","D", "E"))%>%droplevels
+
+#create ellipse function (this is hidden in vegan)
+veganCovEllipse <- function (cov, center = c(0, 0), scale = 1, npoints = 100)
+{
+  theta <- (0:npoints) * 2 * pi/npoints
+  Circle <- cbind(cos(theta), sin(theta))
+  t(center + scale * t(Circle %*% chol(cov)))
+}
+
+df_ell <- data.frame()
+for(g in levels(NMDS1$clim)){
+  df_ell <- rbind(df_ell, cbind(as.data.frame(with(NMDS1[NMDS1$clim==g,],
+                                                   veganCovEllipse(cov.wt(cbind(MDS1,MDS2),wt=rep(1/length(MDS1),length(MDS1)))$cov,center=c(mean(MDS1),mean(MDS2)))))
+                                ,group=g))
+}
+
+p1 <- ggplot(data = NMDS1, aes(MDS1, MDS2))
+p1 <- p1 + geom_point(aes(colour = clim), size=2)
+#p <- p + geom_text(aes(label = site, colour=landuse), vjust = -0.8)
+p1 <- p1 + geom_path(data=df_ell, aes(x=MDS1, y=MDS2,colour=group), size=1, linetype=2)
+p1 <- p1 + theme(panel.grid.minor = element_blank(),
+               panel.background = element_blank(),
+               axis.line = element_line(colour = "black")) +
+  theme(panel.border=element_rect(colour = "black", fill = "NA", size = 1)) +
+  theme(axis.text.y=element_text(angle= 360, hjust = 0.5, vjust = 0.5, size =12),
+        axis.title.y=element_text(size=16, vjust = 1),
+        axis.text.x=element_text(angle= 360, hjust = 0.5, vjust = 0.5, size =12),
+        axis.title.x=element_text(size=16, vjust = 1),
+        axis.text=element_text(colour = "black"))
+p1 <- p1 + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
+p1 <- p1 + scale_colour_brewer(palette = "Dark2")
+
+
+###PLOT BOTH TOGETHER
+grid.arrange(p,p1)
 ```
+
+```{r dissimilarity tests}
+
+adonis(poldist.matrix ~ poldist$clim+poldist$ele, permutations = 9999)
+
+adonis(pfdist.matrix ~ pfdist$clim+pfdist$ele, permutations = 9999)
+
+beta_plant=betadisper(pfdist.matrix, pfdist$clim, type = c("centroid"), bias.adjust = FALSE,
+                sqrt.dist = FALSE, add = FALSE)
+TukeyHSD(beta_plant) ## A FEW BAD
+
+beta_poll=betadisper(poldist.matrix, poldist$clim, type = c("centroid"), bias.adjust = FALSE,
+                sqrt.dist = FALSE, add = FALSE)
+TukeyHSD(beta_poll) ##ALL GOOD
+
+
+##procrustes
+pol.plant.pro=protest(poldist.matrix, pfdist.matrix,permutations=999)
+pol.plant.pro
+
+ctest <- data.frame(rda1=pol.plant.pro$Yrot[,1],
+                    rda2=pol.plant.pro$Yrot[,2],xrda1=pol.plant.pro$X[,1],
+                    xrda2=pol.plant.pro$X[,2])
+
+p3=ggplot(ctest) +
+  geom_point(aes(x=rda1, y=rda2),pch=1) +
+  geom_point(aes(x=xrda1, y=xrda2),pch=2) +
+  geom_segment(aes(x=xrda1,y=xrda2,xend=rda1,yend=xrda2),arrow=arrow(length=unit(0.2,"cm")))+
+  theme_bw()+ylab("Dimension 2")+xlab("Dimension 1")
+p3
+```
+
+
