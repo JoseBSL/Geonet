@@ -12,18 +12,22 @@ knitr::opts_chunk$set(echo = TRUE)
 #Removed hummingbird/bird only netowrks and bee only network (M_PL_059)
 
 ##libraries
-library(gridExtra)
-library(reshape2)
-library(vegan)
-library(kgc)
-library(taxize)
+
+
 library(plyr)
 library(dplyr)
 library(ggplot2)
+library(glmmTMB)
+library(geonames)
+library(gridExtra)
+library(kgc)
+library(MuMIn)
+library(reshape2)
 library(stringi)
 library(stringr)
+library(taxize)
 library(tidyr)
-library(glmmTMB)
+library(vegan)
 
 ##Reference dataframe
 reference=read.csv("data/ref/references.csv",header=T)
@@ -50,8 +54,7 @@ reference$clim=left(reference$ClimateZ,1)
 
 #Elevation
 ##ELEVATION DATA
-require(geonames)
-require(MuMIn)
+
 
 #Two methods
 options(geonamesUsername="liamkendall")
@@ -172,24 +175,34 @@ g.sub <- subset(g4, PolOrder %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera
 ```
 
 ```{r jaccard null}
+#################################################
+#commpute jaccadi parwise dissimilarity for null networks
+#################################################
+
+library(reshape2)
+library(vegan)
+library(plyr)
+library(dplyr)
+
+#################################
+#start here
+#################################
+
 #cast long format dataframe
-str(geonet)
 geo.wide <- dcast(geonet, Network + Plant ~ Pollinator, value.var = "Int")
 geo.wide[is.na(geo.wide)] <- 0
 
-#gg <- subset(geo.wide, Network %in% c("M_PL_001")) %>% droplevels
 #create empty list
-sp.comp <- c()
-sp.comp <- list(sp.comp)
-
-sp.comp.or <- c()
-sp.comp.or <- list(sp.comp.or)
+null.net <- c()
+null.net <- list(null.net)
 
 #run loop over each site
 for (j in levels(geo.wide[, 1])){
   web <- subset(geo.wide, Network == j)#iterate over site
+  network <- as.vector(web$Network[1])
   web <- web[,c(-1,-2)]
   web = web[,colSums(web) > 0]#remove species with no links at each site
+  web.names <- c(colnames(web))
   
   #Null model II from Bascompte et al. (2003). Creates random networks by probabilistically fixing row and column marginal totals. The expected number of links is same as observed number. Rodriguez-Girona and Santamaria (2006) showed that this null model has the best compromise between Type I and Type II errors
   #Run this code once to create the null model function
@@ -208,51 +221,48 @@ for (j in levels(geo.wide[, 1])){
   }
   
   #Begin permutation test (two tailed)
-  reps <- 100 #set number of permutations
+  reps <- 1000 #set number of permutations
   
   #Create a list with spaces for each output matrix  
   nulls<-vector("list",reps)  
   for (i in 1:reps) {
     nulls[[i]]<-null.model.II(web)
-    nulls[[i]] <- nulls[[i]][ rowSums(nulls[[i]])!=0, ]
   }
   
   #call any individual matrix from that list using nulls[[x]], where x is the number of the matrix you want to call
-  null.comp <- data.frame(matrix(, nrow=reps, ncol(web)))
+  null.list <- vector("list") 
   for (i in 1:reps) {
-    null.comp[i, ] <- t(colMeans(as.matrix(vegdist(t(nulls[[i]]), "jaccard",binary=T, upper = T))))#add colMeans if this doesn't work
+    null.list[[i]] <- as.matrix(vegdist(t(nulls[[i]]), "jaccard", binary=T, upper = T))#add colMeans if this doesn't work
   }
-  null.comp <- na.omit(null.comp)
-  webcomp <- t(colMeans(as.matrix(vegdist(t(web), "jaccard",binary=T, upper = T))))
-  colnames(null.comp) <- colnames(webcomp)
+
+  #this convers naNs to 1... not sure if that's correct
+  #becasue null model omits some species sometimes
+  null.list <- rapply(null.list, f=function(x) ifelse(is.nan(x),1,x), how="replace" )
+
+  #compute means and standard deviation for each species pair 
+  null.mean <- apply(simplify2array(null.list), 1:2, mean)
+  colnames(null.mean) <- web.names
+  rownames(null.mean) <- web.names
+  null.mean <- melt(null.mean, value.name="mean")
+  null.sd <- apply(simplify2array(null.list), 1:2, sd)
+  colnames(null.sd) <- web.names
+  rownames(null.sd) <- web.names
+  null.sd <- melt(null.sd,value.name="sd")
+  null.mean.sd <- merge(null.mean,null.sd, by=c("Var1","Var2"))
+  null.mean.sd <- null.mean.sd[!null.mean.sd$Var1==null.mean.sd$Var2,]
+  null.mean.sd$network <- network
   
-  comp <- rbind(null.comp,webcomp)#Add observed connectance into distribution
-  
-  sd <- apply(null.comp, 2, sd)#calculate standard deviation
-  
-  sp.comp[[j]] <- abs((webcomp - colMeans(null.comp))/sd)#print results into list
-  
-  sp.comp.or[[j]] <- webcomp#print results into list
+  #print into list
+  null.net[[j]] <- null.mean.sd
   
 }
-
+  
 #convert list to dataframe
-sp.comp <- rbind.fill(lapply(sp.comp, as.data.frame))
-sp.comp$Network <- levels(geonet$Network)
-sp.comp.melt <- melt(sp.comp, "Network", variable.name = "Pollinator", value.name = "value", na.rm = TRUE)
-
-str(geonet)
-#add order and family to dataframe
-geo.uni <- unique(geonet[c("Pollinator", "PolFamily", "PolOrder")])
-sp.comp.order <- merge(sp.comp.melt,geo.uni, by="Pollinator")
-
-#calculate mean generalism
-comp.order.ave <- sp.comp.order %>%
-  group_by(Network, PolOrder) %>%
-  summarise(Generalism=mean(value))
-
-#################################################
-
+null.net <- rbind.fill(lapply(null.net, as.data.frame))
+hist(null.net$mean)
+#################################
+#END
+#################################
 ```
 
 
@@ -303,6 +313,7 @@ jac.sub<- subset(jac.sub, Order1 %in% c("Hymenoptera", "Bee","Diptera", "Lepidop
 jac.sub=split(jac.sub,jac.sub$Network)
 
 lapply(jac.sub)
+
 
 ```
 
@@ -448,7 +459,7 @@ library(lme4)
 g.sub
 str(g.sub)
 
-prop1=glmmTMB(prop_links~PolOrder*scale(ele)*clim+(1|Network),
+prop1=glmmTMB(prop_links~PolOrder*scale(ele)*order(clim)+(1|Network),
               family=beta_family(link = "logit"),
               data=g.sub)
 prop.dredge=dredge(prop1)
