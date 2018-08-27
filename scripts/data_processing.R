@@ -1,5 +1,9 @@
 ##removed hummingbird studies: M_PL_063,M_PL_065,  M_PL_067, M_PL_070 -in new folder
 
+##Remove oil flower paper M_PL_059
+
+
+
 library(kgc)
 library(tidyverse)
 library(reshape)
@@ -19,7 +23,6 @@ left = function (string,char){
   substr(string,1,char)
 }
 reference$ID=left(reference$Network,8)
-
 reference=reference[!duplicated(reference$ID),]
 
 
@@ -32,26 +35,17 @@ reference[reference$ClimateZ=="Climate Zone info missing",]
 
 ##GALAPAGOS and MAURITIUS missing
 reference$ClimateZ=as.character(reference$ClimateZ)
-reference[26,11]=c("BWh")
-reference[60,11]=c("Af")
+reference[26,c("ClimateZ")]=c("BWh")
+reference[60,c("ClimateZ")]=c("Af")
 table(reference$ClimateZ)
 
 # First apply read.csv, then rbind
-
+setwd("~/Dropbox/PhD/Rprojects/Geonet/data")
 files = list.files(pattern="*.csv")
-myfiles = lapply(files, function(x) read.csv(x, stringsAsFactors = FALSE, sep=","))
-str(myfiles)
+myfiles = lapply(files, function(x) read.csv(x,stringsAsFactors = FALSE,row.names=1, sep=","))
+setwd("~/Dropbox/PhD/Rprojects/Geonet")
 
-#Read multiple CSVs
-path <- "data/"
-files <- list.files(path=path, pattern="*.csv")
-for(file in files)
-{
-  perpos <- which(strsplit(file, "")[[1]]==".")
-  assign(
-    gsub(" ","",substr(file, 1, perpos-1)), 
-    read.csv(sep=",",header=T,paste(path,file,sep="")))
-} 
+
 
 
 #NAme list objects/networks
@@ -98,8 +92,8 @@ myfiles.melt.agg.z$Pollinator=gsub("\\."," ",myfiles.melt.agg.z$Pollinator)
 
 
 
-
-
+plant_family[unique(plant_family$PGenus)]
+write.csv(plant_family,"data/plant_family.csv")
 
 #FILL PLANT FAMILY NA's
 
@@ -345,6 +339,8 @@ pf5=read.csv("data/processing/pol_family_5_MH.csv")
 
 poll_5=rbind.data.frame(pf1,pf2,pf3,pf4,pf5)
 
+write.csv(poll_5)
+
 poll_5_1=poll_5[,2:6]
 
 
@@ -359,6 +355,7 @@ poll_famord_5 <- left_join(poll_famord,poll_5_1, by = "query") %>% # this will g
          Family = ifelse(is.na(family.x), as.character(family.y), family.x)) %>% # we generate a joint 'age' variable
   select(-db.y,-family.y, -order.y,-family.x,-order.x, -Genus.y) 
 
+write.csv(poll_famord_5,"data/poll_famord_5.csv")
 
 ### Plant / Pollinator genera columns
 myfiles.melt.agg.z$PGenus=word(myfiles.melt.agg.z$Plant,1)
@@ -380,10 +377,13 @@ plant_family_subset=custom.subset(plant_family, minus_plant)
 
 #add plant families
 geonet=merge(myfiles.melt.agg.z,unique(plant_family_subset), by = "PGenus") 
-
+geonet=merge(geonet,reference, by = "Network")
 #add pollinator families
 geonet=merge(geonet,poll_famord_5, by = "IGenus")
 
+geonet <- geonet %>% mutate_if(is.factor,as.character)
+geonet[geonet$Family%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order")]="Bee"
+geonet[geonet$Family%in%c("Syrphidae"),c("Order")]="Syrphidae"
 geonet=geonet[,-c(1:2)]
 colnames(geonet)[8]="Poll_Family"
 colnames(geonet)[6]="Plant_Family"
@@ -392,7 +392,7 @@ str(geonet)
 geonet[,c("Network","Order","Poll_Family","Plant_Family")]
 
 geonet <- geonet %>% mutate_if(is.character,as.factor)
-str(geonet)
+
 
 g=geonet%>%
 group_by(Network, Order) %>%
@@ -408,29 +408,35 @@ g3$prop_links=g3$order_links/g3$int_tot
 g4=merge(g3,reference,by="Network")
 
 #subset data by insect order
-g.sub <- subset(g4, Order %in% c("Hymenoptera", "Diptera", "Lepidoptera")
-g.sub$clim.left <- left(g.sub$ClimateZ,1)
-
+g.sub <- subset(g4, Order %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+str(g.sub)
+range(g.sub$prop_links)
+if(g.sub$prop_links = 1){
+  
+}
+g.sub[g.sub$prop_links==1,]
 #change value of 1
-g.sub$prop_links[169] = 0.99999
-
+rownames(g.sub)=1:313
+1:313
+g.sub$prop_links[295] = 0.99999
+g.sub[295,]
 #run insect order:climate region model
-prop1=glmmTMB(prop_links~clim.left*Order+(1|Network),
+prop1=glmmTMB(prop_links~Order*scale(ele)+(1|Network),
               family=beta_family(link = "logit"),
               data=g.sub)
 
 summary(prop1)
+range(reference$ele)
 #run posthoc pairwise comparision
-prop1.ls <- emmeans(prop1, pairwise ~ clim.left|Order, level = .95, adjust = "fdr")
+prop1.ls <- emmeans(prop1, pairwise ~ Clim|Order, level = .95, adjust = "fdr")
 
 #generate letters for groups
 prop1.CLD <- CLD(prop1.ls$contrasts, Letters = letters, level = .95, adjust = "fdr")
 
-#add a max value columnrecover.data.glmmTMB <- function(object, ...) {
+recover.data.glmmTMB <- function(object, ...) {
 fcall <- getCall(object)
 recover.data(fcall,delete.response(terms(object)),
-attr(model.frame(object),"na.action"), ...)
-}
+attr(model.frame(object),"na.action"), ...)}
 lsm.basis.glmmTMB <- function (object, trms, xlev, grid, vcov.,
 mode = "asymptotic", component="cond", ...) {
 if (mode != "asymptotic") stop("only asymptotic mode is available")
@@ -467,9 +473,10 @@ max.prop.2 <- merge(max.prop, prop1.CLD)
 p <- ggplot()
 p <- p + xlab("Climate zone") + ylab("Proportion of links")
 p <- p + theme(text = element_text(size=18))
-p <- p + geom_violin(data=g4, aes(x=left(g4$ClimateZ,1), y=prop_links, color=Order),
+p <- p + geom_point(data=g.sub, aes(x=ele, y=prop_links, color=Order),
                      alpha=0.4,adjust = 1,scale = "width")
-p <- p + geom_jitter(data=g4, aes(x=left(g4$ClimateZ,1), y=prop_links, color=Order, fill=Order),
+p <- p +geom_smooth(method="glm")
+p <- p + geom_jitter(data=g.sub, aes(x=left(g.sub$Clim,1), y=prop_links, color=Order, fill=Order),
                      alpha=1, size=2.5, position = position_jitter(width = 0.25))
 #p <- p + geom_text(data = max.prop.2, aes(x = clim.left, y=max, label=.group))
 p <- p + facet_wrap(~Order)
