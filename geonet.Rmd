@@ -55,14 +55,8 @@ reference$clim=left(reference$ClimateZ,1)
 #Elevation
 ##ELEVATION DATA
 
-
-#Two methods
-options(geonamesUsername="liamkendall")
-
-ele2=by(reference, 1:nrow(reference), function(x) GNsrtm3(lat=x$Latitude,lng=x$Longitude))
-ele2=do.call("rbind", ele2)
-
-reference$ele=ele2$srtm3
+ele=read.csv("data/processing/elevation.csv")
+reference$ele=ele$srtm3
 
 #http://www.gpsvisualizer.com/elevation
 reference[reference$ele<0,]
@@ -221,7 +215,7 @@ for (j in levels(geo.wide[, 1])){
   }
   
   #Begin permutation test (two tailed)
-  reps <- 1000 #set number of permutations
+  reps <- 999 #set number of permutations
   
   #Create a list with spaces for each output matrix  
   nulls<-vector("list",reps)  
@@ -259,61 +253,96 @@ for (j in levels(geo.wide[, 1])){
   
 #convert list to dataframe
 null.net <- rbind.fill(lapply(null.net, as.data.frame))
-hist(null.net$mean)
+
 #################################
 #END
 #################################
+
+range(null.net$mean)
+setdiff(myfiles.jac.long$Poll_sp2,null.net$Var1)
+
+str(myfiles.jac.long)
+str(myfiles.melt)
+myfiles.melt[myfiles.melt$variable%in%"Larra.sp1.M_PL_055",]
+
 ```
 
 
 ```{r jaccard}
+remove_zero_cols <- function(df) {
+  rem_vec <- NULL
+  for(i in 1:ncol(df)){
+    this_sum <- summary(df[,i])
+    zero_test <- length(which(this_sum == 0))
+    if(zero_test == 6) {
+      rem_vec[i] <- names(df)[i]
+    }
+  }
+  features_to_remove <- rem_vec[!is.na(rem_vec)]
+  rem_ind <- which(names(df) %in% features_to_remove)
+  df <- df[,-rem_ind]
+  return(df)
+}
 
-myfiles.jac=lapply(myfiles,function(x) vegdist(t(x[,-1]), method="jaccard",binary=TRUE))
-myfiles.jac.long=lapply(myfiles.jac,function(x) melt(as.matrix(x)))
-myfiles.jac.long=do.call("rbind",myfiles.jac.long)
+geo.split <- split(geo.wide,geo.wide$Network)
 
-myfiles.jac.long$Network=left(rownames(myfiles.jac.long),8)
+geo.split=lapply(geo.split,function(x)remove_zero_cols(x))
 
-head(myfiles.jac.long)
-colnames(myfiles.jac.long)[1:2]=c("Poll_sp1","Poll_sp2")
+geo.split.jac=lapply(geo.split,function(x) vegdist(t(x[,3:length(x)]), method="jaccard",upper=T,binary=T))
+geo.split.jac.long=lapply(geo.split.jac,function(x) melt(as.matrix(x)))
+geo.split.jac.long=do.call("rbind",geo.split.jac.long)
 
-myfiles.jac.long$IGenus=word(gsub("\\."," ",myfiles.jac.long$Poll_sp1),1)
-head(myfiles.jac.long)
-myfiles.jac.long=merge(myfiles.jac.long,poll_famord_5[,c("IGenus","Order","Family")], by = "IGenus")
-head(myfiles.jac.long)
-colnames(myfiles.jac.long)=c("PGenus1","Poll_sp1","Poll_sp2","jac","Network","Order1","Family1")
-head(myfiles.jac.long)
-myfiles.jac.long$IGenus=word(gsub("\\."," ",myfiles.jac.long$Poll_sp2),1)
-myfiles.jac.long=merge(myfiles.jac.long,poll_famord_5[,c("IGenus","Order","Family")], by = "IGenus")
-colnames(myfiles.jac.long)=c("PGenus2","PGenus1","Poll_sp1","Poll_sp2","jac","Network","Order1","Family1","Order2","Family2")
-str(reference)
-head(myfiles.jac.long)
-reference$Clim=left(reference$ClimateZ,1)
+geo.split.jac.long$Network=left(rownames(geo.split.jac.long),8)
 
-myfiles.jac.long=merge(myfiles.jac.long,reference[,c("Latitude","Longitude","Clim","Network","Connectance","ele")], by = "Network")
-str(myfiles.jac.long)
-head(myfiles.jac.long)
-myfiles.jac.long[myfiles.jac.long$Family1%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order1")]="Bee"
-myfiles.jac.long[myfiles.jac.long$Family1%in%c("Syrphidae"),c("Order1")]="Syrphidae"
+head(geo.split.jac.long)
+colnames(geo.split.jac.long)[1:2]=c("Poll_sp1","Poll_sp2")
 
-myfiles.jac.long[myfiles.jac.long$Family1%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order1")]="Bee"
-myfiles.jac.long[myfiles.jac.long$Family1%in%c("Syrphidae"),c("Order1")]="Syrphidae"
+str(geo.split.jac.long)
 
-myfiles.jac.long.sub1=subset(myfiles.jac.long, Order1 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
-myfiles.jac.long.sub1=subset(myfiles.jac.long, Order2 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+#GENUS 1
+geo.split.jac.long$IGenus=word(gsub("\\."," ",geo.split.jac.long$Poll_sp1),1)
+
+str(geo.split.jac.long)
+geo.split.jac.long=merge(geo.split.jac.long,poll_famord_5[,c("IGenus","Order","Family")], by = "IGenus")
+
+colnames(geo.split.jac.long)=c("PGenus1","Poll_sp1","Poll_sp2","jac","Network","Order1","Family1")
+
+#GENUS 2
+geo.split.jac.long$IGenus=word(gsub("\\."," ",geo.split.jac.long$Poll_sp2),1)
+
+geo.split.jac.long=merge(geo.split.jac.long,poll_famord_5[,c("IGenus","Order","Family")], by = "IGenus")
+str(geo.split.jac.long)
+
+colnames(geo.split.jac.long)=c("PGenus2","PGenus1","Poll_sp1","Poll_sp2","jac","Network","Order1","Family1","Order2","Family2")
+str(geo.split.jac.long)
+
+geo.split.jac.long=merge(geo.split.jac.long,reference[,c("Latitude","Longitude","clim","Network","Connectance","ele")], by = "Network")
+str(geo.split.jac.long)
+head(geo.split.jac.long)
+
+#MERGE WITH NULL DISTRIBUTION#####
+setdiff(geo.split.jac.long$Poll_sp2,null.net$Poll_sp2)
 
 
-myfiles.jac.long.sub1$jac.fam=paste(myfiles.jac.long.sub1$Family1,myfiles.jac.long.sub1$Family2,sep="_")
-myfiles.jac.long.sub1$jac.ord=paste(myfiles.jac.long.sub1$Order1,myfiles.jac.long.sub1$Order2,sep="_")
-str((myfiles.jac.long.sub1))
+null.geo=merge(geo.split.jac.long,null.net,by=c("Poll_sp1","Poll_sp2","Network"))%>%droplevels()
+str(geo.split.jac.long)
 
-jac.sub <- subset(myfiles.jac.long.sub1, Order2 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
-jac.sub<- subset(jac.sub, Order1 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+#########SUBSET########
+null.geo <- null.geo %>% mutate_if(is.factor,as.character)
+null.geo[null.geo$Family1%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order1")]="Bee"
+null.geo[null.geo$Family1%in%c("Syrphidae"),c("Order1")]="Syrphidae"
 
-jac.sub=split(jac.sub,jac.sub$Network)
+null.geo[null.geo$Family2%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order1")]="Bee"
+null.geo[null.geo$Family2%in%c("Syrphidae"),c("Order1")]="Syrphidae"
 
-lapply(jac.sub)
+null.geo.sub1=subset(null.geo, Order1 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+null.geo.sub1=subset(null.geo.sub1, Order2 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+null.geo.sub1 <- null.geo.sub1 %>% mutate_if(is.character,as.factor)
 
+null.geo.sub1$jac.fam=as.factor(paste(null.geo.sub1$Family1,null.geo.sub1$Family2,sep="_"))
+null.geo.sub1$jac.ord=as.factor(paste(null.geo.sub1$Order1,null.geo.sub1$Order2,sep="_"))
+
+null.geo.sub1$jac.ord
 
 ```
 
@@ -419,22 +448,26 @@ p1 <- p1 + scale_colour_brewer(palette = "Dark2")
 
 ###PLOT BOTH TOGETHER
 grid.arrange(p,p1)
+
 ```
 
 ```{r dissimilarity tests}
 
-adonis(poldist.matrix ~ poldist$clim+poldist$ele, permutations = 9999)
-
 adonis(pfdist.matrix ~ pfdist$clim+pfdist$ele, permutations = 9999)
+adonis(pfdist.matrix ~ pfdist$clim*scale(pfdist$ele), permutations = 9999)
+adonis(pfdist.matrix ~ pfdist$clim+scale(pfdist$ele), permutations = 9999)
+#very small amount explained by elevation
 
-beta_plant=betadisper(pfdist.matrix, pfdist$clim, type = c("centroid"), bias.adjust = FALSE,
-                sqrt.dist = FALSE, add = FALSE)
+beta_plant=betadisper(pfdist.matrix, pfdist$clim, type = c("centroid"))
 TukeyHSD(beta_plant) ## A FEW BAD
 
-beta_poll=betadisper(poldist.matrix, poldist$clim, type = c("centroid"), bias.adjust = FALSE,
-                sqrt.dist = FALSE, add = FALSE)
-TukeyHSD(beta_poll) ##ALL GOOD
+adonis(poldist.matrix ~ pfdist$clim+pfdist$ele, permutations = 9999)
+adonis(poldist.matrix ~ pfdist$clim*scale(pfdist$ele), permutations = 9999)
+adonis(poldist.matrix ~ pfdist$clim+scale(pfdist$ele), permutations = 9999)
+#more explained by elevation
 
+beta_poll=betadisper(poldist.matrix, poldist$clim, type = c("centroid"))
+TukeyHSD(beta_poll) ##ALL GOOD
 
 ##procrustes
 pol.plant.pro=protest(poldist.matrix, pfdist.matrix,permutations=999)
@@ -447,8 +480,8 @@ ctest <- data.frame(rda1=pol.plant.pro$Yrot[,1],
 p3=ggplot(ctest) +
   geom_point(aes(x=rda1, y=rda2),pch=1) +
   geom_point(aes(x=xrda1, y=xrda2),pch=2) +
-  geom_segment(aes(x=xrda1,y=xrda2,xend=rda1,yend=xrda2),arrow=arrow(length=unit(0.2,"cm")))+
-  theme_bw()+ylab("Dimension 2")+xlab("Dimension 1")
+  geom_segment(aes(x=xrda1,y=xrda2,xend=rda1,yend=rda2),arrow=arrow(length=unit(0.2,"cm")))+
+  theme_bw()+ylab("Dimension 2")+xlab("Dimension 1")+theme(aspect.ratio = 1)
 p3
 ```
 
@@ -456,14 +489,39 @@ p3
 ```{r test prop links across climate and elevation}
 library(MuMIn)
 library(lme4)
+library(stargazer)
+library(DHARMa)
 g.sub
-str(g.sub)
 
-prop1=glmmTMB(prop_links~PolOrder*scale(ele)*order(clim)+(1|Network),
+reference$clim=ordered(reference$clim)
+str(reference$ele)
+
+##FULL MODEL - THREE WAY INTERACTION
+prop1=glmmTMB(prop_links~PolOrder*scale(ele)*clim+(1|Network),
               family=beta_family(link = "logit"),
               data=g.sub)
+#plot(residuals(prop1)~fitted(prop1))
+#prop.res=simulateResiduals(prop1)
+#plot(prop.res)
+
+summary(prop1)
+
 prop.dredge=dredge(prop1)
-prop.mods=get.models(prop.dredge,subset = TRUE)
+
+prop.mods=get.models(prop.dredge, subset = delta < 4)
 summary(prop.mods[[1]])
 
+
+sjPlot::plot_model(prop.mods[[1]],vline.color="black")+theme_bw()
+
 ```
+
+
+
+```{r}
+
+
+
+```
+
+

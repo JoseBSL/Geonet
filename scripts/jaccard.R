@@ -1,47 +1,76 @@
+remove_zero_cols <- function(df) {
+  rem_vec <- NULL
+  for(i in 1:ncol(df)){
+    this_sum <- summary(df[,i])
+    zero_test <- length(which(this_sum == 0))
+    if(zero_test == 6) {
+      rem_vec[i] <- names(df)[i]
+    }
+  }
+  features_to_remove <- rem_vec[!is.na(rem_vec)]
+  rem_ind <- which(names(df) %in% features_to_remove)
+  df <- df[,-rem_ind]
+  return(df)
+}
 
-##HOW TO DEAL WITH MULTIPLE NETWORKS WITH SAME NAME
+geo.split <- split(geo.wide,geo.wide$Network)
 
-myfiles.jac=lapply(myfiles,function(x) vegdist(t(x), method="jaccard",binary=TRUE))
-myfiles.jac.long=lapply(myfiles.jac,function(x) melt(as.matrix(x)))
-myfiles.jac.long=do.call("rbind",myfiles.jac.long)
+geo.split=lapply(geo.split,function(x)remove_zero_cols(x))
 
-myfiles.jac.long$Network=left(rownames(myfiles.jac.long),8)
+geo.split.jac=lapply(geo.split,function(x) vegdist(t(x[,3:length(x)]), method="jaccard",upper=T,binary=T))
+geo.split.jac.long=lapply(geo.split.jac,function(x) melt(as.matrix(x)))
+geo.split.jac.long=do.call("rbind",geo.split.jac.long)
 
-head(myfiles.jac.long)
-colnames(myfiles.jac.long)[1:2]=c("Poll_sp1","Poll_sp2")
+geo.split.jac.long$Network=left(rownames(geo.split.jac.long),8)
 
-myfiles.jac.long$IGenus=word(gsub("\\."," ",myfiles.jac.long$Poll_sp1),1)
-head(myfiles.jac.long)
-myfiles.jac.long=merge(myfiles.jac.long,poll_famord_5[,c("IGenus","Order","Family")], by = "IGenus")
-head(myfiles.jac.long)
-colnames(myfiles.jac.long)=c("PGenus1","Poll_sp1","Poll_sp2","jac","Network","Order1","Family1")
-head(myfiles.jac.long)
-myfiles.jac.long$IGenus=word(gsub("\\."," ",myfiles.jac.long$Poll_sp2),1)
-myfiles.jac.long=merge(myfiles.jac.long,poll_famord_5[,c("IGenus","Order","Family")], by = "IGenus")
-colnames(myfiles.jac.long)=c("PGenus2","PGenus1","Poll_sp1","Poll_sp2","jac","Network","Order1","Family1","Order2","Family2")
-str(reference)
-head(myfiles.jac.long)
-reference$Clim=left(reference$ClimateZ,1)
+head(geo.split.jac.long)
+colnames(geo.split.jac.long)[1:2]=c("Poll_sp1","Poll_sp2")
 
-myfiles.jac.long=merge(myfiles.jac.long,reference[,c("Latitude","Longitude","Clim","Network","Connectance","ele")], by = "Network")
-str(myfiles.jac.long)
-head(myfiles.jac.long)
-myfiles.jac.long[myfiles.jac.long$Family1%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order1")]="Bee"
-myfiles.jac.long[myfiles.jac.long$Family1%in%c("Syrphidae"),c("Order1")]="Syrphidae"
+str(geo.split.jac.long)
 
-myfiles.jac.long[myfiles.jac.long$Family1%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order1")]="Bee"
-myfiles.jac.long[myfiles.jac.long$Family1%in%c("Syrphidae"),c("Order1")]="Syrphidae"
+#GENUS 1
+geo.split.jac.long$IGenus=word(gsub("\\."," ",geo.split.jac.long$Poll_sp1),1)
 
-myfiles.jac.long.sub1=subset(myfiles.jac.long, Order1 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
-myfiles.jac.long.sub1=subset(myfiles.jac.long, Order2 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+str(geo.split.jac.long)
+geo.split.jac.long=merge(geo.split.jac.long,poll_famord_5[,c("IGenus","Order","Family")], by = "IGenus")
+
+colnames(geo.split.jac.long)=c("PGenus1","Poll_sp1","Poll_sp2","jac","Network","Order1","Family1")
+
+#GENUS 2
+geo.split.jac.long$IGenus=word(gsub("\\."," ",geo.split.jac.long$Poll_sp2),1)
+
+geo.split.jac.long=merge(geo.split.jac.long,poll_famord_5[,c("IGenus","Order","Family")], by = "IGenus")
+str(geo.split.jac.long)
+
+colnames(geo.split.jac.long)=c("PGenus2","PGenus1","Poll_sp1","Poll_sp2","jac","Network","Order1","Family1","Order2","Family2")
+str(geo.split.jac.long)
+
+geo.split.jac.long=merge(geo.split.jac.long,reference[,c("Latitude","Longitude","clim","Network","Connectance","ele")], by = "Network")
+str(geo.split.jac.long)
+head(geo.split.jac.long)
+
+#MERGE WITH NULL DISTRIBUTION#####
+setdiff(geo.split.jac.long$Poll_sp2,null.net$Poll_sp2)
 
 
-myfiles.jac.long.sub1$jac.fam=paste(myfiles.jac.long.sub1$Family1,myfiles.jac.long.sub1$Family2,sep="_")
-myfiles.jac.long.sub1$jac.ord=paste(myfiles.jac.long.sub1$Order1,myfiles.jac.long.sub1$Order2,sep="_")
+null.geo=merge(geo.split.jac.long,null.net,by=c("Poll_sp1","Poll_sp2","Network"))%>%droplevels()
+str(geo.split.jac.long)
 
-levels(as.factor(myfiles.jac.long.sub1$jac.ord))
+#########SUBSET########
+null.geo <- null.geo %>% mutate_if(is.factor,as.character)
+null.geo[null.geo$Family1%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order1")]="Bee"
+null.geo[null.geo$Family1%in%c("Syrphidae"),c("Order1")]="Syrphidae"
 
-myfiles.jac.long.sub1$jac.fam
+null.geo[null.geo$Family2%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order1")]="Bee"
+null.geo[null.geo$Family2%in%c("Syrphidae"),c("Order1")]="Syrphidae"
 
+null.geo.sub1=subset(null.geo, Order1 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+null.geo.sub1=subset(null.geo.sub1, Order2 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+null.geo.sub1 <- null.geo.sub1 %>% mutate_if(is.character,as.factor)
+
+null.geo.sub1$jac.fam=as.factor(paste(null.geo.sub1$Family1,null.geo.sub1$Family2,sep="_"))
+null.geo.sub1$jac.ord=as.factor(paste(null.geo.sub1$Order1,null.geo.sub1$Order2,sep="_"))
+
+null.geo.sub1$jac.ord
 
 

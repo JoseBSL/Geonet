@@ -55,7 +55,7 @@ for (j in levels(geo.wide[, 1])){
   #call any individual matrix from that list using nulls[[x]], where x is the number of the matrix you want to call
   null.list <- vector("list") 
   for (i in 1:reps) {
-    null.list[[i]] <- as.matrix(vegdist(t(nulls[[i]]), "jaccard", binary=T, upper = T))#add colMeans if this doesn't work
+    null.list[[i]] <- as.matrix(vegdist(t(nulls[[i]]), "jaccard", binary=T))#add colMeans if this doesn't work
   }
 
   #this convers naNs to 1... not sure if that's correct
@@ -82,7 +82,9 @@ for (j in levels(geo.wide[, 1])){
   
 #convert list to dataframe
 null.net <- rbind.fill(lapply(null.net, as.data.frame))
+colnames(null.net)=c("Poll_sp1","Poll_sp2","mean","sd","Network")
 
 #################################
 #END
 #################################
+
