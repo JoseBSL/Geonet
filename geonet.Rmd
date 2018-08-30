@@ -168,7 +168,7 @@ g.sub <- subset(g4, PolOrder %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera
 
 ```
 
-```{r jaccard null}
+#```{r jaccard null}
 #################################################
 #commpute jaccadi parwise dissimilarity for null networks
 #################################################
@@ -226,7 +226,7 @@ for (j in levels(geo.wide[, 1])){
   #call any individual matrix from that list using nulls[[x]], where x is the number of the matrix you want to call
   null.list <- vector("list") 
   for (i in 1:reps) {
-    null.list[[i]] <- as.matrix(vegdist(t(nulls[[i]]), "jaccard", binary=T, upper = T))#add colMeans if this doesn't work
+    null.list[[i]] <- as.matrix(vegdist(t(nulls[[i]]), "jaccard", binary=T))#add colMeans if this doesn't work
   }
 
   #this convers naNs to 1... not sure if that's correct
@@ -253,19 +253,14 @@ for (j in levels(geo.wide[, 1])){
   
 #convert list to dataframe
 null.net <- rbind.fill(lapply(null.net, as.data.frame))
+colnames(null.net)=c("Poll_sp1","Poll_sp2","mean","sd","Network")
 
 #################################
 #END
 #################################
 
-range(null.net$mean)
-setdiff(myfiles.jac.long$Poll_sp2,null.net$Var1)
 
-str(myfiles.jac.long)
-str(myfiles.melt)
-myfiles.melt[myfiles.melt$variable%in%"Larra.sp1.M_PL_055",]
-
-```
+#```
 
 
 ```{r jaccard}
@@ -324,8 +319,8 @@ head(geo.split.jac.long)
 setdiff(geo.split.jac.long$Poll_sp2,null.net$Poll_sp2)
 
 
-null.geo=merge(geo.split.jac.long,null.net,by=c("Poll_sp1","Poll_sp2","Network"))%>%droplevels()
-str(geo.split.jac.long)
+null.geo=merge(null.net,geo.split.jac.long,by=c("Poll_sp1","Poll_sp2","Network"),all=TRUE)%>%droplevels()
+null.geo=null.geo[!is.na(null.geo$mean),]
 
 #########SUBSET########
 null.geo <- null.geo %>% mutate_if(is.factor,as.character)
@@ -342,7 +337,13 @@ null.geo.sub1 <- null.geo.sub1 %>% mutate_if(is.character,as.factor)
 null.geo.sub1$jac.fam=as.factor(paste(null.geo.sub1$Family1,null.geo.sub1$Family2,sep="_"))
 null.geo.sub1$jac.ord=as.factor(paste(null.geo.sub1$Order1,null.geo.sub1$Order2,sep="_"))
 
-null.geo.sub1$jac.ord
+
+```
+
+```{r jaccard }
+
+ggplot(null.geo.sub1,aes(x=jac.ord,y=clim)+geom_point()
+
 
 ```
 
@@ -356,9 +357,9 @@ pfdist=dcast(pfdist, Network + clim +ele ~ Pfamily,
 rownames(pfdist)=pfdist[,1]
 str(pfdist)
 
-pfdist.matrix=vegdist(pfdist[,4:length(pfdist)],method="jaccard",binary=TRUE) #Presence-absence
+pfdist.matrix=raupcrick(pfdist[,4:length(pfdist)],null="r1") #Presence-absence
 
-mj=metaMDS(pfdist.matrix)
+mj=metaMDS(pfdist.matrix,k=3)
 
 NMDS = data.frame(MDS1 = mj$points[,1], MDS2 = mj$points[,2],site=unique(pfdist$Network), clim=pfdist$clim)
 
@@ -405,9 +406,9 @@ poldist=dcast(poldist, Network + clim + ele ~ PolFamily,
               fun.aggregate = sum, na.rm =T, value.var="n", fill = 0)
 rownames(poldist)=poldist[,1]
 
-poldist.matrix=vegdist(poldist[,4:length(poldist)],method="jaccard",binary=TRUE) #Presence-absence
+poldist.matrix=raupcrick(poldist[,4:length(poldist)],null="r1") #Presence-absence
 
-mj2=metaMDS(poldist.matrix)
+mj2=metaMDS(poldist.matrix,k=3)
 
 NMDS1 = data.frame(MDS1 = mj2$points[,1], MDS2 = mj2$points[,2],site=unique(poldist$Network), clim=poldist$clim)
 
@@ -453,6 +454,7 @@ grid.arrange(p,p1)
 
 ```{r dissimilarity tests}
 
+adonis(pfdist.matrix ~ pfdist$clim, permutations = 9999)
 adonis(pfdist.matrix ~ pfdist$clim+pfdist$ele, permutations = 9999)
 adonis(pfdist.matrix ~ pfdist$clim*scale(pfdist$ele), permutations = 9999)
 adonis(pfdist.matrix ~ pfdist$clim+scale(pfdist$ele), permutations = 9999)
@@ -461,6 +463,7 @@ adonis(pfdist.matrix ~ pfdist$clim+scale(pfdist$ele), permutations = 9999)
 beta_plant=betadisper(pfdist.matrix, pfdist$clim, type = c("centroid"))
 TukeyHSD(beta_plant) ## A FEW BAD
 
+adonis(poldist.matrix ~ pfdist$clim, permutations = 9999)
 adonis(poldist.matrix ~ pfdist$clim+pfdist$ele, permutations = 9999)
 adonis(poldist.matrix ~ pfdist$clim*scale(pfdist$ele), permutations = 9999)
 adonis(poldist.matrix ~ pfdist$clim+scale(pfdist$ele), permutations = 9999)
@@ -502,7 +505,7 @@ prop1=glmmTMB(prop_links~PolOrder*scale(ele)*clim+(1|Network),
               data=g.sub)
 #plot(residuals(prop1)~fitted(prop1))
 #prop.res=simulateResiduals(prop1)
-#plot(prop.res)
+#plot(prop.res) #THESE ARE TERRIBLE BUT IT MAY BE DUE TO MODEL FAMILY
 
 summary(prop1)
 
@@ -519,8 +522,6 @@ sjPlot::plot_model(prop.mods[[1]],vline.color="black")+theme_bw()
 
 
 ```{r}
-
-
 
 ```
 
