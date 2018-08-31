@@ -1,3 +1,5 @@
+library(stringr)
+
 remove_zero_cols <- function(df) {
   rem_vec <- NULL
   for(i in 1:ncol(df)){
@@ -51,11 +53,11 @@ head(geo.split.jac.long)
 
 #MERGE WITH NULL DISTRIBUTION#####
 setdiff(geo.split.jac.long$Poll_sp2,null.net$Poll_sp2)
+null.geo=merge(geo.split.jac.long, null.net,by=c("Poll_sp1","Poll_sp2","Network"))%>%droplevels()
 
-
-null.geo=merge(geo.split.jac.long,null.net,by=c("Poll_sp1","Poll_sp2","Network"))%>%droplevels()
-str(geo.split.jac.long)
-
+#compute z scores
+null.geo$z <- abs(null.geo$jac - null.geo$mean/null.geo$sd)#print results into list
+head(null.geo)
 #########SUBSET########
 null.geo <- null.geo %>% mutate_if(is.factor,as.character)
 null.geo[null.geo$Family1%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order1")]="Bee"
@@ -73,4 +75,8 @@ null.geo.sub1$jac.ord=as.factor(paste(null.geo.sub1$Order1,null.geo.sub1$Order2,
 
 null.geo.sub1$jac.ord
 
+null.geo.sub1[is.finite(null.geo.sub1$z), ]
 
+library(nlme)
+library(lme4)
+m1 <- lmer(z~jac.ord + (1|Network), data=null.geo.sub1)

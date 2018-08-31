@@ -19,6 +19,9 @@ geo.wide[is.na(geo.wide)] <- 0
 null.net <- c()
 null.net <- list(null.net)
 
+#set max vector size
+Sys.setenv('R_MAX_VSIZE'=32000000000)
+
 #run loop over each site
 for (j in levels(geo.wide[, 1])){
   web <- subset(geo.wide, Network == j)#iterate over site
@@ -44,7 +47,7 @@ for (j in levels(geo.wide[, 1])){
   }
   
   #Begin permutation test (two tailed)
-  reps <- 10 #set number of permutations
+  reps <- 999 #set number of permutations
   
   #Create a list with spaces for each output matrix  
   nulls<-vector("list",reps)  
@@ -58,16 +61,15 @@ for (j in levels(geo.wide[, 1])){
     null.list[[i]] <- as.matrix(vegdist(t(nulls[[i]]), "jaccard", binary=T))#add colMeans if this doesn't work
   }
 
-  #this convers naNs to 1... not sure if that's correct
-  #becasue null model omits some species sometimes
-  null.list <- rapply(null.list, f=function(x) ifelse(is.nan(x),1,x), how="replace" )
+  #convert nans to nas
+  null.list <- rapply(null.list, f=function(x) ifelse(is.nan(x),NA,x), how="replace" )
 
   #compute means and standard deviation for each species pair 
-  null.mean <- apply(simplify2array(null.list), 1:2, mean)
+  null.mean <- apply(simplify2array(lapply(null.list, as.matrix)),1:2, mean, na.rm = TRUE)
   colnames(null.mean) <- web.names
   rownames(null.mean) <- web.names
   null.mean <- melt(null.mean, value.name="mean")
-  null.sd <- apply(simplify2array(null.list), 1:2, sd)
+  null.sd <- apply(simplify2array(lapply(null.list, as.matrix)),1:2, sd, na.rm = TRUE)
   colnames(null.sd) <- web.names
   rownames(null.sd) <- web.names
   null.sd <- melt(null.sd,value.name="sd")
@@ -87,4 +89,3 @@ colnames(null.net)=c("Poll_sp1","Poll_sp2","mean","sd","Network")
 #################################
 #END
 #################################
-
