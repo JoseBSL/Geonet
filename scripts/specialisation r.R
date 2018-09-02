@@ -73,6 +73,88 @@ sp.links.order <- sp.links.order %>% mutate_if(is.factor,as.character)
 sp.links.order[sp.links.order$Family%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order")]="Bee"
 sp.links.order[sp.links.order$Family%in%c("Syrphidae"),c("Order")]="Syrphidae"
 
+#filter dataframe to retain orders of interest
+ord <- c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera")
+links.full.sub <- filter(sp.links.order, Order %in% ord)
+#add climate data
+clim.dat <- unique(g4[c("Network","Latitude","Longitude","ClimateZ")])
+clim.dat$ClimateZ[26] = "B"
+links.full.sub <- merge(links.full.sub,clim.dat, by="Network")
+links.full.sub$clim <- as.factor(left(links.full.sub$ClimateZ,1))
+links.full.sub$Order <- as.factor(links.full.sub$Order)
+
+
+#run model
+library(glmmTMB)
+links.full.sub <- links.full.sub[links.full.sub$Network!="M_PL_062",]
+links.full.sub <- links.full.sub[-c(1147, 2407), ]
+
+m1 <- glmmTMB(log(value+1) ~ Order*clim + (1|Network),
+        family=Gamma(link="log"),
+        data=links.full.sub)
+
+#compute pairwise comparisons 
+library(emmeans)
+spec.comp <- emmeans(m1, pairwise ~ Order|clim, by = "clim", level=0.95, adj="fdr")
+
+#generate letters for groups
+spec.comp.CLD <- CLD(spec.comp, by = "clim", which = 1, Letters = letters, level = .95, adjust = "fdr")
+spec.comp.CLD$value <- exp(spec.comp.CLD$emmean)
+spec.comp.CLD$stderr <- exp(spec.comp.CLD$SE)
+spec.comp.CLD$low <- exp(spec.comp.CLD$asymp.LCL)
+spec.comp.CLD$up <- exp(spec.comp.CLD$asymp.UCL)
+max <- spec.comp.CLD %>% group_by(Order, clim) %>% summarise(max = max(up+0.04))
+spec.comp.CLD <- merge(spec.comp.CLD, max)
+
+#plot generalisation by climate zone
+p <- ggplot()
+p <- p + xlab(NULL) + ylab("Standardised number of links")
+p <- p + geom_point(data=spec.comp.CLD, aes(x=Order, y=value, color=clim),
+                     alpha=1, size=3)
+p <- p + geom_errorbar(data=spec.comp.CLD, aes(x=Order, ymin=low, ymax=up, color=clim), width=0)
+p <- p + geom_text(data = spec.comp.CLD, aes(x=Order, y=max, label=.group, size=16))
+p <- p + coord_cartesian(ylim=c(0,2))
+p <- p + scale_y_continuous(breaks=seq(0,2,0.5))
+p <- p + facet_wrap(~clim, ncol=5)
+p <- p + theme(panel.grid.minor = element_blank(),
+               panel.background = element_blank(),
+               axis.line = element_blank()) +
+  theme(panel.border=element_rect(colour = "black", fill = "NA", size = 0.5)) +
+  theme(axis.text.x=element_text(angle= 45, hjust = 1, vjust = 1, size =14),
+        axis.text.y=element_text(angle= 360, hjust = 0.5, vjust = 0.5, size =16),
+        axis.title.y=element_text(size=26, vjust = 1),
+        axis.title.x=element_text(size=22, vjust = 1),
+        axis.text=element_text(colour = "black"))+
+  theme(strip.background = element_rect(colour="NA", fill=NA),
+        strip.text = element_text(size=20))+
+  theme(axis.ticks.length = unit(2, "mm"))
+p <- p + theme(axis.ticks.x = element_line(colour="black"), 
+               axis.ticks.y = element_line(colour="black"))
+p <- p + theme(panel.spacing.x=unit(1, "lines"),panel.spacing.y=unit(1, "lines"))
+p <- p + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
+p <- p + scale_color_brewer(palette="Set1")
+p <- p + theme(legend.position="none")
+p
+
+library(DHARMa)
+res = simulateResiduals(m1)
+plot(res, rank = T)
+library(ggplot2)
+resid <- resid(m1, type = "pearson")
+fitted <- fitted(m1)
+df <- data.frame(resid, fitted)
+ggplot(df, aes(fitted, resid)) + geom_point() + ylab("Pearsons residuals") + xlab("Fitted values")
+library(brms)
+# model specification
+mod = brm(value ~ Order*clim + (1|Network),
+          data = links.full.sub, 
+          family = lognormal(),
+          iter = 1000, chains = 4, cores = 4)
+plot(mod)
+yrep_poisson <- posterior_predict(mod, draws = 10)
+pp_check(mod, yrep_poisson)
+ppc_dens_overlay(mod, yrep_poisson[1:10, ])
+
 #calculate mean generalism
 links.order.ave <- sp.links.order %>%
   group_by(Network, Order) %>%
@@ -98,9 +180,9 @@ links.clim.sub <- links.clim.sub[links.clim.sub$Network!="M_PL_026",]
 p <- ggplot()
 p <- p + xlab("Climate zone") + ylab("Number of links (Z score)")
 p <- p + theme(text = element_text(size=18))
-p <- p + geom_violin(data=links.clim.sub, aes(x=clim, y=Generalism, color=Order),
+p <- p + geom_violin(data=links.full.sub, aes(x=clim, y=log(value), color=Order),
                      alpha=0.4,adjust = 1,scale = "width")
-p <- p + geom_jitter(data=links.clim.sub, aes(x=clim, y=Generalism, color=Order, fill=Order),
+p <- p + geom_jitter(data=links.full.sub, aes(x=clim, y=log(value), color=Order, fill=Order),
                      alpha=1, size=2.5, position = position_jitter(width = 0.25))
 p <- p + facet_wrap(~Order, scales="free")
 p <- p + theme(panel.grid.minor = element_blank(),
@@ -109,11 +191,12 @@ p <- p + theme(panel.grid.minor = element_blank(),
   theme(panel.border=element_rect(colour = "black", fill = "NA", size = 1)) +
   theme(axis.text.x=element_text(angle= 360, hjust = 0.5, vjust = 0.5, size =16),
         axis.text.y=element_text(angle= 360, hjust = 0.5, vjust = 0.5, size =16),
-        axis.title.y=element_text(size=24, vjust = 1),
-        axis.title.x=element_text(size=24, vjust = 1),
+        axis.title.y=element_text(size=12, vjust = 1),
+        axis.title.x=element_text(size=12, vjust = 1),
         axis.text=element_text(colour = "black"))+
   theme(strip.background = element_rect(colour="NA", fill=NA),
-        strip.text = element_text(size=20))
+        strip.text = element_text(size=12))+
+  theme(axis.ticks.length = unit(2, "mm"))
 p <- p + theme(panel.spacing.x=unit(1, "lines"),panel.spacing.y=unit(1, "lines"))
 p <- p + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
 p <- p + scale_color_brewer(palette="Set1")
