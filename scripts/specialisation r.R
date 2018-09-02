@@ -7,6 +7,8 @@ library(vegan)
 library(plyr)
 library(dplyr)
 library(ggplot2)
+library(glmmTMB)
+library(emmeans)
 
 #cast long format dataframe
 geo.wide <- dcast(geonet, Network + Plant ~ Pollinator, value.var = "Int")
@@ -88,10 +90,26 @@ links.full.sub$Order <- as.factor(links.full.sub$Order)
 library(glmmTMB)
 links.full.sub <- links.full.sub[links.full.sub$Network!="M_PL_062",]
 links.full.sub <- links.full.sub[-c(1147, 2407), ]
+links.full.sub$ClimateZ <- as.factor(links.full.sub$ClimateZ)
 
-m1 <- glmmTMB(log(value+1) ~ Order*clim + (1|Network),
+#model generalism by order and climate zone
+m1 <- glmmTMB(log(value+1) ~ Order*clim + (1|Network) + (1|ClimateZ),
         family=Gamma(link="log"),
         data=links.full.sub)
+
+#model generalism by order and climate zone and latitude
+links.full.sub$log <- log(links.full.sub$value+1)
+m2 <- glmmTMB(log ~ Order*clim + Order*abs(Latitude) + (1|Network) + (1|ClimateZ),
+              family=Gamma(link="log"),
+              data=links.full.sub)
+library(MuMIn)
+MuMIn::dredge(m2)
+
+m3 <- glmmTMB(log ~ Order*abs(Latitude) + (1|Network),
+              family=Gamma(link="log"),
+              data=links.full.sub)
+
+AIC(m1,m2,m3)#climate zone model is much better than the latitude model! 
 
 #compute pairwise comparisons 
 library(emmeans)
@@ -136,8 +154,55 @@ p <- p + scale_color_brewer(palette="Set1")
 p <- p + theme(legend.position="none")
 p
 
+#model generalism byt network and order (for map)
+m4 <- glm(log(value+1) ~ Network*Order,
+          family=Gamma(link="log"),
+          data=links.full.sub)
+
+net.comp <- emmeans(m4, pairwise ~ Order|Network, by = "Network", level=0.95, adj="fdr")
+
+#generate letters for groups
+net.comp.CLD <- CLD(net.comp, by = "Network", which = 1, Letters = letters, level = .95, adjust = "fdr")
+net.comp.CLD$value <- exp(net.comp.CLD$emmean)
+
+#add climate data
+links.clim.net <- merge(net.comp.CLD,clim.dat, by="Network")
+links.clim.net$clim <- as.factor(left(links.clim.net$ClimateZ,1))
+links.clim.net <- na.omit(links.clim.net)
+
+#plot generalisation on world map
+WorldData <- map_data('world')
+WorldData %>% filter(region != "Antarctica") -> WorldData
+WorldData <- fortify(WorldData)
+
+map <- ggplot()
+map <- map + xlab("Longitude") + ylab("Latitude")
+map <- map + geom_map(data=WorldData, map=WorldData,
+                      aes(x=long, y=lat, group=group, map_id=region))
+#map <- map + geom_point(data=filter(links.clim, Order == "Coleoptera"),
+map <- map + geom_point(data=links.clim.net,
+                        aes(x=Longitude, y=Latitude, colour=value),size=1.5)
+map <- map + scale_colour_gradient(low="green",high="red")
+map <- map + facet_wrap(Order~clim,ncol = 5)
+map <- map + theme(axis.line.x = element_line(size=.5, colour = "black"),
+                   axis.line.y = element_line(size=.5, colour = "black"),
+                   panel.grid.major = element_line(colour = "#d3d3d3"),
+                   panel.grid.minor = element_blank(),
+                   panel.border = element_blank(), panel.background = element_blank()) +
+  theme(axis.text.x=element_text(angle= 360, hjust = 0.5, vjust = 0.5, size =10),
+        axis.title.x=element_text(size=24, vjust = 1),
+        axis.text.y=element_text(angle= 360, hjust = 0.5, vjust = 0.5, size =10),
+        axis.title.y=element_text(size=24, vjust = 1),
+        axis.text=element_text(colour = "black"))+
+  theme(axis.ticks.length = unit(2, "mm"))+
+  theme(strip.background = element_rect(colour="NA", fill=NA),
+        strip.text = element_text(size=8))
+map <- map + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
+map
+
+
 library(DHARMa)
-res = simulateResiduals(m1)
+res = simulateResiduals(m3)
 plot(res, rank = T)
 library(ggplot2)
 resid <- resid(m1, type = "pearson")
@@ -164,6 +229,7 @@ links.order.ave <- sp.links.order %>%
 clim.dat <- unique(g4[c("Network","Latitude","Longitude","ClimateZ")])
 links.clim <- merge(links.order.ave,clim.dat, by="Network")
 links.clim$clim <- as.factor(left(links.clim$ClimateZ,1))
+
 
 #give correct climate data to reamining networks
 links.clim$clim[177:187] = "B"
