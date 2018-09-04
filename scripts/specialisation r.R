@@ -66,25 +66,36 @@ sp.links[[j]] <- abs(weblink - colMeans(null.links)/sd)#print results into list
 #convert list to dataframe and melt
 sp.links.df <- rbind.fill(lapply(sp.links, as.data.frame))
 sp.links.df$Network <- levels(geonet$Network)
+str(sp.links.df)
+str(sp.links.df)
 sp.links.melt <- melt(sp.links.df, "Network", variable.name = "Pollinator", value.name = "value", na.rm = TRUE)
-
+head(sp.links.melt)
 #add order and family to dataframe
-geo.uni <- unique(geonet[c("Pollinator", "Family", "Order")])
+geo.uni <- unique(geonet[c("Pollinator", "PolFamily", "PolOrder")])
 sp.links.order <- merge(sp.links.melt,geo.uni, by="Pollinator")
-sp.links.order <- sp.links.order %>% mutate_if(is.factor,as.character)
-sp.links.order[sp.links.order$Family%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order")]="Bee"
-sp.links.order[sp.links.order$Family%in%c("Syrphidae"),c("Order")]="Syrphidae"
+table(sp.links.order$PolOrder)
 
 #filter dataframe to retain orders of interest
 ord <- c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera")
-links.full.sub <- filter(sp.links.order, Order %in% ord)
+links.full.sub <- filter(sp.links.order, PolOrder %in% ord)
 #add climate data
-clim.dat <- unique(g4[c("Network","Latitude","Longitude","ClimateZ")])
+clim.dat <- unique(g4[c("Network","Latitude","Longitude","ClimateZ","ele")])
 clim.dat$ClimateZ[26] = "B"
 links.full.sub <- merge(links.full.sub,clim.dat, by="Network")
 links.full.sub$clim <- as.factor(left(links.full.sub$ClimateZ,1))
-links.full.sub$Order <- as.factor(links.full.sub$Order)
+links.full.sub$PolOrder <- as.factor(links.full.sub$PolOrder) %>% droplevels()
+str(links.full.sub)
 
+#bayes gamma +1
+gammaprior=prior(normal(0,2),class="b")+prior(normal(0,2),class="Intercept")+prior(normal(0,1),class="sd")
+
+prior_summary(sp3)
+sp3=brm(value ~ PolOrder*clim + (1|Network),
+       family=Gamma(link="log"),prior=gammaprior,
+       data=links.full.sub,cores=4,inits=0)
+
+pp_check(sp3,nsamples=100,ylim=10)
+check_all_diagnostics(sp3)
 
 #run model
 library(glmmTMB)
@@ -92,20 +103,59 @@ links.full.sub <- links.full.sub[links.full.sub$Network!="M_PL_062",]
 links.full.sub <- links.full.sub[-c(1147, 2407), ]
 links.full.sub$ClimateZ <- as.factor(links.full.sub$ClimateZ)
 
+##GRAPHING
+
+str(links.full.sub)
+
+
+hist(links.full.sub$value)
+
+str(links.full.sub$PolOrder)
+
+bayes_R2(sp3)
+
+##PLOT tidy bayes
+spec.plot1=links.full.sub%>%
+  add_fitted_draws(sp3,n=100)%>%
+  ggplot(aes(x=value,y=as.factor(PolOrder)))+
+  stat_intervalh(aes(x=.value))+
+  facet_grid(~clim, scale = "free_y")+
+  scale_color_brewer()+
+  stat_pointintervalh(aes(x=value),pch=15,.width=c(0))+
+  theme_bw()+
+  xlab("Specialisation")+
+  ylab("Pollinator order")
+spec.plot1
+
+spec.plot2=links.full.sub%>%
+  add_fitted_draws(sp3,n=100)%>%
+  ggplot(aes(x=value,y=as.factor(clim)))+
+  stat_intervalh(aes(x=.value))+
+  facet_grid(~PolOrder, scale = "free_y")+
+  scale_color_brewer()+
+  theme_bw()+
+  xlab("Specialisation")+
+  ylab("Pollinator order")
+spec.plot2
+
+
 #model generalism by order and climate zone
-m1 <- glmmTMB(log(value+1) ~ Order*clim + (1|Network) + (1|ClimateZ),
+m1 <- glmmTMB(log(value+1) ~ PolOrder*clim + (1|Network),
         family=Gamma(link="log"),
         data=links.full.sub)
 
+
+
+
 #model generalism by order and climate zone and latitude
 links.full.sub$log <- log(links.full.sub$value+1)
-m2 <- glmmTMB(log ~ Order*clim + Order*abs(Latitude) + (1|Network) + (1|ClimateZ),
+m2 <- glmmTMB(log ~ PolOrder*clim + PolOrder*abs(Latitude.y) + (1|Network),
               family=Gamma(link="log"),
               data=links.full.sub)
 library(MuMIn)
 MuMIn::dredge(m2)
 
-m3 <- glmmTMB(log ~ Order*abs(Latitude) + (1|Network),
+m3 <- glmmTMB(log ~ PolOrder*abs(Latitude.y) + (1|Network),
               family=Gamma(link="log"),
               data=links.full.sub)
 

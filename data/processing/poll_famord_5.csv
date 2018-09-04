@@ -254,7 +254,7 @@
 253,ncbi,1435,Ochlodes,Lepidoptera,Hesperiidae
 254,ncbi,225,Autographa,Lepidoptera,Noctuidae
 255,ncbi,760,Eriothrix,Diptera,Tachinidae
-256,ncbi,1896,Sarcophagus,Diptera,Sarcophagidae 
+256,ncbi,1896,Sarcophagus,Diptera,Sarcophagidae
 257,ncbi,21,Adela,Lepidoptera,Adelidae
 258,ncbi,126,Anosymia,NA,NA
 259,ncbi,451,Chloromyia,Diptera,Stratiomyidae
@@ -415,7 +415,7 @@
 414,ncbi,1959,Siphona,Diptera,Tachinidae
 415,ncbi,2093,Thaumatomyia,Diptera,Chloropidae
 416,ncbi,2141,Tricimba,Diptera,Chloropidae
-417,ncbi,194,Aspilocoryphus,Hemiptera,Lygaeidae 
+417,ncbi,194,Aspilocoryphus,Hemiptera,Lygaeidae
 418,ncbi,977,Hemipepsis,Hymenoptera,Pompilidae
 419,ncbi,210,Atrichelaphinis,Coleoptera,Scarabaeidae
 420,ncbi,590,Cyrtothyrea,Coleoptera,Scarabaeidae
@@ -854,7 +854,7 @@
 853,ncbi,638,Didea,Diptera,Syrphidae
 854,ncbi,703,Elasmucha,Hemiptera,Acanthosomatidae
 855,ncbi,713,Empria,Hymenoptera,Tenthredinidae
-856,ncbi,752,Epotiocerus,Hemiptera,ÿDerbidae
+856,ncbi,752,Epotiocerus,Hemiptera,Derbidae
 857,ncbi,799,Eulype,Lepidoptera,Geometridae
 858,ncbi,864,Ferdinandea,Diptera,Syrphidae
 859,ncbi,865,Ferusa,Hymenoptera,Tenthredinoidea
@@ -976,7 +976,7 @@
 975,ncbi,1453,Olcella,Diptera,Chloropidae
 976,ncbi,1485,Ornebius,Orthoptera,Mogoplistidae
 977,ncbi,1502,Orthoperus,Coleoptera,Corylophidae
-978,ncbi,1617,Perepitragus,Coleoptera,Tenebrionidaeÿ
+978,ncbi,1617,Perepitragus,Coleoptera,Tenebrionidae
 979,ncbi,1857,Rhinacloa,Hemiptera,Miridae
 980,ncbi,2086,Tetramorium,Hymenoptera,Formicidae
 981,ncbi,226,Avibrissina,Diptera,Tachinidae
