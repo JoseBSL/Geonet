@@ -13,7 +13,6 @@ file.remove("ne_110m_admin_0_countries.zip")
 # Load and fortify regular data
 world <- readOGR(".", "ne_110m_admin_0_countries")
 continents.regular <- fortify(world, region="CONTINENT")
-continents.regular %>% filter(id != "Antarctica") -> continents.regular
 str(continents.regular)
 map <- ggplot()
 map <- map + xlab("Longitude") + ylab("Latitude")
@@ -46,6 +45,10 @@ ggsave("links_map.pdf",plot=map,width=15,height=5,units="in")
 
 ###Specialisation
 
+nulls=NULL
+# Load and fortify regular data
+levels(links.full.sub$PolOrder)
+str(spec.graph)
 spec.graph=links.full.sub%>%
   add_fitted_draws(sp3,n=100,re_formula=NULL)
 
@@ -56,8 +59,10 @@ map <- map + xlab("Longitude") + ylab("Latitude")
 map <- map + geom_map(data=continents.regular,map=continents.regular, aes(map_id=id), colour="black", fill="white", size=0.4) + 
   expand_limits(x=continents.regular$long, y=continents.regular$lat) + 
   coord_equal()
-#map <- map + geom_point(data=filter(links.clim, Order == "Coleoptera"),
-map <- map + geom_point(data=spec.graph.agg,aes(x=Longitude, y=Latitude, colour=PolOrder),alpha=0.5,size=1+spec.graph.agg$.value)
+map <- map + geom_raster(data=points.zones, 
+                       aes(y=y, x=x, fill=zone2), 
+                       alpha=0.4) 
+map <- map + geom_point(data=spec.graph.agg,aes(x=Longitude, y=Latitude), colour="black",alpha=0.5,size=1+spec.graph.agg$.value)
 map <- map + facet_wrap(~PolOrder,ncol = 3)
 map <- map + theme(axis.line.x = element_line(size=0, colour = "black"),
                    axis.line.y = element_line(size=0, colour = "black"),
