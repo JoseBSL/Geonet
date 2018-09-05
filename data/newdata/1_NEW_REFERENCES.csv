@@ -1,0 +1,10 @@
+ID,Species,Interactions,Connectance,Type of interactions,Type of data,Reference,Locality of Studi,Latitude,Longitude,Number of networks,observations
+ilha_das_flores_valerie,NA,NA,NA,Pollination,1,Valeria_Trivellone,Ilha das Flores,39.26,-31.13,1,
+mauritius_valerie,NA,NA,NA,Pollination,1,Valeria_Trivellone,Mauritius,-20.25,57.43,1,
+Benadi_2013_Alps,NA,NA,NA,Pollination,Need to be aggregated. Long format,"Benadi, Gita, et al. ""Specialization and phenological synchrony of plant¥pollinator interactions along an altitudinal gradient."" Journal of Animal Ecology 83.3 (2014): 639-650",National ParkBerchtesgaden (German Alps),NA,NA,1,NP but 2 of the multiple sites studied had a bit of grazing 
+Traveset_2013_Galapagos,NA,NA,NA,Pollination,Matrix. Change to 1 and 0,"Traveset, A., Heleno, R., Chamorro, S., Vargas, P., McMullen, C. K., Castro-Urgal, R., ... & Olesen, J. M. (2013). Invaders of pollination networks in the Galÿpagos Islands: emergence of novel communities.˜Proceedings of the Royal Society of London B: Biological Sciences,˜280(1758), 20123040.",Galapagos islands,NA,NA,1,Different islands considered in the same network
+Carvalheiro_2008_England,NA,NA,NA,Pollination,Need to merge species name with species,"Carvalheiro, L. G., Barbosa, E. R. M., & Memmott, J. (2008). Pollinator networks, alien species and the conservation of rare plants: Trinia glauca as a case study.˜Journal of Applied Ecology,˜45(5), 1419-1427.","England, Avon Gorge",51.39,-2.97,1,Although the aim of the study was T. Glauca the whole population was sampled
+Trojelsgaard_2015_Canary_islands,NA,NA,NA,Pollination,Matrix format,"Tr_jelsgaard, K., Jordano, P., Carstensen, D. W., & Olesen, J. M. (2015). Geographical variation in mutualistic networks: similarity, turnover and partner fidelity.˜Proc. R. Soc. B,˜282(1802), 20142925.",Canary islands,27.62› N_29.42› N ,13.33› W_18.17› W,14 or 7,Each island has been sampled twice so 2 networks per island
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
