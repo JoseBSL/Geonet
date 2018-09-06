@@ -59,3 +59,7 @@ prop.plot1=g.sub%>% droplevels() %>%
   xlab("Prop. network links")+
   ylab("Pollinator order")
 prop.plot1
+
+
+##remove ants from hymenoptera
+

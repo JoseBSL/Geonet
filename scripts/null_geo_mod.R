@@ -142,6 +142,6 @@ ppc_intervals_grouped(nullgeo.se$z,yrep = posterior_predict(null.geo.brm.sei, ns
               str(nullgeo.se)
               
               
-
-
-              
+sum(geonet[unique(geonet$PolFamily%in%"Formicidae"),])
+            
+table(geo.uni[geo.uni$PolFamily%in%"Formicidae",c("PolFamily")])
