@@ -52,7 +52,7 @@ clim.zones$zone <- left(clim.zones$climate,1)
 clim.zones$zone2[clim.zones$zone %in% c("A")] <- "Tropical"
 clim.zones$zone2[clim.zones$zone %in% c("B")] <- "Arid"
 clim.zones$zone2[clim.zones$zone %in% c("C")] <- "Temperate"
-clim.zones$zone2[clim.zones$zone %in% c("D")] <- "Cold continental" ##Can we just call this continental? or Cold-Temperate
+clim.zones$zone2[clim.zones$zone %in% c("D")] <- "Continental" ##Can we just call this continental? or Cold-Temperate
 clim.zones$zone2[clim.zones$zone %in% c("E")] <- "Polar"
 
 #merge raster and climate zone dfs
@@ -61,8 +61,6 @@ z <- c("A","B","C","D","E")
 points.zones <- dplyr::filter(points.zones, zone %in% z) %>% droplevels()
 points.zones$zone2 <- factor(points.zones$zone2, 
                 levels = c("Tropical", "Arid", "Temperate", "Cold continental", "Polar"))
-str(g.sub)
-ord
 #plot the map
 map <- ggplot()
 map <- map + geom_map(data=continents.regular,map=continents.regular, aes(map_id=id), 
@@ -79,20 +77,21 @@ map <- map + geom_point(data=g.sub,
                         aes(x=Longitude, y=Latitude),
                         colour='black', pch=1,size=0.5+(0.05/g.sub$prop_links))
 map <- map + facet_wrap(~PolOrder,ncol = 3)
-map <- map + theme(axis.text.y=element_blank(),
-                 axis.text.x=element_blank(),
-                 axis.title.y=element_blank(),
-                 axis.title.x=element_blank(),
-                 axis.ticks=element_blank(), 
-                 panel.background = element_rect(fill='white'),
-                 plot.background = element_rect(fill='white'),
-                 panel.grid.major=element_blank(),
-                 panel.grid.minor=element_blank(),
-                 panel.border = element_rect(color = "black", fill = NA, size = 0.5))
-map <- map + theme(strip.background = element_rect(colour="NA", fill=NA),
-            strip.text = element_text(size=12))
+map <- map + theme(axis.line.x = element_line(size=0, colour = "black"),
+                   axis.line.y = element_line(size=0, colour = "black"),
+                   panel.grid.major = element_line(colour = "#d3d3d3"),
+                   panel.grid.minor = element_blank(), 
+                   panel.background = element_blank()) +
+  theme(axis.text.x=element_text(angle= 360, hjust = 0.5, vjust = 0.5, size =10),
+        axis.title.x=element_text(size=16, vjust = 1),
+        axis.text.y=element_text(angle= 360, hjust = 0.5, vjust = 0.5, size =10),
+        axis.title.y=element_text(size=16, vjust = 1),
+        axis.text=element_text(colour = "black"))+
+  theme(axis.ticks.length = unit(2, "mm"))+
+  theme(strip.background = element_rect(colour="NA", fill=NA),
+        strip.text = element_text(size=12))
 map <- map + scale_fill_manual(values=c("#4DAF4A","#E41A1C","#984EA3","#FF7F00","#377EB8"),
-                               drop=FALSE)
+                               drop=FALSE,name="Climate zone")
 ggsave("clim_prop_map.pdf",plot=map,width=15,height=5,units="in")
 
 ####################
@@ -130,4 +129,7 @@ map <- map + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
 map <- map + scale_colour_brewer(palette="Dark2")
 map <- map + theme(legend.position="none",panel.border = element_rect(color = "black",
                    fill = NA, size = 1))
+map <- map + scale_fill_manual(values=c("#4DAF4A","#E41A1C","#984EA3","#FF7F00","#377EB8"),
+                               drop=FALSE,name="Climate zone")
 ggsave("specmap.pdf",plot=map,width=15,height=5,units="in")
+
