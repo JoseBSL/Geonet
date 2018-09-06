@@ -120,10 +120,6 @@ names(myfiles)
 #Melt
 myfiles.melt=melt(myfiles,id.vars=c(1))
 
-##Extra long format networks
-valerie1=read.csv("data/newdata/mauritius_valerie.csv")
-valerie2=read.csv("data/newdata/ilha_das_flores_valerie.csv")
-
 #Aggregate - merges 
 myfiles.melt.agg=aggregate(value ~ X + variable+L1,data=myfiles.melt, FUN=sum)
 str(myfiles.melt.agg)
