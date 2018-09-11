@@ -1,33 +1,1 @@
-ID,Species,Interactions,Connectance,Type of interactions,Type of data,Reference,Locality of Studi,Latitude,Longitude
-benadi 2014,NA,NA,NA,Pollination,1,Benadi_etal_2014,Germany,47.57162,13.105
-carvalheiro 2008,NA,NA,NA,Pollination,1,Carvalherio_2008,England,51.457104,-2.627856
-ilha das flores valerie,NA,NA,NA,Pollination,1,Valeria_Trivellone,Ilha das Flores,39.26,-31.13
-mauritius valerie,NA,NA,NA,Pollination,1,Valeria_Trivellone,Mauritius,-20.25,57.43
-Traveset 2013,NA,NA,NA,Pollination,1,Traveset_2013,Galapagos,-0.6907,-91.012863
-Trojelsgaard Fuerteventura 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Fuerteventura,28.5643,13.8919
-Trojelsgaard Fuerteventura 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Fuerteventura,28.5643,13.8919
-Trojelsgaard Gomera 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Gomera,28.0398,17.2267
-Trojelsgaard Gomera 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Gomera,28.0398,17.2267
-Trojelsgaard GranCanaria 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Gran Canaria,27.9041,15.4331
-Trojelsgaard GranCanaria 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Gran Canaria,27.9041,15.4331
-Trojelsgaard Hierro 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Hierro,27.8047,17.8959
-Trojelsgaard Hierro 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Hierro,27.8047,17.8959
-Trojelsgaard TenerifeSouth 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Tenerife_South,28.2222,16.4173
-Trojelsgaard TenerifeSouth 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Tenerife_South,28.2222,16.4173
-Trojelsgaard TenerifeTENO 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Tenerife_TENO,28.3531,16.9123
-Trojelsgaard TenerifeTENO 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Tenerife_TENO,28.3531,16.9123
-Trojelsgaard WesternSahara 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Western Sahara,26.161,14.4222
-Trojelsgaard WesternSahara 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Western Sahara,26.161,14.4222
-Song 2015,NA,NA,NA,Pollination,1,Song 2015,Mongolia,50.436774,100.385368
-Robinson etal 2018,NA,NA,NA,Pollination,1,Robinson et al 2018,Canadian Arctic,78.883679,-75.800171
-Shay etal 2016,NA,NA,NA,Pollination,1,Shay etal 2016,Hawaii,21.574281,-158.278615
-Parachnowitsch Elle,NA,NA,NA,Pollination,1,Parachnowitsch & Elle 2005,Canada,48.8083333,-123.6311111
-Fang Huang 2008,NA,NA,NA,Pollination,1,Fang & Huang 2016,China,27.90139,99.63806
-Fang Huang 2009,NA,NA,NA,Pollination,1,Fang & Huang 2016,China,27.90139,99.63806
-Fang Huang 2010,NA,NA,NA,Pollination,1,Fang & Huang 2016,China,27.90139,99.63806
-Santos etal 2010,NA,NA,NA,Pollination,1,Santos etal 2010,Brazil,-12.7,-39.766667
-Kaiser-Bunbury etal 2017,NA,NA,NA,Pollination,1,Kaiser-Bunbury etal 2017,Seychelles,-4.66667,55.4333
-Vazquez Simberloff 2003,NA,NA,NA,Pollination,1,Vazquez Simberloff 2003,Argentina,-41.011859,-71.498965
-Bartomeus etal 2008,NA,NA,NA,Pollination,1,Bartomeus etal 2008,Spain,42.315336,3.296797
-LaraRomero etal 2016,NA,NA,NA,Pollination,1,LaraRomero etal 2016,Spain,40.83333,3.95
-Souza etal 2018,NA,NA,NA,Pollination,1,Souza etal 2018,Brazil,-20.778108,-55.193091
+ID,Species,Interactions,Connectance,Type of interactions,Type of data,Reference,Locality of Studi,Latitude,Longitudebenadi 2014,NA,NA,NA,Pollination,1,Benadi_etal_2014,Germany,47.57162,13.105carvalheiro 2008,NA,NA,NA,Pollination,1,Carvalherio_2008,England,51.457104,-2.627856ilha das flores valerie,NA,NA,NA,Pollination,1,Valeria_Trivellone,Ilha das Flores,39.26,-31.13mauritius valerie,NA,NA,NA,Pollination,1,Valeria_Trivellone,Mauritius,-20.25,57.43Traveset 2013,NA,NA,NA,Pollination,1,Traveset_2013,Galapagos,-0.6907,-91.012863Trojelsgaard Fuerteventura 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Fuerteventura,28.5643,13.8919Trojelsgaard Fuerteventura 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Fuerteventura,28.5643,13.8919Trojelsgaard Gomera 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Gomera,28.0398,17.2267Trojelsgaard Gomera 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Gomera,28.0398,17.2267Trojelsgaard GranCanaria 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Gran Canaria,27.9041,15.4331Trojelsgaard GranCanaria 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Gran Canaria,27.9041,15.4331Trojelsgaard Hierro 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Hierro,27.8047,17.8959Trojelsgaard Hierro 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Hierro,27.8047,17.8959Trojelsgaard TenerifeSouth 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Tenerife_South,28.2222,16.4173Trojelsgaard TenerifeSouth 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Tenerife_South,28.2222,16.4173Trojelsgaard TenerifeTENO 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Tenerife_TENO,28.3531,16.9123Trojelsgaard TenerifeTENO 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Tenerife_TENO,28.3531,16.9123Trojelsgaard WesternSahara 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Western Sahara,26.161,14.4222Trojelsgaard WesternSahara 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Western Sahara,26.161,14.4222Song 2015,NA,NA,NA,Pollination,1,Song 2015,Mongolia,50.436774,100.385368Robinson etal 2018,NA,NA,NA,Pollination,1,Robinson et al 2018,Canadian Arctic,78.883679,-75.800171Shay etal 2016,NA,NA,NA,Pollination,1,Shay etal 2016,Hawaii,21.574281,-158.278615Parachnowitsch Elle,NA,NA,NA,Pollination,1,Parachnowitsch & Elle 2005,Canada,48.8083333,-123.6311111Fang Huang 2008,NA,NA,NA,Pollination,1,Fang & Huang 2016,China,27.90139,99.63806Fang Huang 2009,NA,NA,NA,Pollination,1,Fang & Huang 2016,China,27.90139,99.63806Fang Huang 2010,NA,NA,NA,Pollination,1,Fang & Huang 2016,China,27.90139,99.63806Santos etal 2010,NA,NA,NA,Pollination,1,Santos etal 2010,Brazil,-12.7,-39.766667Kaiser-Bunbury etal 2017,NA,NA,NA,Pollination,1,Kaiser-Bunbury etal 2017,Seychelles,-4.66667,55.4333Vazquez Simberloff 2003,NA,NA,NA,Pollination,1,Vazquez Simberloff 2003,Argentina,-41.011859,-71.498965Bartomeus etal 2008,NA,NA,NA,Pollination,1,Bartomeus etal 2008,Spain,42.315336,3.296797LaraRomero etal 2016,NA,NA,NA,Pollination,1,LaraRomero etal 2016,Spain,40.83333,3.95Souza etal 2018,NA,NA,NA,Pollination,1,Souza etal 2018,Brazil,-20.778108,-55.193091Probert_Anawhata,NA,NA,NA,Pollination,freq,AnnaProbert_PhD thesis,New Zealand,-36.9264,174.4589Probert_Karekare,NA,NA,NA,Pollination,freq,AnnaProbert_PhD thesis,New Zealand,-36.9866,174.4823Probert_Whatipu,NA,NA,NA,Pollination,freq,AnnaProbert_PhD thesis,New Zealand,-37.0402,174.5068VanNoort_Matuku,NA,NA,NA,Pollination,freq,TheovanNoort_MSc thesis,New Zealand,-36.858694,174.47333VanNoort_AitP,NA,NA,NA,Pollination,freq,TheovanNoort_MSc thesis,New Zealand,-36.886333,174.51861
