@@ -75,13 +75,19 @@ reference$Network
 #NAme list objects/networks
 names(myfiles)=reference$Network[1:178]
 
+##ADd zeros to Traveset
+myfiles$`Traveset 2013`
+myfiles$`Traveset 2013`[is.na(myfiles$`Traveset 2013`)] <- 0
+
 #Melt
 myfiles.melt=melt(myfiles,id.vars=c(1))
 head(myfiles.melt)
+
 #Aggregate - merges #not needed
 #myfiles.melt.agg=aggregate(value ~ X + variable+L1,data=myfiles.melt, FUN=sum)
 myfiles.melt$value=ifelse(myfiles.melt$value > 0, 1, 0)
 head(myfiles.melt)
+myfiles.melt=myfiles.melt[,-5]
 colnames(myfiles.melt)=c("Plant","Pollinator","Int","Network")
 
 #remove zeros
@@ -110,10 +116,12 @@ setdiff(myfiles.melt.z$PGenus,plant_famord$PGenus)
 geonet=merge(myfiles.melt.z,plant_famord, by = "PGenus") 
 geonet=merge(geonet,poll_famord, by = "IGenus") 
 
+
 geonet <- geonet %>% mutate_if(is.factor,as.character)
 
 carvalheiro=read.csv("~/Dropbox/PhD/Rprojects/Geonet/data/newdata/formatted/special/carvalheiro_2_2008.csv")
-
+str(geonet)
+str(carvalheiro)
 geonet=rbind(geonet,carvalheiro)
 
 geonet[geonet$PolFamily%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("PolOrder")]="Bee"
@@ -137,8 +145,3 @@ g4=merge(g3,reference,by="Network")
 g.sub <- subset(g4, PolOrder %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
 str(g.sub)
 
-ggplot(g.sub,aes(y=prop_links,x=PolOrder))+geom_boxplot()+
-  facet_wrap(~clim,ncol=1)+
-  theme_bw()
-
-g3[g3$Network%in%c("M_PL_021"),]

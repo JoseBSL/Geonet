@@ -9,7 +9,8 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 
 ###NOTES
-#Removed hummingbird/bird only netowrks and bee only network (M_PL_059)
+##removed hummingbird studies: M_PL_059, M_PL_063,M_PL_065,  M_PL_067, M_PL_070 -in new folder
+##Remove oil flower paper M_PL_059
 
 ##libraries
 library(bayesplot)
@@ -30,149 +31,127 @@ library(stringr)
 library(taxize)
 library(tidyr)
 library(vegan)
-```
 
-
-```{r}
-##Reference dataframe
-reference=read.csv("data/ref/references.csv",header=T)
+options(stringsAsFactors = FALSE)
+reference=read.csv("data/ref/references_update.csv",header=T)
 colnames(reference)[1]="Network"
 
 left = function (string,char){
   substr(string,1,char)
 }
-reference$ID=left(reference$Network,8)
-reference=reference[!duplicated(reference$ID),]
-reference$Network=reference$ID
 
-##Add climate zone
-climate_zone=reference[,c("ID","Longitude","Latitude")]
+#reference$ID=left(reference$Network,8)
+#reference=reference[!duplicated(reference$ID),]
+
+
+climate_zone=reference[,c("Network","Longitude","Latitude")]
 climate_zone <- data.frame(climate_zone,
-                   rndCoord.lon = RoundCoordinates(climate_zone$Longitude),
-                   rndCoord.lat = RoundCoordinates(climate_zone$Latitude))
+                           rndCoord.lon = RoundCoordinates(climate_zone$Longitude),
+                           rndCoord.lat = RoundCoordinates(climate_zone$Latitude))
 reference <- data.frame(reference,ClimateZ=LookupCZ(climate_zone))
-reference$ClimateZ=as.character(reference$ClimateZ)
-reference[26,c("ClimateZ")]=c("BWh")
-reference[60,c("ClimateZ")]=c("Af")
+reference[reference$ClimateZ=="Climate Zone info missing",]
 reference$clim=left(reference$ClimateZ,1)
+table(reference$clim)
 
-
-#Elevation
 ##ELEVATION DATA
+require(geonames)
 
-ele=read.csv("data/processing/elevation.csv")
+#Two methods
+options(geonamesUsername="liamkendall")
+
+ele=by(reference, 1:nrow(reference), function(x) GNsrtm3(lat=x$Latitude,lng=x$Longitude))
+ele=do.call("rbind", ele)
+
+ele$Network=reference$Network
+
 reference$ele=ele$srtm3
-
+colnames(ele)[1]="ele"
 #http://www.gpsvisualizer.com/elevation
-reference[reference$ele<0,]
-reference[reference$ID %in% "M_PL_009",c("ele")] = 1009
-reference[reference$ID %in% "M_PL_010",c("ele")] =  261
-reference[reference$ID %in% "M_PL_014",c("ele")] = 250
-reference[reference$ID %in% "M_PL_020",c("ele")] = 250
-reference[reference$ID %in% "M_PL_024",c("ele")] = 92 
-reference[reference$ID %in% "M_PL_026",c("ele")] = 1 #iffy
-reference[reference$ID %in% "M_PL_045",c("ele")] = 1 #iffy
-reference[reference$ID %in% "M_PL_052",c("ele")] = 139 
-reference[reference$ID %in% "M_PL_060",c("ele")] = 1 #iffy
+ele[ele$ele<0,]
 
-##remove bee only network M_PL_059
+ele[ele$Network %in% "M_PL_009",c("ele")] = 1009
+ele[ele$Network %in%"M_PL_010",c("ele")] =  261
+ele[ele$Network %in%"M_PL_014",c("ele")] = 250
+ele[ele$Network %in%"M_PL_020",c("ele")] = 250
+ele[ele$Network %in%"M_PL_024",c("ele")] = 92 
+ele[ele$Network %in%"M_PL_026",c("ele")] = 1 #iffy
+ele[ele$Network %in%"M_PL_045",c("ele")] = 1 #iffy
+ele[ele$Network %in%"M_PL_052",c("ele")] = 139 
+ele[ele$Network %in%"Robinson etal 2018",c("ele")] = 31 
 
-reference=reference[!reference$ID %in% "M_PL_059",]
-##read in plant families from taxize
+reference$ele=ele$ele
 
-plant_family=read.csv("data/processing/plant_family.csv")
-plant_order=read.csv("data/processing/plant_order.csv")
-plant_family=merge(plant_order,plant_family,by="family")
-
-geonet=read.csv("data/processed/geonet.csv")
-nullg=read.csv("data/processed/null_niche.csv")
-g=geonet%>%
-group_by(Network, PolOrder) %>%
-  summarise(order_links=sum(Int))
-
-g2=g%>%
-  group_by(Network) %>%
-  summarise(int_tot=sum(order_links))
-
-g3=merge(g,g2)
-
-g3$prop_links=g3$order_links/g3$int_tot
-
-g4=merge(g3,reference,by="Network")
-
-#subset data by insect order
-g.sub <- subset(g4, PolOrder %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
-```
-
-```{r}
-#all networks into list
+# First apply read.csv, then rbind
 setwd("~/Dropbox/PhD/Rprojects/Geonet/data")
 files = list.files(pattern="*.csv")
-myfiles = lapply(files, function(x) read.csv(x, stringsAsFactors = FALSE, sep=","))
+myfiles = lapply(files, function(x) read.csv(x,stringsAsFactors = FALSE, sep=","))
 setwd("~/Dropbox/PhD/Rprojects/Geonet")
 
-#NAme list objects/networks
-names(myfiles)=left(files,8)
-names(myfiles)
+reference$Network
 
-##remove bee only network M_PL_059
+
+#NAme list objects/networks
+names(myfiles)=reference$Network[1:178]
+
+##ADd zeros to Traveset
+myfiles$`Traveset 2013`
+myfiles$`Traveset 2013`[is.na(myfiles$`Traveset 2013`)] <- 0
 
 #Melt
 myfiles.melt=melt(myfiles,id.vars=c(1))
+head(myfiles.melt)
 
-#Aggregate - merges 
-myfiles.melt.agg=aggregate(value ~ X + variable+L1,data=myfiles.melt, FUN=sum)
-str(myfiles.melt.agg)
-str(valerie1)
-#myfiles.melt.agg=rbind(myfiles.melt.agg,valerie1,valerie2)
-myfiles.melt.agg$value=ifelse(myfiles.melt.agg$value > 0, 1, 0)
-colnames(myfiles.melt.agg)=c("Plant","Pollinator","Network","Int")
+#Aggregate - merges #not needed
+#myfiles.melt.agg=aggregate(value ~ X + variable+L1,data=myfiles.melt, FUN=sum)
+myfiles.melt$value=ifelse(myfiles.melt$value > 0, 1, 0)
+head(myfiles.melt)
 
-myfiles.melt.agg.z=myfiles.melt.agg[!myfiles.melt.agg$Int==0,]
-myfiles.melt.agg.z$Pollinator=gsub("\\."," ",myfiles.melt.agg.z$Pollinator)
+########BUG NUMBER 1####################
+##where is this NA column coming from??#
+myfiles.melt=myfiles.melt[,-5]
+########################################
+colnames(myfiles.melt)=c("Plant","Pollinator","Int","Network")
 
-
-poll_famord_5=read.csv("data/processing/poll_famord_5.csv",header=T)
-
-### Plant / Pollinator genera columns
-myfiles.melt.agg.z$PGenus=word(myfiles.melt.agg.z$Plant,1)
-myfiles.melt.agg.z$IGenus=word(myfiles.melt.agg.z$Pollinator,1)
-
-#Remove plants from bird networks - plant_family was made with these networks
-minus_plant=setdiff(plant_family$PGenus,myfiles.melt.agg.z$PGenus)
+#remove zeros
+myfiles.melt.z=myfiles.melt[!myfiles.melt$Int==0,]
+myfiles.melt.z$Pollinator=gsub("\\."," ",myfiles.melt.z$Pollinator)
 
 
-#remove plant families from bird networks
-plant_family_subset=plant_family[!rowSums(plant_family==minus_plant),]%>%droplevels()
-  
-setdiff(plant_family_subset$PGenus,myfiles.melt.agg.z$PGenus)
+##Merge with poll families
+myfiles.melt.z$PGenus=word(myfiles.melt.z$Plant,1)
+myfiles.melt.z$IGenus=word(myfiles.melt.z$Pollinator,1)
 
-#add plant families
-str(myfiles.melt.agg.z)
-str(plant_family_subset)
-myfiles.melt.agg.z <- myfiles.melt.agg.z %>% mutate_if(is.character,as.factor)
-geonet=merge(myfiles.melt.agg.z,
-             plant_family_subset[!duplicated(plant_family_subset$PGenus),c("PGenus","family","order")], by = "PGenus") 
-str(geonet)
-colnames(geonet)[7:8]=c("Pfamily","Porder")
-geonet=merge(geonet,reference[,c("ele","clim","Network","Connectance","Latitude","Longitude")], by = "Network")
+plant_famord=read.csv("data/processing/plant_famord.csv")
+poll_famord=read.csv("data/processing/poll_famord_5.csv")
 
-#add pollinator families
-str(poll_famord_5)
-str(geonet)
-geonet=merge(geonet,poll_famord_5[,c("IGenus","Order","Family")], by = "IGenus")
-colnames(geonet)[14:15]=c("PolOrder","PolFamily")
+#check all accounted for
+setdiff(myfiles.melt.z$PGenus,plant_famord$PGenus)
+setdiff(myfiles.melt.z$IGenus,poll_famord$IGenus)
+
+plant_famord=plant_famord[,c("family","PGenus","order")]
+colnames(plant_famord)=c("PFamily","PGenus","POrder")
+
+colnames(poll_famord)=c("IGenus","PolFamily","PolOrder")
+
+
+setdiff(myfiles.melt.z$PGenus,plant_famord$PGenus)
+geonet=merge(myfiles.melt.z,plant_famord, by = "PGenus") 
+geonet=merge(geonet,poll_famord, by = "IGenus") 
+
+
 geonet <- geonet %>% mutate_if(is.factor,as.character)
+
+carvalheiro=read.csv("~/Dropbox/PhD/Rprojects/Geonet/data/newdata/formatted/special/carvalheiro_2_2008.csv")
+str(geonet)
+str(carvalheiro)
+geonet=rbind(geonet,carvalheiro)
+
 geonet[geonet$PolFamily%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("PolOrder")]="Bee"
 geonet[geonet$PolFamily%in%c("Syrphidae"),c("PolOrder")]="Syrphidae"
 
-geonet <- geonet %>% mutate_if(is.character,as.factor)
-str(geonet)
-
-
 
 g=geonet%>%
-group_by(Network, PolOrder) %>%
+  group_by(Network, PolOrder) %>%
   summarise(order_links=sum(Int))
 
 g2=g%>%
@@ -180,15 +159,16 @@ g2=g%>%
   summarise(int_tot=sum(order_links))
 
 g3=merge(g,g2)
-
 g3$prop_links=g3$order_links/g3$int_tot
 
 g4=merge(g3,reference,by="Network")
 
 #subset data by insect order
 g.sub <- subset(g4, PolOrder %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
+str(g.sub)
 
 ```
+
 
 ```{r}
 #################################################
