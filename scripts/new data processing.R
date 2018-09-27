@@ -18,6 +18,7 @@ my_new_files.melt=melt(my_new_files,id.vars=c(1))
 my_new_files.melt=my_new_files.melt[!is.na(my_new_files.melt$value)==TRUE,]
 my_new_files.melt$L1=word(my_new_files.melt$L1,start=1,end=2)
 my_new_files.melt$variable=gsub("\\."," ",my_new_files.melt$variable)
+
 ##############read long format networks
 setwd("~/Dropbox/PhD/Rprojects/Geonet/data/newdata/formatted")
 files = list.files(pattern="*.csv")
@@ -26,7 +27,7 @@ setwd("~/Dropbox/PhD/Rprojects/Geonet")
 
 long_form_new=do.call("rbind",long_form_new)
 
-
+ 
 head(my_new_files.melt)
 head(long_form_new)
 

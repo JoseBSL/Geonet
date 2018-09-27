@@ -1,0 +1,180 @@
+ID,Species,Interactions,Connectance,Type of interactions,Type of data,Reference,Locality,Latitude,Longitude
+Bartomeus_etal_2008 BAT1CA,NA,NA,NA,Pollination,1,Bartomeus_etal_2008,Spain,42.315336,3.296797
+Bartomeus_etal_2008 FRA1OP,NA,NA,NA,Pollination,1,Bartomeus_etal_2008,Spain,42.315336,3.296797
+Bartomeus_etal_2008 MED1CA,NA,NA,NA,Pollination,1,Bartomeus_etal_2008,Spain,42.315336,3.296797
+Bartomeus_etal_2008 MED3CA,NA,NA,NA,Pollination,1,Bartomeus_etal_2008,Spain,42.315336,3.296797
+Bartomeus_etal_2008 MIQ1OP,NA,NA,NA,Pollination,1,Bartomeus_etal_2008,Spain,42.315336,3.296797
+Bartomeus_etal_2008 SEL1OP,NA,NA,NA,Pollination,1,Bartomeus_etal_2008,Spain,42.315336,3.296797
+benadi_2014_1,NA,NA,NA,Pollination,1,Benadi_etal_2014,Germany,47.64917,13.105
+benadi_2014_2,NA,NA,NA,Pollination,1,Benadi_etal_2014,Germany,47.598,12.89722
+benadi_2014_3,NA,NA,NA,Pollination,1,Benadi_etal_2014,Germany,47.58194,12.93417
+benadi_2014_4,NA,NA,NA,Pollination,1,Benadi_etal_2014,Germany,47.69056,13.03056
+benadi_2014_5,NA,NA,NA,Pollination,1,Benadi_etal_2014,Germany,47.67528,13.14139
+benadi_2014_6,NA,NA,NA,Pollination,1,Benadi_etal_2014,Germany,47.69694,12.94778
+Caradonna 2014_2015,NA,NA,NA,Pollination,freq,Caradonna_etal_2017,"Gothic, CO, USA",38.95139,-106.9842
+Fang Huang 2008,NA,NA,NA,Pollination,1,Fang_Huang_2016,China,27.90139,99.63806
+Fang Huang 2009,NA,NA,NA,Pollination,1,Fang_Huang_2016,China,27.90139,99.63806
+Fang Huang 2010,NA,NA,NA,Pollination,1,Fang_Huang_2016,China,27.90139,99.63806
+ilha das flores valerie,NA,NA,NA,Pollination,1,Valeria_Trivellone,Ilha das Flores,39.450242,-31.134698
+LaraRomero etal 2016,NA,NA,NA,Pollination,1,LaraRomero_etal_2016,Spain,40.8333,-3.95
+M_PL_001,185,361,0.043,Pollination,0,Arroyo_etal_1982,"Cordón del Cepo, Chile",-33.283334,-70.266668
+M_PL_002,107,196,0.071,Pollination,0,Arroyo_etal_1982,"Cordón del Cepo, Chile",-33.283334,-70.266668
+M_PL_003,61,81,0.09,Pollination,0,Arroyo_etal_1982,"Cordón del Cepo, Chile",-33.283334,-70.266668
+M_PL_004,114,167,0.136,Pollination,1,Barrett_Helenurm_1987,"Central New Brunswick, Canada",46.553731,-66.071245
+M_PL_005,371,923,0.035,Pollination,0,Clements_Long_1923,"Pikes Peak, Colorado, USA",38.841784,-105.043821
+M_PL_006,78,146,0.141,Pollination,1,Dicks_etal_2002,"Hickling, Norfolk, UK",52.762395,1.575532
+M_PL_007,52,85,0.148,Pollination,1,Dicks_etal_2002,"Shelfanger, Norfolk, UK",52.413173,1.097873
+M_PL_008,49,106,0.254,Pollination,0,Dupont_etal_2003,"Tenerife, Canary Islands",28.216667,-16.633333
+M_PL_009,142,242,0.085,Pollination,0,Elberling_Olesen_1999,"Latnjajaure, Abisko, Sweden",68.35,18.5
+M_PL_010,107,456,0.194,Pollination,0,Elberling_Olesen_unpubl,Zackenberg,74.5,-20.5
+M_PL_011,27,52,0.286,Pollination,0,Olesen_etal_2002,Mauritius Island,-20.348404,57.552152
+M_PL_012,84,145,0.091,Pollination,0,Olesen_unpubl,"Garajonay, Gomera, Spain",28.127842,-17.248908
+M_PL_013,65,103,0.204,Pollination,1,Ollerton_etal_2003,"KwaZulu-Natal region, South Africa",-29.616667,30.133333
+M_PL_014,110,179,0.076,Pollination,0,Hocking_1968,"Hazen Camp, Ellesmere Island, Canada",81.816667,-71.3
+M_PL_015,797,2933,0.034,Pollination,0,Petanidou_1991,"Daphní, Athens, Greece",38.014466,23.635043
+M_PL_016,205,412,0.089,Pollination,0,Herrera_1988,"Doñana Nat. Park, Spain",37.016667,-6.55
+M_PL_017,104,299,0.151,Pollination,1,Memmott_1999,"Bristol, England",51.574994,-2.589902
+M_PL_018,144,383,0.094,Pollination,0,Olesen_unpubl2,"Hestehaven, Denmark",56.238737,9.973652
+M_PL_019,125,264,0.078,Pollination,1,Inouye_Pyke_1988,"Snowy Mountains, Australia",-36.45,148.266667
+M_PL_020,111,190,0.104,Pollination,0,Kevan_1970,"Hazen Camp, Ellesmere Island, Canada",81.816667,-71.3
+M_PL_021,768,1193,0.019,Pollination,0,Kato_etal_1990,"Ashu, Kyoto, Japan",35.333333,135.75
+M_PL_022,66,83,0.088,Pollination,0,Medan_etal_2002,"Laguna Diamante, Mendoza, Argentina",-34.166667,-69.7
+M_PL_023,95,125,0.075,Pollination,0,Medan_etal_2002,"Rio Blanco, Mendoza, Argentina",-33,-69.283333
+M_PL_024,29,38,0.192,Pollination,1,Mosquin_Martin_1967,"Melville Island, Canada",75,-114.966667
+M_PL_025,57,143,0.25,Pollination,1,Motten_1982,"North Carolina, USA",36.075391,-79.001843
+M_PL_026,159,204,0.036,Pollination,0,McMullen_1993,Galapagos,-0.290164,-90.600747
+M_PL_027,78,120,0.111,Pollination,0,Primack_1983,"Arthur's Pass, New Zealand",-42.95,171.566667
+M_PL_028,180,374,0.066,Pollination,0,Primack_1983,"Cass, New Zealand",-43.02823,171.78466
+M_PL_029,167,346,0.06,Pollination,0,Primack_1983,"Craigieburn, New Zealand",-43.099531,171.720224
+M_PL_030,81,109,0.073,Pollination,0,Ramirez_Brito_1992,"Guarico State, Venezuela",8.933333,-67.416667
+M_PL_031,97,156,0.066,Pollination,0,Ramirez_1989,"Canaima Nat. Park, Venezuela",5.583333,-61.716667
+M_PL_032,40,65,0.281,Pollination,0,Schemske_etal_1978,"Brownfield, Illinois, USA",40.133333,-88.166667
+M_PL_033,47,141,0.319,Pollination,1,Small_1976,"Ottawa, Canada",45.4,-75.5
+M_PL_034,154,312,0.094,Pollination,0,Smith-Ramirez_etal_2005,"Chiloe, Chile",-42,-73.583333
+M_PL_035,97,178,0.081,Pollination,0,Percival_1974,"Morant Point, Jamaica",17.916667,-76.191667
+M_PL_036,22,30,0.25,Pollination,0,Olesen_unpubl3,"Flores, Açores",39.466667,-31.227222
+M_PL_037,50,72,0.18,Pollination,0,Montero_2005,"Hestehaven, Denmark",56.248737,9.973652
+M_PL_038,50,79,0.235,Pollination,0,Montero_2005,"Hestehaven, Denmark",56.238737,9.993652
+M_PL_039,68,129,0.149,Pollination,0,Stald_2003,"Tenerife, Canary Islands",28.268611,-16.605556
+M_PL_040,72,114,0.091,Pollination,1,Ingversen_2006,"Windsor, The Cockpit Country, Jamaica",18.353889,-77.645278
+M_PL_041,74,145,0.109,Pollination,1,Ingversen_2006,"Syndicate, Dominica",15.518889,-61.467222
+M_PL_042,18,25,0.347,Pollination,0,Philipp_etal_2006,"Puerto Villamil, Isabela Island, Galapagos",-0.949194,-90.977222
+M_PL_043,110,250,0.109,Pollination,0,Montero_2005,"Hestehaven, Denmark",56.238737,9.953652
+M_PL_044,719,1125,0.017,Pollination,1,Kato_2000,"Amami-Ohsima Island, Japan",28.377248,129.493741
+M_PL_045,43,63,0.143,Pollination,1,Lundgren_Olesen_2005,"Uummannaq Island, Greenland",71,-52
+M_PL_046,60,278,0.395,Pollination,0,Bundgaard_2003,Denmark,56.066667,10.233333
+M_PL_047,205,425,0.12,Pollination,0,Dupont_Olesen_2009,Isenbjerg,56.066667,9.266667
+M_PL_048,266,671,0.095,Pollination,0,Dupont_Olesen_2009,Denmark,56.1,9.1
+M_PL_049,262,590,0.071,Pollination,0,Bek_2006,Denmark,56.066667,10.216667
+M_PL_050,49,86,0.176,Pollination,0,Stald_etal_2003,"Tenerife, Canary Islands",28.268611,-16.605556
+M_PL_052,54,92,0.157,Pollination,0,Witt_1998,"Tundra, Greenladn",66.966667,-50.55
+M_PL_053,393,589,0.02,Pollination,0,Yamazaki_Kato_2003,"Mt. Yufu, Japan",33.4,131.5
+M_PL_054,431,773,0.022,Pollination,1,Kakutani_etal_1990,"Kyoto City, Japan",35.033333,135.783333
+M_PL_055,259,431,0.035,Pollination,1,Kato_Miura_1996,"Nakaikemi marsh, Fukui Prefecture, Japan",35.65,136.083333
+M_PL_056,456,871,0.026,Pollination,1,Kato_etal_1993,"Mt. Kushigata, Yamanashi Pref., Japan",35.583333,138.383333
+M_PL_057,997,1920,0.019,Pollination,1,Inoue_etal_1990,"Kibune, Kyoto, Japan",35.166667,135.866667
+M_PL_060_01,50,95,0.221,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_02,50,107,0.235,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_03,58,130,0.222,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_04,67,134,0.139,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_05,87,144,0.081,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_06,71,96,0.082,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_07,68,108,0.095,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_08,47,72,0.135,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_09,58,78,0.108,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_10,39,51,0.146,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_11,34,43,0.154,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_12,37,60,0.21,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_13,38,48,0.221,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_14,48,99,0.243,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_15,51,131,0.253,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_16,56,114,0.172,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_17,52,100,0.168,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_18,48,75,0.134,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_19,31,41,0.175,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_20,30,37,0.171,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_21,28,32,0.242,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_22,44,64,0.159,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_23,39,57,0.176,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_060_24,38,46,0.137,Pollination,1,Kaiser-Bunbury_etal_2010,"Black River Gorges National Park, Mauritius",-20.452076,57.443254
+M_PL_061_01,17,17,0.283,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_02,22,27,0.318,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_03,20,24,0.286,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_04,22,29,0.259,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_05,34,51,0.193,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_06,35,58,0.22,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_07,32,62,0.3,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_08,25,35,0.307,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_09,16,15,0.25,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_10,19,20,0.286,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_11,18,17,0.236,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_12,19,24,0.286,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_13,26,39,0.293,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_14,17,18,0.273,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_15,24,33,0.306,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_16,27,41,0.27,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_17,22,19,0.162,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_18,29,35,0.177,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_19,32,44,0.19,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_20,25,25,0.162,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_21,29,43,0.217,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_22,28,28,0.156,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_23,36,45,0.173,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_24,29,46,0.232,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_25,16,21,0.382,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_26,20,28,0.308,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_27,19,21,0.269,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_28,27,36,0.237,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_29,26,39,0.271,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_30,20,30,0.33,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_31,24,35,0.368,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_32,24,28,0.259,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_33,8,6,0.5,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_34,10,9,0.429,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_35,22,19,0.162,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_36,24,31,0.261,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_37,30,43,0.206,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_38,33,49,0.213,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_39,30,46,0.286,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_40,35,58,0.248,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_41,13,11,0.306,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_42,17,16,0.242,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_43,25,26,0.181,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_44,21,23,0.209,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_45,34,50,0.198,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_46,34,45,0.165,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_47,35,57,0.244,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_061_48,23,32,0.254,Pollination,1,Kaiser-Bunbury_etal_2014,"Morne Seychellois National Park, Mahé",-4.666667,55.43333
+M_PL_062,1500,15255,0.032,Pollination,0,Robertson_1929,"Carlinville, Illinois, USA",39.278958,-89.8968771
+mauritius valerie,NA,NA,NA,Pollination,1,Valeria_Trivellone,Mauritius,-20.25,57.43
+Parachnowitsch Elle,NA,NA,NA,Pollination,1,Parachnowitsch_Elle_2005,Canada,48.8083333,-123.6311111
+Probert_Anawhata,NA,NA,NA,Pollination,freq,AnnaProbert_PhD,New Zealand,-36.9264,174.4589
+Probert_Karekare,NA,NA,NA,Pollination,freq,AnnaProbert_PhD,New Zealand,-36.9866,174.4823
+Probert_Whatipu,NA,NA,NA,Pollination,freq,AnnaProbert_PhD,New Zealand,-37.0402,174.5068
+Robson 2014,NA,NA,NA,Pollination,1,Robson_2014,Canada,49.7094,-99.0972
+Robinson etal 2018,NA,NA,NA,Pollination,1,Robinson_etal_2018,Canadian Arctic,78.875223,-75.804512
+Santos etal 2010,NA,NA,NA,Pollination,1,Santos-etal_2010,Brazil,-12.7,-39.766667
+Shay etal 2016,NA,NA,NA,Pollination,1,Shay_etal_2016,Hawaii,21.574281,-158.278615
+Song 2015,NA,NA,NA,Pollination,1,Song_2015,Mongolia,50.436774,100.385368
+Traveset 2013,NA,NA,NA,Pollination,1,Traveset_2013,Galapagos,-0.6907,-91.012863
+Trojelsgaard Fuerteventura 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Fuerteventura,28.5643,13.8919
+Trojelsgaard Fuerteventura 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Fuerteventura,28.5643,13.8919
+Trojelsgaard Gomera 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Gomera,28.0398,17.2267
+Trojelsgaard Gomera 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Gomera,28.0398,17.2267
+Trojelsgaard GranCanaria 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Gran Canaria,27.9041,15.4331
+Trojelsgaard GranCanaria 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Gran Canaria,27.9041,15.4331
+Trojelsgaard Hierro 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Hierro,27.8047,17.8959
+Trojelsgaard Hierro 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Hierro,27.8047,17.8959
+Trojelsgaard TenerifeSouth 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Tenerife_South,28.2222,16.4173
+Trojelsgaard TenerifeSouth 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Tenerife_South,28.2222,16.4173
+Trojelsgaard TenerifeTENO 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Tenerife_TENO,28.3531,16.9123
+Trojelsgaard TenerifeTENO 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Tenerife_TENO,28.3531,16.9123
+Trojelsgaard WesternSahara 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Western Sahara,26.161,14.4222
+Trojelsgaard WesternSahara 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Western Sahara,26.161,14.4222
+VanNoort_AitP,NA,NA,NA,Pollination,freq,TheovanNoort_MSc,New Zealand,-36.886333,174.51861
+VanNoort_Matuku,NA,NA,NA,Pollination,freq,TheovanNoort_MSc,New Zealand,-36.858694,174.47333
+VS Llao Llao,NA,NA,NA,Pollination,1,Vazquez_Simberloff_2003,Argentina,-41.011859,-71.498965
+VS Mascardi_nc,NA,NA,NA,Pollination,1,Vazquez_Simberloff_2003,Argentina,-41.011859,-71.498965
+VS Quetrihue_nc,NA,NA,NA,Pollination,1,Vazquez_Simberloff_2003,Argentina,-41.011859,-71.498965
+VS Safariland,NA,NA,NA,Pollination,1,Vazquez_Simberloff_2003,Argentina,-41.011859,-71.498965
+carvalheiro 2008,NA,NA,NA,Pollination,1,Carvalheiro_2008,England,51.457104,-2.627856
