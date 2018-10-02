@@ -12,6 +12,7 @@ benadi_2014_4,NA,NA,NA,Pollination,1,Benadi_etal_2014,Germany,47.69056,13.03056
 benadi_2014_5,NA,NA,NA,Pollination,1,Benadi_etal_2014,Germany,47.67528,13.14139
 benadi_2014_6,NA,NA,NA,Pollination,1,Benadi_etal_2014,Germany,47.69694,12.94778
 Caradonna 2014_2015,NA,NA,NA,Pollination,freq,Caradonna_etal_2017,"Gothic, CO, USA",38.95139,-106.9842
+Chacoff_etal_2011,NA,NA,NA,Pollination,1,Chacoff_etal_2011,"Mendoza, Argentina",-32.008985,-68.015892
 Fang Huang 2008,NA,NA,NA,Pollination,1,Fang_Huang_2016,China,27.90139,99.63806
 Fang Huang 2009,NA,NA,NA,Pollination,1,Fang_Huang_2016,China,27.90139,99.63806
 Fang Huang 2010,NA,NA,NA,Pollination,1,Fang_Huang_2016,China,27.90139,99.63806
@@ -156,6 +157,10 @@ Robinson etal 2018,NA,NA,NA,Pollination,1,Robinson_etal_2018,Canadian Arctic,78.
 Santos etal 2010,NA,NA,NA,Pollination,1,Santos-etal_2010,Brazil,-12.7,-39.766667
 Shay etal 2016,NA,NA,NA,Pollination,1,Shay_etal_2016,Hawaii,21.574281,-158.278615
 Song 2015,NA,NA,NA,Pollination,1,Song_2015,Mongolia,50.436774,100.385368
+Souza etal 2018 cerrado,NA,NA,NA,Pollination,1,Souza etal 2018,Brazil,-18.280556,-52.048056
+Souza etal 2018 chaco,NA,NA,NA,Pollination,1,Souza etal 2018,Brazil,-21.701111,-57.885
+Souza etal 2018 pantanal,NA,NA,NA,Pollination,1,Souza etal 2018,Brazil,-20.544167,-54.398333
+Souza etal 2018 verada,NA,NA,NA,Pollination,1,Souza etal 2018,Brazil,-19.581178,-57.039667
 Traveset 2013,NA,NA,NA,Pollination,1,Traveset_2013,Galapagos,-0.6907,-91.012863
 Trojelsgaard Fuerteventura 1,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Fuerteventura,28.5643,13.8919
 Trojelsgaard Fuerteventura 2,NA,NA,NA,Pollination,1,Trojelsgaard_2015,Fuerteventura,28.5643,13.8919

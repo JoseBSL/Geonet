@@ -91,7 +91,7 @@ reference$Network
 
 
 #NAme list objects/networks
-names(myfiles)=reference$Network[1:178]
+names(myfiles)=reference$Network[1:183]
 
 ##ADd zeros to Traveset
 myfiles$`Traveset 2013`
@@ -106,16 +106,23 @@ head(myfiles.melt)
 myfiles.melt$value=ifelse(myfiles.melt$value > 0, 1, 0)
 head(myfiles.melt)
 
-########BUG NUMBER 1####################
-##where is this NA column coming from??#
-myfiles.melt=myfiles.melt[,-5]
-########################################
-colnames(myfiles.melt)=c("Plant","Pollinator","Int","Network")
+####BUG - NAS###
+sum(is.na(myfiles.melt)) ##196
+myfiles.melt=myfiles.melt[complete.cases(myfiles.melt),]
+sum(is.na(myfiles.melt)) ##gone but is this ok???
 
+
+colnames(myfiles.melt)=c("Plant","Pollinator","Int","Network")
+head(myfiles.melt)
 #remove zeros
 myfiles.melt.z=myfiles.melt[!myfiles.melt$Int==0,]
-myfiles.melt.z$Pollinator=gsub("\\."," ",myfiles.melt.z$Pollinator)
+sum(is.na(myfiles.melt.z))
 
+
+myfiles.melt.z$Pollinator=gsub("\\."," ",myfiles.melt.z$Pollinator)
+myfiles.melt.z$Pollinator=gsub("\\_"," ",myfiles.melt.z$Pollinator)
+myfiles.melt.z$Plant=gsub("\\."," ",myfiles.melt.z$Plant)
+myfiles.melt.z$Plant=gsub("\\_"," ",myfiles.melt.z$Plant)
 
 ##Merge with poll families
 myfiles.melt.z$PGenus=word(myfiles.melt.z$Plant,1)
@@ -128,16 +135,14 @@ poll_famord=read.csv("data/processing/poll_famord_5.csv")
 setdiff(myfiles.melt.z$PGenus,plant_famord$PGenus)
 setdiff(myfiles.melt.z$IGenus,poll_famord$IGenus)
 
-plant_famord=plant_famord[,c("family","PGenus","order")]
 colnames(plant_famord)=c("PFamily","PGenus","POrder")
 
 colnames(poll_famord)=c("IGenus","PolFamily","PolOrder")
 
 
-setdiff(myfiles.melt.z$PGenus,plant_famord$PGenus)
-geonet=merge(myfiles.melt.z,plant_famord, by = "PGenus") 
-geonet=merge(geonet,poll_famord, by = "IGenus") 
-
+##GEONET DATAFRAME
+geonet=merge(myfiles.melt.z,plant_famord, by = "PGenus",all.y=FALSE) 
+geonet=merge(geonet,poll_famord, by = "IGenus",all.y=FALSE)
 
 geonet <- geonet %>% mutate_if(is.factor,as.character)
 
@@ -145,10 +150,11 @@ carvalheiro=read.csv("~/Dropbox/PhD/Rprojects/Geonet/data/newdata/formatted/spec
 str(geonet)
 str(carvalheiro)
 geonet=rbind(geonet,carvalheiro)
-
+head(geonet)
 geonet[geonet$PolFamily%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("PolOrder")]="Bee"
 geonet[geonet$PolFamily%in%c("Syrphidae"),c("PolOrder")]="Syrphidae"
 
+geonet=merge(geonet,reference,by="Network")
 
 g=geonet%>%
   group_by(Network, PolOrder) %>%
@@ -293,7 +299,7 @@ geo.split.jac=lapply(geo.split,function(x) vegdist(t(x[,3:length(x)]), method="j
 geo.split.jac.long=lapply(geo.split.jac,function(x) melt(as.matrix(x)))
 geo.split.jac.long=do.call("rbind",geo.split.jac.long)
 
-geo.split.jac.long$Network=left(rownames(geo.split.jac.long),8)
+#geo.split.jac.long$Network=left(rownames(geo.split.jac.long),8)
 
 head(geo.split.jac.long)
 colnames(geo.split.jac.long)[1:2]=c("Poll_sp1","Poll_sp2")
@@ -304,14 +310,15 @@ str(geo.split.jac.long)
 geo.split.jac.long$IGenus=word(gsub("\\."," ",geo.split.jac.long$Poll_sp1),1)
 
 str(geo.split.jac.long)
-geo.split.jac.long=merge(geo.split.jac.long,poll_famord_5[,c("IGenus","Order","Family")], by = "IGenus")
+geo.split.jac.long=merge(geo.split.jac.long,poll_famord[,c("IGenus","PolOrder","PolFamily")], by = "IGenus")
 
-colnames(geo.split.jac.long)=c("PGenus1","Poll_sp1","Poll_sp2","jac","Network","Order1","Family1")
+colnames(geo.split.jac.long)=c("PGenus1","Poll_sp1","Poll_sp2",
+                               "jac","Network","Order1","Family1")
 
 #GENUS 2
 geo.split.jac.long$IGenus=word(gsub("\\."," ",geo.split.jac.long$Poll_sp2),1)
 
-geo.split.jac.long=merge(geo.split.jac.long,poll_famord_5[,c("IGenus","Order","Family")], by = "IGenus")
+geo.split.jac.long=merge(geo.split.jac.long,poll_famord[,c("IGenus","PolOrder","PolFamily")], by = "IGenus")
 str(geo.split.jac.long)
 
 colnames(geo.split.jac.long)=c("PGenus2","PGenus1","Poll_sp1","Poll_sp2","jac","Network","Order1","Family1","Order2","Family2")
@@ -371,8 +378,8 @@ ggplot(null.geo.sub1,aes(y=jac.ord,x=clim,col=clim))+facet_grid(~jac.ord)+geom_p
 ```{r dissimilarity}
 
 ####PLANT FAMILY DISSIMILARITY####
-pfdist=geonet %>% group_by(Network,clim,ele) %>% count(Pfamily)
-pfdist=dcast(pfdist, Network + clim +ele ~ Pfamily, 
+pfdist=geonet %>% group_by(Network,clim,ele) %>% count(PFamily)
+pfdist=dcast(pfdist, Network + clim + ele ~ PFamily, 
       fun.aggregate = sum, na.rm =T, value.var="n", fill = 0)
 rownames(pfdist)=pfdist[,1]
 str(pfdist)

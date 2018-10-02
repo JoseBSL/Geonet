@@ -30,7 +30,7 @@ propprior <- prior(normal(0,2), class = b) + prior(normal(0,0.4), class = sd)
 
 str(g.sub)
 ##FULL MODEL - THREE WAY INTERACTION
-prop1=brm(prop_links~0+PolOrder*clim+(1|Network),prior=propprior,
+prop1=brm(prop_links~PolOrder*clim*scale(ele)+(1|Reference/Network),prior=propprior,
               family=Beta(link = "logit"),
               data=g.sub,cores = 4)
 
