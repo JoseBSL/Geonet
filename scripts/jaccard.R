@@ -77,6 +77,4 @@ null.geo.sub1$jac.ord
 
 null.geo.sub1[is.finite(null.geo.sub1$z), ]
 
-library(nlme)
-library(lme4)
-m1 <- lmer(z~jac.ord + (1|Network), data=null.geo.sub1)
+

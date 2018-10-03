@@ -13,6 +13,7 @@ library(emmeans)
 #cast long format dataframe
 geo.wide <- dcast(geonet, Network + Plant ~ Pollinator, value.var = "Int")
 geo.wide[is.na(geo.wide)] <- 0
+geo.wide[,1]=as.factor(geo.wide[,1])
 
 #gg <- subset(geo.wide, Network %in% c("M_PL_001")) %>% droplevels
 #create empty listy

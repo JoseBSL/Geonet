@@ -1,11 +1,11 @@
 ---
-title: "Geonet"
+  title: "Geonet"
 author: "Liam Kendall"
 date: "2 October 2018"
 output: pdf_document
 ---
-
-```{r setup, include=FALSE}
+  
+  ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
 library(bayesplot)
@@ -207,10 +207,10 @@ for (j in levels(geo.wide[, 1])){
   for (i in 1:reps) {
     null.list[[i]] <- as.matrix(vegdist(t(nulls[[i]]), "jaccard", binary=T))#add colMeans if this doesn't work
   }
-
+  
   #convert nans to nas
   null.list <- rapply(null.list, f=function(x) ifelse(is.nan(x),NA,x), how="replace" )
-
+  
   #compute means and standard deviation for each species pair 
   null.mean <- apply(simplify2array(lapply(null.list, as.matrix)),1:2, mean, na.rm = TRUE)
   colnames(null.mean) <- web.names
@@ -228,7 +228,7 @@ for (j in levels(geo.wide[, 1])){
   null.net[[j]] <- null.mean.sd
   
 }
-  
+
 #convert list to dataframe
 null.net <- rbind.fill(lapply(null.net, as.data.frame))
 colnames(null.net)=c("Poll_sp1","Poll_sp2","mean","sd","Network")
@@ -278,7 +278,7 @@ str(geo.split.jac.long)
 
 #GENUS 1
 geo.split.jac.long$IGenus=word(gsub("\\."," ",geo.split.jac.long$Poll_sp1),1)
-geo.split.jac.long$IGenus=word(gsub("\\_"," ",geo.split.jac.long$Poll_sp1),1)
+geo.split.jac.long$IGenus=word(gsub("\\_"," ",geo.split.jac.long$IGenus),1)
 
 str(geo.split.jac.long)
 geo.split.jac.long=merge(geo.split.jac.long,poll_famord[,c("IGenus","PolOrder","PolFamily")], by = "IGenus")
@@ -288,7 +288,7 @@ colnames(geo.split.jac.long)=c("PGenus1","Poll_sp1","Poll_sp2",
 
 #GENUS 2
 geo.split.jac.long$IGenus=word(gsub("\\."," ",geo.split.jac.long$Poll_sp2),1)
-geo.split.jac.long$IGenus=word(gsub("\\_"," ",geo.split.jac.long$Poll_sp2),1)
+geo.split.jac.long$IGenus=word(gsub("\\_"," ",geo.split.jac.long$IGenus),1)
 
 geo.split.jac.long=merge(geo.split.jac.long,poll_famord[,c("IGenus","PolOrder","PolFamily")], by = "IGenus")
 str(geo.split.jac.long)
@@ -352,7 +352,7 @@ write.csv(null.geo.sub1,"data/null_niche.csv")
 ####PLANT FAMILY DISSIMILARITY####
 pfdist=geonet %>% group_by(Network,clim,ele) %>% count(PFamily)
 pfdist=dcast(pfdist, Network + clim + ele ~ PFamily, 
-      fun.aggregate = sum, na.rm =T, value.var="n", fill = 0)
+             fun.aggregate = sum, na.rm =T, value.var="n", fill = 0)
 rownames(pfdist)=pfdist[,1]
 str(pfdist)
 
@@ -425,8 +425,8 @@ veganCovEllipse <- function (cov, center = c(0, 0), scale = 1, npoints = 100)
 df_ell1 <- data.frame()
 for(g in levels(NMDS1$clim)){
   df_ell1 <- rbind(df_ell1, cbind(as.data.frame(with(NMDS1[NMDS1$clim==g,],
-                                                   veganCovEllipse(cov.wt(cbind(MDS1,MDS2),wt=rep(1/length(MDS1),length(MDS1)))$cov,center=c(mean(MDS1),mean(MDS2)))))
-                                ,group=g))
+                                                     veganCovEllipse(cov.wt(cbind(MDS1,MDS2),wt=rep(1/length(MDS1),length(MDS1)))$cov,center=c(mean(MDS1),mean(MDS2)))))
+                                  ,group=g))
 }
 
 p1 <- ggplot(data = NMDS1, aes(MDS1, MDS2))
@@ -434,8 +434,8 @@ p1 <- p1 + geom_point(aes(colour = clim), size=2)
 #p <- p + geom_text(aes(label = site, colour=landuse), vjust = -0.8)
 p1 <- p1 + geom_path(data=df_ell1, aes(x=MDS1, y=MDS2,colour=group), size=1, linetype=2)
 p1 <- p1 + theme(panel.grid.minor = element_blank(),
-               panel.background = element_blank(),
-               axis.line = element_line(colour = "black")) +
+                 panel.background = element_blank(),
+                 axis.line = element_line(colour = "black")) +
   theme(panel.border=element_rect(colour = "black", fill = "NA", size = 1)) +
   theme(axis.text.y=element_text(angle= 360, hjust = 0.5, vjust = 0.5, size =12),
         axis.title.y=element_text(size=16, vjust = 1),
@@ -532,43 +532,43 @@ for (j in levels(geo.wide[, 1])){
   web <- subset(geo.wide, Network == j)#iterate over site
   web <- web[,c(-1,-2)]
   web = web[,colSums(web) > 0]#remove species with no links at each site
-
-#Null model II from Bascompte et al. (2003). Creates random networks by probabilistically fixing row and column marginal totals. The expected number of links is same as observed number. Rodriguez-Girona and Santamaria (2006) showed that this null model has the best compromise between Type I and Type II errors
-#Run this code once to create the null model function
-null.model.II <- function(web){
-  web <- as.matrix(web > 0) + 0
-  # calculate the probability based on row marginals. Creates matrix same size as web, with row sums divided by number of columns (to get probability of a 1 in each cell of each row), repeated across all columns for each row.
-  row.probs <- matrix(rowSums(web)/ncol(web),nrow(web),ncol(web))
-  # calculate the probability based on column marginals (again, repeated for whole column). Transpose used instead of byrow=T
-  col.probs <- t(matrix(colSums(web)/nrow(web),ncol(web),nrow(web)))
-  # calculate the element by element mean of this probabilities
-  mat.probs <- (row.probs + col.probs) / 2.0
-  # generate a random matrix with 1s proportional to the above probabilities. rbinom(n, size, prob) n is number of observations, size is number of trials, prob is prob of success in each trial
-  mat.null <- matrix(rbinom(nrow(web)*ncol(web),1,as.vector(mat.probs)),nrow(web),ncol(web))  
-  # return that matrix in all its glory
-  return(mat.null)
-}
-
-#Begin permutation test (two tailed)
-reps <- 999 #set number of permutations
-
-nulls<-vector("list",reps)  # Create a list with spaces for each output matrix
-for (i in 1:reps) {
-  nulls[[i]]<-null.model.II(web)
-}
-
-#call any individual matrix from that list using nulls[[x]], where x is the number of the matrix you want to call
-null.links <- data.frame(matrix(, nrow=reps, ncol(web)))
-for (i in 1:reps) {
-  null.links[i, ] <- t(colSums(nulls[[i]]))
-}
-
-weblink <- t(colSums(as.matrix(web > 0) + 0))
-colnames(null.links) <- colnames(weblink)
-links <- rbind(null.links,weblink)#Add observed connectance into distribution
-sd <- apply(null.links, 2, sd)#calculate standard deviation
-sp.links[[j]] <- abs(weblink - colMeans(null.links)/sd)#print results into list
-
+  
+  #Null model II from Bascompte et al. (2003). Creates random networks by probabilistically fixing row and column marginal totals. The expected number of links is same as observed number. Rodriguez-Girona and Santamaria (2006) showed that this null model has the best compromise between Type I and Type II errors
+  #Run this code once to create the null model function
+  null.model.II <- function(web){
+    web <- as.matrix(web > 0) + 0
+    # calculate the probability based on row marginals. Creates matrix same size as web, with row sums divided by number of columns (to get probability of a 1 in each cell of each row), repeated across all columns for each row.
+    row.probs <- matrix(rowSums(web)/ncol(web),nrow(web),ncol(web))
+    # calculate the probability based on column marginals (again, repeated for whole column). Transpose used instead of byrow=T
+    col.probs <- t(matrix(colSums(web)/nrow(web),ncol(web),nrow(web)))
+    # calculate the element by element mean of this probabilities
+    mat.probs <- (row.probs + col.probs) / 2.0
+    # generate a random matrix with 1s proportional to the above probabilities. rbinom(n, size, prob) n is number of observations, size is number of trials, prob is prob of success in each trial
+    mat.null <- matrix(rbinom(nrow(web)*ncol(web),1,as.vector(mat.probs)),nrow(web),ncol(web))  
+    # return that matrix in all its glory
+    return(mat.null)
+  }
+  
+  #Begin permutation test (two tailed)
+  reps <- 999 #set number of permutations
+  
+  nulls<-vector("list",reps)  # Create a list with spaces for each output matrix
+  for (i in 1:reps) {
+    nulls[[i]]<-null.model.II(web)
+  }
+  
+  #call any individual matrix from that list using nulls[[x]], where x is the number of the matrix you want to call
+  null.links <- data.frame(matrix(, nrow=reps, ncol(web)))
+  for (i in 1:reps) {
+    null.links[i, ] <- t(colSums(nulls[[i]]))
+  }
+  
+  weblink <- t(colSums(as.matrix(web > 0) + 0))
+  colnames(null.links) <- colnames(weblink)
+  links <- rbind(null.links,weblink)#Add observed connectance into distribution
+  sd <- apply(null.links, 2, sd)#calculate standard deviation
+  sp.links[[j]] <- abs(weblink - colMeans(null.links)/sd)#print results into list
+  
 }
 
 #convert list to dataframe and melt
@@ -620,7 +620,7 @@ WorldData <- fortify(WorldData)
 map <- ggplot()
 map <- map + xlab("Longitude") + ylab("Latitude")
 map <- map + geom_map(data=WorldData, map=WorldData,
-                  aes(x=long, y=lat, group=group, map_id=region))
+                      aes(x=long, y=lat, group=group, map_id=region))
 #map <- map + geom_point(data=filter(links.clim, Order == "Coleoptera"),
 map <- map + geom_point(data=sp.links.order.sub,
                         aes(x=Longitude, y=Latitude, colour=log(value)),size=2)
