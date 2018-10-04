@@ -16,7 +16,11 @@ library(brms)
 library(ggrepel)
 library(plotrix)
 
+options(stringsAsFactors = TRUE)
 nullg=read.csv("data/processed/null_niche.csv")
+str(nullg)
+nullg[nullg$clim%in%"A",]
+table(nullg$clim)
 
 #clean up duplicate groupings
 nullg[nullg$jac.ord%in%"Syrphidae_Bee",c("jac.ord")]="Bee_Syrphidae"
@@ -54,11 +58,14 @@ nullg[nullg$jac.ord%in%"Bee_Bee",c("bw")]="w"
 ##################
 
 
+library(plotrix)
+str(nullg)
+nullg=merge(nullg,reference[,c("Reference","Network")],by="Network")
 
-nullgeo=aggregate(z~Network+clim+ele+jac.ord+bw,data=nullg,FUN="mean")%>% droplevels()
-
-mean_se=aggregate(z~Network+clim+ele+jac.ord+bw,data=nullg,
-                  FUN = function(x) c(mean = mean(x), se = std.error(x)))[6]
+nullgeo=aggregate(z~Network+Reference+clim+ele+jac.ord+bw,data=nullg,FUN="mean")%>% droplevels()
+table(nullg$clim)
+mean_se=aggregate(z~Network+Reference+clim+ele+jac.ord+bw,data=nullg,
+                  FUN = function(x) c(mean = mean(x), se = std.error(x)))[7]
 
 nullgeo$z=mean_se$z[,1]
 nullgeo$sei=mean_se$z[,2]
@@ -81,17 +88,18 @@ range(nullgeo.se$z)
 nullgeoprior <- prior(normal(0,2), class = b) + prior(normal(0,1), class = sd)+
                 prior(normal(0,1), class = sigma)
 
-null.geo.brm.sei=brm(z|se(sei, sigma = TRUE)~clim*jac.ord+(1|Network),
+null.geo.brm.sei=brm(z|se(sei, sigma = TRUE)~clim*jac.ord+(1|Reference/Network),
                       prior=nullgeoprior,
                      data=nullgeo.se,
                      chains=4,cores=4,
                      control = list(adapt_delta = 0.9))
 
-null.geo.brm.sei2=brm(z|se(sei, sigma = TRUE)~clim*bw+(1|Network),
+null.geo.brm.sei2=brm(z|se(sei, sigma = TRUE)~clim*bw+(1|Reference/Network),
                      prior=nullgeoprior,
                      data=nullgeo.se,
                      chains=4,cores=4,
                      control = list(adapt_delta = 0.9))
+
 
 pp_check(null.geo.brm.sei,nsamples=100) # GOOD
 
@@ -100,7 +108,7 @@ ppc_violin_grouped(nullgeo.se$z,
                    group = nullgeo.se$clim)
 
 ppc_violin_grouped(nullgeo.se$z, 
-                   yrep = posterior_predict(null.geo.brm.sei, nsamples = 100), 
+                   yrep = posterior_predict(null.geo.brm.sei2, nsamples = 100), 
                    group = nullgeo.se$jac.ord)
 
 check_all_diagnostics(null.geo.brm.sei$fit)
@@ -139,9 +147,5 @@ niche.plot2
 ppc_intervals_grouped(nullgeo.se$z,yrep = posterior_predict(null.geo.brm.sei, nsamples = 100), 
               x = nullgeo.se$ele,group=nullgeo.se$jac.ord)
 
-              str(nullgeo.se)
-              
-              
-sum(geonet[unique(geonet$PolFamily%in%"Formicidae"),])
-            
-table(geo.uni[geo.uni$PolFamily%in%"Formicidae",c("PolFamily")])
+
+

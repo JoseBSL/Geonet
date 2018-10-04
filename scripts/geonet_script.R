@@ -1,3 +1,15 @@
+##THIS IS JUST THE MARKDOWN COPIED TO A SIMPLE R SCRIPT BECAUSE IT WAS ANNOYING ME
+
+##DEPENDING ON YOUR COMPUTER YOU MIGHT GET A WEIRD ERROR WHEN MYFILES IS MELTED I.E. A COLUMN OF NAS
+##I DONT THINK IT DOES ANYTHING STRANGE TO THE OTHER COLUMNS SO JUST REMOVE IT IF ITS AN ISSUE
+##LINE 78
+
+##GOOD LUCK WITH THE NULL MODEL - REPS IS SET AT 1 FOR DEBUGGING - TAKES ~20 MINS TO RUN WITH 1 REP
+
+##NULL MODEL IS line 168
+
+##haven't run the specialisation null yet
+
 ---
   title: "Geonet"
 author: "Liam Kendall"
@@ -26,7 +38,7 @@ library(taxize)
 library(tidyr)
 library(vegan)
 
-options(stringsAsFactors = FALSE)
+options(stringsAsFactors = TRUE)
 reference=read.csv("data/ref/references_update.csv",header=T)
 colnames(reference)[1]="Network"
 
@@ -61,8 +73,11 @@ setwd("~/Dropbox/PhD/Rprojects/Geonet")
 names(myfiles)=reference$Network[1:183]
 
 ##ADd zeros to Traveset
-myfiles$`Traveset 2013`
-myfiles$`Traveset 2013`[is.na(myfiles$`Traveset 2013`)] <- 0
+myfiles$`Traveset_13`
+myfiles$`Traveset_13`[is.na(myfiles$`Traveset_13`)] <- 0
+
+sum(is.na(myfiles$`Chacoff_011`))
+myfiles$`Traveset_13`[is.na(myfiles$`Traveset_13`)] <- 0
 
 #Melt
 myfiles.melt=melt(myfiles,id.vars=c(1))
@@ -73,14 +88,11 @@ head(myfiles.melt)
 myfiles.melt$value=ifelse(myfiles.melt$value > 0, 1, 0)
 head(myfiles.melt)
 
-####BUG - NAS###
-sum(is.na(myfiles.melt)) ##196
-myfiles.melt=myfiles.melt[complete.cases(myfiles.melt),]
-sum(is.na(myfiles.melt)) ##gone but is this ok???
-
-
 colnames(myfiles.melt)=c("Plant","Pollinator","Int","Network")
-head(myfiles.melt)
+
+####BUG - NAS### GONE
+sum(is.na(myfiles.melt)) ##0
+
 #remove zeros
 myfiles.melt.z=myfiles.melt[!myfiles.melt$Int==0,]
 sum(is.na(myfiles.melt.z))
@@ -114,6 +126,7 @@ geonet=merge(geonet,poll_famord, by = "IGenus",all.y=FALSE)
 geonet <- geonet %>% mutate_if(is.factor,as.character)
 
 carvalheiro=read.csv("~/Dropbox/PhD/Rprojects/Geonet/data/newdata/formatted/special/carvalheiro_2_2008.csv")
+carvalheiro$Pollinator=word(carvalheiro$Pollinator,1,2)
 str(geonet)
 str(carvalheiro)
 geonet=rbind(geonet,carvalheiro)
@@ -159,7 +172,6 @@ library(dplyr)
 
 #cast long format dataframe
 geo.wide <- dcast(geonet, Network + Plant ~ Pollinator, value.var = "Int")
-geo.wide[is.na(geo.wide)] <- 0
 geo.wide[,1]=as.factor(geo.wide[,1])
 
 #create empty list
@@ -194,7 +206,7 @@ for (j in levels(geo.wide[, 1])){
   }
   
   #Begin permutation test (two tailed)
-  reps <- 999 #set number of permutations
+  reps <- 1 #set number of permutations
   
   #Create a list with spaces for each output matrix  
   nulls<-vector("list",reps)  
@@ -205,7 +217,7 @@ for (j in levels(geo.wide[, 1])){
   #call any individual matrix from that list using nulls[[x]], where x is the number of the matrix you want to call
   null.list <- vector("list") 
   for (i in 1:reps) {
-    null.list[[i]] <- as.matrix(vegdist(t(nulls[[i]]), "jaccard", binary=T))#add colMeans if this doesn't work
+    null.list[[i]] <- as.matrix(vegdist(t(nulls[[i]]), "jaccard", diag=FALSE,upper=TRUE,binary=T))#add colMeans if this doesn't work
   }
   
   #convert nans to nas
@@ -237,6 +249,8 @@ colnames(null.net)=c("Poll_sp1","Poll_sp2","mean","sd","Network")
 end.time <- Sys.time()
 time.taken <- end.time - start.time
 time.taken
+
+setdiff(word(null.net$Poll_sp1,1),poll_famord$IGenus)
 #################################
 #END
 #################################
@@ -262,10 +276,9 @@ remove_zero_cols <- function(df) {
 geo.split <- split(geo.wide,geo.wide$Network)
 
 geo.split=lapply(geo.split,function(x)remove_zero_cols(x))
-
+geo.split$carvalheiro
 geo.split.jac=lapply(geo.split,function(x) vegdist(t(x[,3:length(x)]), method="jaccard",upper=T,binary=T))
 geo.split.jac.long=lapply(geo.split.jac,function(x) melt(as.matrix(x)))
-
 geo.split.jac.long=do.call("rbind",geo.split.jac.long)
 
 geo.split.jac.long$Network=left(rownames(geo.split.jac.long),11)
@@ -277,8 +290,10 @@ colnames(geo.split.jac.long)[1:2]=c("Poll_sp1","Poll_sp2")
 str(geo.split.jac.long)
 
 #GENUS 1
+geo.split.jac.long$Poll_sp1=gsub("\\."," ",geo.split.jac.long$Poll_sp1)
 geo.split.jac.long$IGenus=word(gsub("\\."," ",geo.split.jac.long$Poll_sp1),1)
-geo.split.jac.long$IGenus=word(gsub("\\_"," ",geo.split.jac.long$IGenus),1)
+
+#geo.split.jac.long$IGenus=word(gsub("\\_"," ",geo.split.jac.long$IGenus),1)
 
 str(geo.split.jac.long)
 geo.split.jac.long=merge(geo.split.jac.long,poll_famord[,c("IGenus","PolOrder","PolFamily")], by = "IGenus")
@@ -288,7 +303,7 @@ colnames(geo.split.jac.long)=c("PGenus1","Poll_sp1","Poll_sp2",
 
 #GENUS 2
 geo.split.jac.long$IGenus=word(gsub("\\."," ",geo.split.jac.long$Poll_sp2),1)
-geo.split.jac.long$IGenus=word(gsub("\\_"," ",geo.split.jac.long$IGenus),1)
+#geo.split.jac.long$IGenus=word(gsub("\\_"," ",geo.split.jac.long$IGenus),1)
 
 geo.split.jac.long=merge(geo.split.jac.long,poll_famord[,c("IGenus","PolOrder","PolFamily")], by = "IGenus")
 str(geo.split.jac.long)
@@ -296,12 +311,14 @@ str(geo.split.jac.long)
 colnames(geo.split.jac.long)=c("PGenus2","PGenus1","Poll_sp1","Poll_sp2","jac","Network","Order1","Family1","Order2","Family2")
 str(geo.split.jac.long)
 
-geo.split.jac.long=merge(geo.split.jac.long,reference[,c("Latitude","Longitude","clim","Network","Connectance","ele")], by = "Network")
+geo.split.jac.long=merge(geo.split.jac.long,reference[,c("Reference","Latitude","Longitude","clim","Network","Connectance","ele")], by = "Network")
 str(geo.split.jac.long)
 head(geo.split.jac.long)
 
 #MERGE WITH NULL DISTRIBUTION#####
-setdiff(geo.split.jac.long$Poll_sp2,null.net$Poll_sp2)
+setdiff(geo.split.jac.long$Poll_sp1,null.net$Poll_sp1)
+
+geo.split.jac.long[geo.split.jac.long$Poll_sp2%in% "Trachysiphonella sp2",]
 null.geo=merge(geo.split.jac.long,null.net,by=c("Poll_sp1","Poll_sp2","Network"))%>%droplevels()
 
 #compute z scores
