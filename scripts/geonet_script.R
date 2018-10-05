@@ -64,10 +64,12 @@ ele=read.csv("data/processing/elevation.csv")
 reference$ele=ele$ele
 
 # First apply read.csv, then rbind
-setwd("~/Dropbox/PhD/Rprojects/Geonet/data")
+#setwd("~/Dropbox/PhD/Rprojects/Geonet/data")
+setwd("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet/data")
 files = list.files(pattern="*.csv")
 myfiles = lapply(files, function(x) read.csv(x,stringsAsFactors = FALSE, sep=","))
-setwd("~/Dropbox/PhD/Rprojects/Geonet")
+#setwd("~/Dropbox/PhD/Rprojects/Geonet")
+setwd("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet")
 
 #NAme list objects/networks
 names(myfiles)=reference$Network[1:183]
@@ -125,7 +127,8 @@ geonet=merge(geonet,poll_famord, by = "IGenus",all.y=FALSE)
 
 geonet <- geonet %>% mutate_if(is.factor,as.character)
 
-carvalheiro=read.csv("~/Dropbox/PhD/Rprojects/Geonet/data/newdata/formatted/special/carvalheiro_2_2008.csv")
+#carvalheiro=read.csv("~/Dropbox/PhD/Rprojects/Geonet/data/newdata/formatted/special/carvalheiro_2_2008.csv")
+carvalheiro=read.csv("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet/data/newdata/formatted/special/carvalheiro_2_2008.csv")
 carvalheiro$Pollinator=word(carvalheiro$Pollinator,1,2)
 carvalheiro$Plant=word(carvalheiro$Plant,1,2)
 carvalheiro$Pollinator
@@ -186,6 +189,8 @@ geo.wide[,1]=as.factor(geo.wide[,1])
 #create empty list
 null.net <- c()
 null.net <- list(null.net)
+obs.jac.list <- c()
+obs.jac.list <- list(obs.jac.list)
 
 #set max vector size
 Sys.setenv('R_MAX_VSIZE'=32000000000)
@@ -215,7 +220,7 @@ for (j in levels(geo.wide[, 1])){
   }
   
   #Begin permutation test (two tailed)
-  reps <- 1 #set number of permutations
+  reps <- 5 #set number of permutations
   
   #Create a list with spaces for each output matrix  
   nulls<-vector("list",reps)  
@@ -248,11 +253,27 @@ for (j in levels(geo.wide[, 1])){
   #print into list
   null.net[[j]] <- null.mean.sd
   
+  obs.jac <- as.matrix(vegdist(t(web), method="jaccard",upper=F,binary=T))#compute jaccard distance
+  obs.jac <- melt(obs.jac,value.name="jac")#convert to long format
+  obs.jac <- obs.jac[!obs.jac$Var1==obs.jac$Var2,]#remove diagonals
+  obs.jac$network <- network#assign network names
+  obs.jac.list[[j]] <- obs.jac#print into list
+  
 }
 
 #convert list to dataframe
-null.net <- rbind.fill(lapply(null.net, as.data.frame))
-colnames(null.net)=c("Poll_sp1","Poll_sp2","mean","sd","Network")
+null.net.long <- rbind.fill(lapply(null.net, as.data.frame))
+obs.jac.long <- rbind.fill(lapply(obs.jac.list, as.data.frame))
+
+#change column names
+colnames(null.net.long)=c("Poll_sp1","Poll_sp2","mean","sd","Network")
+colnames(obs.jac.long)=c("Poll_sp1","Poll_sp2","value.true","Network")
+
+#Merge null and observational dataframnes
+jac.all <- merge(null.net.long,obs.jac.long, by=c("Poll_sp1","Poll_sp2","Network"))
+
+#compute standardised dissimilarity values
+jac.all$std.jac <- abs(jac.all$value.true - jac.all$mean)/jac.all$sd
 
 ##Check system time
 end.time <- Sys.time()
