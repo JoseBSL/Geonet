@@ -127,10 +127,19 @@ geonet <- geonet %>% mutate_if(is.factor,as.character)
 
 carvalheiro=read.csv("~/Dropbox/PhD/Rprojects/Geonet/data/newdata/formatted/special/carvalheiro_2_2008.csv")
 carvalheiro$Pollinator=word(carvalheiro$Pollinator,1,2)
+carvalheiro$Plant=word(carvalheiro$Plant,1,2)
+carvalheiro$Pollinator
 str(geonet)
 str(carvalheiro)
 geonet=rbind(geonet,carvalheiro)
 head(geonet)
+
+##formatting string problems
+geonet$Plant=str_trim(geonet$Plant, side = c("both"))
+geonet$Pollinator=str_trim(geonet$Pollinator, side = c("both"))
+                                                                              
+
+
 geonet[geonet$PolFamily%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("PolOrder")]="Bee"
 geonet[geonet$PolFamily%in%c("Syrphidae"),c("PolOrder")]="Syrphidae"
 
