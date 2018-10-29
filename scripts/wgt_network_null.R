@@ -1,4 +1,4 @@
-library(tcltk)
+library(tcltk2)
 library(bipartite)
 library(vegan)
 
@@ -36,7 +36,7 @@ for (j in levels(geo.wgt.wide[, 1])){
   #web=as.matrix(decostand(t(web),"freq"))
   
 
-  vaz.net=vaznull(100,web)
+  vaz.net=vaznull(1,web)
   
   vaz.net=lapply(vaz.net, function (x) vegdist(t(x),binary=F,"bray"))
 
@@ -59,7 +59,9 @@ for (j in levels(geo.wgt.wide[, 1])){
   #sd.bray[[i]]=apply(simplify2array(vaz.net[[j]]),1:2,sd)         
 
   obs.bray <- web
-  obs.bray <- as.matrix(obs.bray, method="bray",upper=F,binary=F)#compute bray distance
+  obs.bray <- as.matrix(vegdist(t(obs.bray), method="bray",upper=F,binary=F))#compute jaccard distance
+  colnames(obs.bray) <- web.names
+  rownames(obs.bray) <- web.names
   obs.bray <- melt(obs.bray,value.name="bray")#convert to long format
   obs.bray <- obs.bray[!obs.bray$Var1==obs.bray$Var2,]#remove diagonals
   obs.bray$network <- network #assign network names
