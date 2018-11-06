@@ -36,7 +36,7 @@ for (j in levels(geo.wgt.wide[, 1])){
   #web=as.matrix(decostand(t(web),"freq"))
   
 
-  vaz.net=vaznull(1,web)
+  vaz.net=vaznull(100,web)
   
   vaz.net=lapply(vaz.net, function (x) vegdist(t(x),binary=F,"bray"))
 
@@ -77,16 +77,36 @@ str(vaz.merge)
 
 #convert list to dataframe
 vaz.long <- rbind.fill(lapply(vaz.list, as.data.frame)) #1893282
-obs.bray.long <- rbind.fill(lapply(obs.bray.list, as.data.frame))
+obs.bray.long <- rbind.fill(lapply(obs.bray.list, as.data.frame)) ##1885448
+
+write.csv(vaz.long,"data/processing/vaz_long.csv")
+write.csv(obs.bray.long,"data/processing/obs.bray.long.csv")
+vaz.long=vaz.long[!vaz.long$mean==0,] ##1885448
 
 #change column names
-colnames(vaz.long)=c("Poll_sp1","Poll_sp2","mean","sd","Network")
+colnames(vaz.long)=c("Poll_sp2","Poll_sp1","mean","sd","Network")
 colnames(obs.bray.long)=c("Poll_sp1","Poll_sp2","value.true","Network")
 
+head(vaz.long)
+head(obs.bray.long)
 #Merge null and observational dataframnes
 bray.all <- merge(vaz.long,obs.bray.long, by=c("Poll_sp1","Poll_sp2","Network"))
+sum(is.na(bray.all))
+
+
 
 #compute standardised dissimilarity values
 bray.all$std.bray <- (bray.all$value.true - bray.all$mean)/bray.all$sd
+range(bray.all$std.bray)
 
+is.nan.data.frame <- function(x)
+  do.call(cbind, lapply(x, is.nan))
 
+bray.all[is.nan(bray.all)] <- 0
+range(bray.all$std.bray)
+sum(is.infinite(bray.all$std.bray))
+
+bray.all[is.infinite(bray.all$std.bray),]
+is.infinite()sum(is.na(bray.all))
+
+hist(bray.all$std.bray)

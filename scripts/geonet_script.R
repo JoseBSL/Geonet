@@ -38,7 +38,7 @@ library(taxize)
 library(tidyr)
 library(vegan)
 
-options(stringsAsFactors = TRUE)
+options(stringsAsFactors = FALSE)
 reference=read.csv("data/ref/references_update.csv",header=T)
 colnames(reference)[1]="Network"
 
@@ -64,12 +64,12 @@ ele=read.csv("data/processing/elevation.csv")
 reference$ele=ele$ele
 
 # First apply read.csv, then rbind
-#setwd("~/Dropbox/PhD/Rprojects/Geonet/data")
-setwd("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet/data")
+setwd("~/Dropbox/PhD/Rprojects/Geonet/data")
+#setwd("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet/data")
 files = list.files(pattern="*.csv")
 myfiles = lapply(files, function(x) read.csv(x,stringsAsFactors = FALSE, sep=","))
-#setwd("~/Dropbox/PhD/Rprojects/Geonet")
-setwd("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet")
+setwd("~/Dropbox/PhD/Rprojects/Geonet")
+#setwd("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet")
 
 #NAme list objects/networks
 names(myfiles)=reference$Network[1:183]
@@ -127,8 +127,8 @@ geonet=merge(geonet,poll_famord, by = "IGenus",all.y=FALSE)
 
 geonet <- geonet %>% mutate_if(is.factor,as.character)
 
-#carvalheiro=read.csv("~/Dropbox/PhD/Rprojects/Geonet/data/newdata/formatted/special/carvalheiro_2_2008.csv")
-carvalheiro=read.csv("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet/data/newdata/formatted/special/carvalheiro_2_2008.csv")
+carvalheiro=read.csv("~/Dropbox/PhD/Rprojects/Geonet/data/newdata/formatted/special/carvalheiro_2_2008.csv")
+#carvalheiro=read.csv("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet/data/newdata/formatted/special/carvalheiro_2_2008.csv")
 carvalheiro$Pollinator=word(carvalheiro$Pollinator,1,2)
 carvalheiro$Plant=word(carvalheiro$Plant,1,2)
 carvalheiro$Pollinator
@@ -140,8 +140,6 @@ head(geonet)
 ##formatting string problems
 geonet$Plant=str_trim(geonet$Plant, side = c("both"))
 geonet$Pollinator=str_trim(geonet$Pollinator, side = c("both"))
-                                                                              
-
 
 geonet[geonet$PolFamily%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("PolOrder")]="Bee"
 geonet[geonet$PolFamily%in%c("Syrphidae"),c("PolOrder")]="Syrphidae"
