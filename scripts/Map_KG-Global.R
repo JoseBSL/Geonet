@@ -22,7 +22,6 @@ library(rgdal)
 library(ggplot2)
 library(plyr)
 library(dplyr)
-library(rgdal)
 library(maptools)
 library(tidybayes)
 
@@ -92,6 +91,7 @@ map <- map + theme(axis.line.x = element_line(size=0, colour = "black"),
         strip.text = element_text(size=12))
 map <- map + scale_fill_manual(values=c("#4DAF4A","#E41A1C","#984EA3","#FF7F00","#377EB8"),
                                drop=FALSE,name="Climate zone")
+map
 ggsave("clim_prop_map.pdf",plot=map,width=15,height=5,units="in")
 
 ####################
