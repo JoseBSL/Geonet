@@ -13,27 +13,12 @@ library(glmmTMB)
 library(emmeans)
 
 #cast long format dataframe
-geo.wide <- dcast(geonet, Network + Plant ~ Pollinator, value.var = "Int")
-geo.wide[is.na(geo.wide)] <- 0
-geo.wide[,1]=as.factor(geo.wide[,1])
+geonet$bin <- geonet$Int[geonet$Int > 0] <- 1
+sp.links.melt <- geonet %>%
+  group_by(Network, Pollinator) %>%
+  summarise(value=sum(bin))
+#M_PL_062_00 has very large number of links for all species...456 - seems suspicious 
 
-#gg <- subset(geo.wide, Network %in% c("M_PL_001")) %>% droplevels
-#create empty listy
-sp.links <- c()
-sp.links <- list(sp.links)
-
-#run loop over each site
-for (j in levels(geo.wide[, 1])){
-  web <- subset(geo.wide, Network == j)#iterate over site
-  web <- web[,c(-1,-2)]
-  web = web[,colSums(web) > 0]#remove species with no links at each site
-  sp.links[[j]] <- t(colSums(as.matrix(web > 0) + 0))
-}
-
-#convert list to dataframe and melt
-sp.links.df <- rbind.fill(lapply(sp.links, as.data.frame))
-sp.links.df$Network <- levels(geo.wide$Network)
-sp.links.melt <- melt(sp.links.df, "Network", variable.name = "Pollinator", value.name = "value", na.rm = TRUE)
 #add order and family to dataframe
 geo.uni <- unique(geonet[c("Pollinator", "PolFamily", "PolOrder")])
 sp.links.order <- merge(sp.links.melt,geo.uni, by="Pollinator")
@@ -123,7 +108,6 @@ map <- map + theme(axis.line.x = element_line(size=.5, colour = "black"),
         strip.text = element_text(size=8))
 map <- map + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
 map
-
 
 #################################################
 #END
