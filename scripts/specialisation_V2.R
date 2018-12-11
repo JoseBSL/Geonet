@@ -29,19 +29,21 @@ table(sp.links.order$PolOrder)
 ord <- c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera")
 links.full.sub <- dplyr::filter(sp.links.order, PolOrder %in% ord)
 #add climate data
-clim.dat <- unique(g4[c("Network","Latitude","Longitude","ClimateZ","ele")])
-#clim.dat$ClimateZ[26] = "B"# not working, need to check this
-links.full.sub <- merge(links.full.sub,clim.dat, by="Network")
-links.full.sub$clim <- as.factor(left(links.full.sub$ClimateZ,1))
+#clim.dat <- unique(g4[c("Network","Latitude","Longitude","Reference","clim","ele")])
+#clim.dat$ClimateZ[26] = "B"# not working, need to check thi
+links.full.sub <- merge(links.full.sub,unique(g4[c("Network","Latitude","Longitude","Reference","clim","ele","Size")]), by="Network")
 links.full.sub$PolOrder <- as.factor(links.full.sub$PolOrder) %>% droplevels()
 str(links.full.sub)
 
 #bayes gamma +1
-gammaprior=prior(normal(0,2),class="b")+prior(normal(0,2),class="Intercept")+prior(normal(0,1),class="sd")
+gammaprior=prior(normal(0,2),class="b")+
+  prior(normal(0,2),class="Intercept")+
+  prior(normal(0,1),class="sd")
 
-prior_summary(sp3)
-sp3=brm(value ~ PolOrder*clim + (1|Network),
-        family=Gamma(link="log"),prior=gammaprior,
+is.integer(links.full.sub$value)
+
+sp3=brm(value ~ PolOrder*clim + (1|Reference/Network),
+        family=poisson(link="log"),
         data=links.full.sub,cores=4,inits=0)
 
 pp_check(sp3,nsamples=100,ylim=10)
