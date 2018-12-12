@@ -65,12 +65,12 @@ ele=read.csv("data/processing/elevation.csv")
 reference$ele=ele$ele
 
 # First apply read.csv, then rbind
-setwd("~/Dropbox/PhD/Rprojects/Geonet/data")
-#setwd("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet/data")
+#setwd("~/Dropbox/PhD/Rprojects/Geonet/data")
+setwd("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet/data")
 files = list.files(pattern="*.csv")
 myfiles = lapply(files, function(x) read.csv(x,stringsAsFactors = FALSE, sep=","))
-setwd("~/Dropbox/PhD/Rprojects/Geonet")
-#setwd("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet")
+#setwd("~/Dropbox/PhD/Rprojects/Geonet")
+setwd("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet")
 
 #NAme list objects/networks
 names(myfiles)=reference$Network[1:183]
@@ -410,13 +410,13 @@ rownames(intdist)=intdist[,1]
 
 #compute dissimilarity matrix 
 intdist.matrix=raupcrick(intdist[,4:length(intdist)],null="r1") #Presence-absence
-mj2=metaMDS(intdist.matrix,k=2)
+mj2=metaMDS(intdist.matrix,k=3)
 
 #extract ordination coordinates
 NMDS1 = data.frame(MDS1 = mj2$points[,1], MDS2 = mj2$points[,2],site=unique(intdist$Network), clim=intdist$clim)
 NMDS1$clim=as.factor(NMDS1$clim)
 #unable to create ellipse for B (to few points)... need to add them manually at some stage
-#NMDS1 <- subset(NMDS1, clim %in% c("A","B", "C","D", "E"))%>%droplevels
+NMDS1 <- subset(NMDS1, clim %in% c("A","B", "C","D", "E"))%>%droplevels
 
 #create ellipse function (this is hidden in vegan)
 veganCovEllipse <- function (cov, center = c(0, 0), scale = 1, npoints = 100)
@@ -443,7 +443,8 @@ write.csv(intdist.perm[1], "tables_for_publication/interactions_permanova.csv")
 
 #other tests - not for results
 adonis(intdist.matrix ~ intdist$clim+intdist$ele, permutations = 999)
-adonis(intdist.matrix ~ intdist$clim*scale(intdist$ele), permutations = 999)
+adonis(intdist.matrix ~ intdist$clim*(intdist$ele), permutations = 999)
+adonis(intdist.matrix ~ intdist$clim+scale(intdist$ele), permutations = 999)
 #very small amount explained by elevation
 
 #run beta-dispersion test
@@ -452,7 +453,7 @@ tukey_beta_int <- TukeyHSD(beta_int) ## all good!
 write.csv(tukey_beta_int$group, "tables_for_publication/interactions_betadispersion.csv")
 
 #run pariwise adonis function
-pairwise.adonis <- function(x,factors, sim.function = 'vegdist', sim.method = 'raup', p.adjust.m ='fdr')
+pairwise.adonis <- function(x,factors, sim.function = 'vegdist', sim.method = 'bray', p.adjust.m ='fdr')
 {
   library(vegan)
   co = combn(unique(as.character(factors)),2)
@@ -463,7 +464,7 @@ pairwise.adonis <- function(x,factors, sim.function = 'vegdist', sim.method = 'r
   for(elem in 1:ncol(co)){
     if(sim.function == 'daisy'){
       library(cluster); x1 = daisy(x[factors %in% c(co[1,elem],co[2,elem]),],metric=sim.method)
-    } else{x1 = vegdist(x[factors %in% c(co[1,elem],co[2,elem]),],method=sim.method)}
+    } else{x1 = raupcrick(x[factors %in% c(co[1,elem],co[2,elem]),])}
     ad = adonis(x1 ~ factors[factors %in% c(co[1,elem],co[2,elem])] );
     pairs = c(pairs,paste(co[1,elem],'vs',co[2,elem]));
     F.Model =c(F.Model,ad$aov.tab[1,4]);
@@ -482,8 +483,7 @@ pairwise.adonis <- function(x,factors, sim.function = 'vegdist', sim.method = 'r
 }
 
 #run pairwise function on the matrix
-pw.int.adonis <- pairwise.adonis(intdist[,3:6724],intdist$clim,
-                                 sim.method="raup",p.adjust.m='fdr')
+pw.int.adonis <- pairwise.adonis(intdist[,3:6764],intdist$clim)
 write.csv(pw.int.adonis, "tables_for_publication/pairwise_adonis_interactions.csv")
 
 #plot the plant-pollinator interaction ordination
