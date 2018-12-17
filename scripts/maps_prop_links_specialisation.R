@@ -15,19 +15,20 @@ world <- readOGR(".", "ne_110m_admin_0_countries")
 continents.regular <- fortify(world, region="CONTINENT")
 points.zones$zone <- as.factor(points.zones$zone)
 str(continents.regular)
-group.colors <- c(A = "#1b9e77", B = "#d95f02", C ="#66a61e", D = "#e7298a", E = "#7570b3")
+levels(points.zones$zone2)[levels(points.zones$zone2)=="Cold_continental"] <- "Continental"
+group.colors <- c(Tropical = "#1b9e77", Arid = "#d95f02", Temperate ="#66a61e", Continental = "#e7298a", Polar = "#7570b3")
 map <- ggplot()
 map <- map + xlab(NULL) + ylab(NULL)
-map <- map + geom_map(data=continents.regular,map=continents.regular, aes(map_id=id), colour="white", fill="white", size=0.001) + 
+map <- map + geom_map(data=continents.regular,map=continents.regular, aes(map_id=id), colour="white", fill="white", size=0.0001) + 
              expand_limits(x=continents.regular$long, y=continents.regular$lat) + 
              coord_equal()
 map <- map + geom_raster(data=points.zones, 
-                         aes(y=y, x=x, fill=zone), 
-                         alpha=0.7)
+                         aes(y=y, x=x, fill=zone2), 
+                         alpha=1)
 map <- map + scale_fill_manual(values = group.colors)
 map <- map + geom_point(data=g.sub,
                         aes(x=Longitude, y=Latitude), pch=1, size=0.6+(g.sub$prop_links*8))
-map <- map + ylim(-55, 83.70833)
+map <- map + ylim(-54, 82)
 map <- map + facet_wrap(~PolOrder,ncol = 3)
 map <- map + theme(axis.line.x = element_blank(),
                    axis.line.y = element_blank(),
@@ -44,8 +45,8 @@ map <- map + theme(axis.line.x = element_blank(),
   theme(strip.background = element_rect(colour="NA", fill=NA),
         strip.text = element_text(size=12))
 map <- map + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
-map <- map + theme(legend.position="none",panel.border = element_rect(color = "black", fill = NA, size = 0.4))
-ggsave("graphs/links_map_V3.pdf",plot=map,width=15,height=5,units="in")
+map <- map + theme(panel.border = element_rect(color = "black", fill = NA, size = 0.4))
+ggsave("graphs/links_map_V4.pdf",plot=map,width=15,height=5,units="in")
 
 
 
