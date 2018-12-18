@@ -59,7 +59,8 @@ points.zones <- merge(raster.points,clim.zones, by="layer")
 z <- c("A","B","C","D","E")
 points.zones <- dplyr::filter(points.zones, zone %in% z) %>% droplevels()
 points.zones$zone2 <- factor(points.zones$zone2, 
-                levels = c("Tropical", "Arid", "Temperate", "Cold continental", "Polar"))
+                levels = c("Tropical", "Arid", "Temperate", "Continental", "Polar"))
+colnames(points.zones)[6] <- "Climate_zone"
 #plot the map
 map <- ggplot()
 map <- map + geom_map(data=continents.regular,map=continents.regular, aes(map_id=id), 
