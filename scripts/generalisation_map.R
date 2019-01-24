@@ -82,4 +82,5 @@ map <- map + theme(axis.line.x = element_blank(),
         strip.text = element_text(size=12))
 map <- map + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
 map <- map + theme(panel.border = element_rect(color = "black", fill = NA, size = 0.4))
+map <- map + ggtitle("B) Pollinator generalism")
 ggsave("graphs/generalism_V1.pdf",plot=map,width=15,height=5,units="in")
