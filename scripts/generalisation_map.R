@@ -36,7 +36,7 @@ clim.zones$zone <- left(clim.zones$climate,1)
 clim.zones$zone2[clim.zones$zone %in% c("A")] <- "Tropical"
 clim.zones$zone2[clim.zones$zone %in% c("B")] <- "Arid"
 clim.zones$zone2[clim.zones$zone %in% c("C")] <- "Temperate"
-clim.zones$zone2[clim.zones$zone %in% c("D")] <- "Continental" ##Can we just call this continental? or Cold-Temperate
+clim.zones$zone2[clim.zones$zone %in% c("D")] <- "Continental"
 clim.zones$zone2[clim.zones$zone %in% c("E")] <- "Polar"
 
 #merge raster and climate zone dfs
@@ -63,7 +63,7 @@ map <- map + geom_raster(data=points.zones,
                          alpha=1)
 map <- map + scale_fill_manual(values = group.colors)
 map <- map + geom_point(data=gen_predict,
-                        aes(x=Longitude, y=Latitude), pch=1, size=0.6+(gen_predict$Estimate*1))
+                        aes(x=Longitude, y=Latitude), pch=1, size=0.5+(gen_predict$Estimate*1))
 map <- map + ylim(-54, 83)
 map <- map + facet_wrap(~PolOrder,ncol = 3)
 map <- map + theme(axis.line.x = element_blank(),
@@ -82,4 +82,6 @@ map <- map + theme(axis.line.x = element_blank(),
         strip.text = element_text(size=12))
 map <- map + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
 map <- map + theme(panel.border = element_rect(color = "black", fill = NA, size = 0.4))
+map2 <- map + ggtitle("B) Species generalism")
+
 ggsave("graphs/generalism_V1.pdf",plot=map,width=15,height=5,units="in")

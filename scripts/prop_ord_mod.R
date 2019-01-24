@@ -20,7 +20,9 @@ prop_ordint_prior <- prior(normal(0,5), class = Intercept) +
   prior(normal(0,0.4), class = sd)
 
 prop_ord_mod=brm(prop_links~1+(1|Reference/Network),
-                 family=Beta(link = "logit"),inits=0,iter=2000,prior=prop_ordint_prior,
+                 family=Beta(link = "logit"),inits=0,iter=2000,
+                 prior=prop_ordint_prior,
+                 control=list(max_treedepth=15),
                  data=g.sub,cores=4)
 
 ##ord prior
@@ -30,8 +32,9 @@ prop_ord_prior <- prior(normal(0,5), class = Intercept) +
   prior(normal(0,0.4), class = sd)
 
 prop_ord_mod1=brm(prop_links~PolOrder*clim+(1|Reference/Network),
-                  family=Beta(link = "logit"),inits=0,iter=2000,prior=prop_ord_prior,
-                  control=list(adapt_delta=0.9),
+                  family=Beta(link = "logit"),inits=0,iter=2000,
+                  prior=prop_ord_prior,
+                  control=list(adapt_delta=0.99),
                   data=g.sub,cores=4)
 
 #marginal_effects(prop_ord_mod1,method=c("fitted"))
@@ -42,7 +45,8 @@ np_prop_ord_mod1 <- nuts_params(prop_ord_mod1)
 mcmc_nuts_energy(np_prop_ord_mod1,binwidth=1)
 
 prop_ord_mod2=brm(prop_links~clim+(1|Reference/Network),
-                  family=Beta(link = "logit"),inits=0,iter=2000,prior=prop_ord_prior,
+                  family=Beta(link = "logit"),inits=0,iter=2000,
+                  prior=prop_ord_prior,
                   control=list(adapt_delta=0.9),
                   data=g.sub,cores=4)
 
@@ -52,7 +56,8 @@ np_prop_ord_mod2 <- nuts_params(prop_ord_mod2)
 mcmc_nuts_energy(np_prop_ord_mod2,binwidth=1)
 
 prop_ord_mod3=brm(prop_links~PolOrder+(1|Reference/Network),
-                  family=Beta(link = "logit"),inits=0,iter=2000,prior=prop_ord_prior,
+                  family=Beta(link = "logit"),inits=0,iter=2000,
+                  prior=prop_ord_prior,
                   control=list(adapt_delta=0.9),
                   data=g.sub,cores=4)
 
@@ -63,7 +68,8 @@ mcmc_nuts_energy(np_prop_ord_mod3,binwidth=1)
 
 
 prop_ord_mod4=brm(prop_links~PolOrder+clim+(1|Reference/Network),
-                  family=Beta(link = "logit"),inits=0,iter=2000,prior=prop_ord_prior,
+                  family=Beta(link = "logit"),inits=0,iter=2000,
+                  prior=prop_ord_prior,
                   control=list(adapt_delta=0.9),
                   data=g.sub,cores=4)
 
@@ -73,13 +79,15 @@ np_prop_ord_mod4 <- nuts_params(prop_ord_mod4)
 mcmc_nuts_energy(np_prop_ord_mod4,binwidth=1)
 
 prop_ord_mod5=brm(prop_links~PolOrder*abs_lat+(1|Reference/Network),
-                  family=Beta(link = "logit"),inits=0,iter=2000,prior=prop_ord_prior,
+                  family=Beta(link = "logit"),inits=0,iter=2000,
+                  prior=prop_ord_prior,
                   control=list(adapt_delta=0.9),
                   data=g.sub,cores=4)
 
 
 prop_ord_mod6=brm(prop_links~PolOrder+abs_lat+(1|Reference/Network),
-                  family=Beta(link = "logit"),inits=0,iter=2000,prior=prop_ord_prior,
+                  family=Beta(link = "logit"),inits=0,iter=2000,
+                  prior=prop_ord_prior,
                   control=list(adapt_delta=0.9),
                   data=g.sub,cores=4)
 
@@ -100,7 +108,7 @@ compare_ic(prop_ord_mod,prop_ord_mod1,prop_ord_mod2,prop_ord_mod3,
 compare_ic(prop_ord_mod,prop_ord_mod1,prop_ord_mod2,prop_ord_mod3,
            prop_ord_mod4,prop_ord_mod5,prop_ord_mod6,ic=c("loo"))
 
-
+compare_ic(prop_ord_mod1,prop_ord_mod5,ic=c("waic"))
 ###WEIGHTINGS
 model_weights(prop_ord_mod,prop_ord_mod1,prop_ord_mod2,prop_ord_mod3,
               prop_ord_mod4,prop_ord_mod5,prop_ord_mod6,weights=c("waic"))
@@ -148,31 +156,37 @@ prop_ord_hdi<-prop_ord_emm %>%
 write.csv(prop_ord_hdi,"data/outputs/prop_ord_hdi.csv")
 write.csv(prop_ord_cld,"data/outputs/prop_ord_cld.csv")
 
-#############
-####PLOT####
-###########
-library(tidybayes)
-
-prop.plot1=g.sub%>% droplevels() %>%
-  add_fitted_draws(prop_ord_mod1,n=100)%>%
-  ggplot(aes(x=value,y=PolOrder))+
-  stat_intervalh(aes(x=.value*100))+
-  stat_pointintervalh(aes(x = .value*100), .width = c(.0),pch=15,col="red")+
-  facet_grid(~clim, scale = "free_y")+
-  coord_flip()+
-  scale_color_brewer()+
-  theme_bw()+
-  theme(axis.text.x = element_text(angle=90))+
-  xlab("Network links (%)")+
-  ylab("Order")
-prop.plot1
 
 ######################
 #####PLOT TYPE 2#####
 ####################
+group.colors.ord <- c("#1b9e77","#d95f02","#66a61e", "#e7298a", "#7570b3")
 
 plt_ord <- plot(marginal_effects(prop_ord_mod1))
 
-plt_ord[[3]]+theme_bw()+theme(axis.text.x = element_text(angle=90))+
-  xlab("Order")+
-  ylab("Prop. of links")
+prop_plot=plt_ord[[3]]+theme_bw()+theme()+
+  xlab("Taxa")+
+  ylab("Prop. of links")+
+  ggtitle("A) Network links")+
+  scale_color_manual(values=group.colors.ord)
+
+plt_ord2 <- plot(marginal_effects(prop_ord_mod5))
+
+prop_plot2=plt_ord2[[3]]+theme_bw()+theme()+
+  facet_wrap(~PolOrder)+
+  xlab("Latitude")+
+  ylab("Prop. of links")+
+  ggtitle("A) Proportion of network links")+
+  scale_fill_brewer(palette="Dark2")+
+  scale_color_brewer(palette="Dark2")+
+  theme(legend.position="none")
+
+prop_plot2
+
+##save models
+
+save(prop_ord_mod,file="prop_ord_mod.RData",compress="xz")
+save(prop_ord_mod1,file="prop_ord_mod1.RData",compress="xz")
+
+
+waic(prop_ord_mod,prop_ord_mod1)

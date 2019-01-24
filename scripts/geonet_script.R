@@ -1,15 +1,5 @@
 ##THIS IS JUST THE MARKDOWN COPIED TO A SIMPLE R SCRIPT BECAUSE IT WAS ANNOYING ME
 
-##DEPENDING ON YOUR COMPUTER YOU MIGHT GET A WEIRD ERROR WHEN MYFILES IS MELTED I.E. A COLUMN OF NAS
-##I DONT THINK IT DOES ANYTHING STRANGE TO THE OTHER COLUMNS SO JUST REMOVE IT IF ITS AN ISSUE
-##LINE 78
-
-##GOOD LUCK WITH THE NULL MODEL - REPS IS SET AT 1 FOR DEBUGGING - TAKES ~20 MINS TO RUN WITH 1 REP
-
-##NULL MODEL IS line 168
-
-##haven't run the specialisation null yet
-
 ---
   title: "Geonet"
 author: "Liam Kendall"
@@ -65,12 +55,12 @@ ele=read.csv("data/processing/elevation.csv")
 reference$ele=ele$ele
 
 # First apply read.csv, then rbind
-#setwd("~/Dropbox/PhD/Rprojects/Geonet/data")
-setwd("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet/data")
+setwd("~/Dropbox/PhD/Rprojects/Geonet/data")
+#setwd("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet/data")
 files = list.files(pattern="*.csv")
 myfiles = lapply(files, function(x) read.csv(x,stringsAsFactors = FALSE, sep=","))
-#setwd("~/Dropbox/PhD/Rprojects/Geonet")
-setwd("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet")
+setwd("~/Dropbox/PhD/Rprojects/Geonet")
+#setwd("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet")
 
 #NAme list objects/networks
 names(myfiles)=reference$Network[1:183]
@@ -110,6 +100,8 @@ myfiles.melt.z$IGenus=word(myfiles.melt.z$Pollinator,1)
 plant_famord=read.csv("data/processing/plant_famord.csv")
 poll_famord=read.csv("data/processing/poll_famord_5.csv")
 
+sum(duplicated(poll_famord$IGenus)==TRUE)
+poll_famord=poll_famord[!duplicated(poll_famord$IGenus)==TRUE,]
 #check all accounted for
 setdiff(myfiles.melt.z$PGenus,plant_famord$PGenus)
 setdiff(myfiles.melt.z$IGenus,poll_famord$IGenus)
@@ -118,22 +110,22 @@ colnames(plant_famord)=c("PFamily","PGenus","POrder")
 
 colnames(poll_famord)=c("IGenus","PolFamily","PolOrder")
 
+plant_famord=plant_famord[plant_famord$PGenus%in%intersect(plant_famord$PGenus,myfiles.melt.z$PGenus),]
+poll_famord=poll_famord[poll_famord$IGenus%in%intersect(poll_famord$IGenus,myfiles.melt.z$IGenus),]
 
 ##GEONET DATAFRAME
 geonet=merge(myfiles.melt.z,plant_famord, by = "PGenus",all.y=FALSE) 
 geonet=merge(geonet,poll_famord, by = "IGenus",all.y=FALSE)
 
+setdiff(geonet$IGenus,myfiles.melt.z$IGenus)
+
 geonet <- geonet %>% mutate_if(is.factor,as.character)
 
 #carvalheiro=read.csv("~/Dropbox/PhD/Rprojects/Geonet/data/newdata/formatted/special/carvalheiro_2_2008.csv")
-carvalheiro=read.csv("~/Library/Mobile Documents/com~apple~CloudDocs/H_drive_DT/Geonet/data/newdata/formatted/special/carvalheiro_2_2008.csv")
+carvalheiro=read.csv("~/Dropbox/PhD/Rprojects/Geonet/data/newdata/formatted/special/carvalheiro_2_2008.csv")
 carvalheiro$Pollinator=word(carvalheiro$Pollinator,1,2)
 carvalheiro$Plant=word(carvalheiro$Plant,1,2)
-carvalheiro$Pollinator
-str(geonet)
-str(carvalheiro)
 geonet=rbind(geonet,carvalheiro)
-head(geonet)
 
 ##formatting string problems
 geonet$Plant=str_trim(geonet$Plant, side = c("both"))
@@ -163,232 +155,6 @@ str(g.sub)
 
 ```
 
-
-```{r}
-#################################################
-#commpute jaccard parwise dissimilarity for null networks
-#################################################
-
-library(reshape2)
-library(vegan)
-library(plyr)
-library(dplyr)
-
-#################################
-#start here
-#################################
-
-#cast long format dataframe
-geo.wide <- dcast(geonet, Network + Plant ~ Pollinator, value.var = "Int")
-geo.wide[,1]=as.factor(geo.wide[,1])
-
-#create empty list
-null.net <- c()
-null.net <- list(null.net)
-obs.jac.list <- c()
-obs.jac.list <- list(obs.jac.list)
-
-#set max vector size
-Sys.setenv('R_MAX_VSIZE'=32000000000)
-start.time <- Sys.time()
-#run loop over each site
-for (j in levels(geo.wide[, 1])){
-  web <- subset(geo.wide, Network == j)#iterate over site
-  network <- as.vector(web$Network[1])
-  web <- web[,c(-1,-2)]
-  web = web[,colSums(web) > 0]#remove species with no links at each site
-  web.names <- c(colnames(web))
-  
-  #Null model II from Bascompte et al. (2003). Creates random networks by probabilistically fixing row and column marginal totals. The expected number of links is same as observed number. Rodriguez-Girona and Santamaria (2006) showed that this null model has the best compromise between Type I and Type II errors
-  #Run this code once to create the null model function
-  null.model.II <- function(web){
-    web <- as.matrix(web > 0) + 0
-    # calculate the probability based on row marginals. Creates matrix same size as web, with row sums divided by number of columns (to get probability of a 1 in each cell of each row), repeated across all columns for each row.
-    row.probs <- matrix(rowSums(web)/ncol(web),nrow(web),ncol(web))
-    # calculate the probability based on column marginals (again, repeated for whole column). Transpose used instead of byrow=T
-    col.probs <- t(matrix(colSums(web)/nrow(web),ncol(web),nrow(web)))
-    # calculate the element by element mean of this probabilities
-    mat.probs <- (row.probs + col.probs) / 2.0
-    # generate a random matrix with 1s proportional to the above probabilities. rbinom(n, size, prob) n is number of observations, size is number of trials, prob is prob of success in each trial
-    mat.null <- matrix(rbinom(nrow(web)*ncol(web),1,as.vector(mat.probs)),nrow(web),ncol(web))  
-    # return that matrix in all its glory
-    return(mat.null)
-  }
-  
-  #Begin permutation test (two tailed)
-  reps <- 5 #set number of permutations
-  
-  #Create a list with spaces for each output matrix  
-  nulls<-vector("list",reps)  
-  for (i in 1:reps) {
-    nulls[[i]]<-null.model.II(web)
-  }
-  
-  #call any individual matrix from that list using nulls[[x]], where x is the number of the matrix you want to call
-  null.list <- vector("list") 
-  for (i in 1:reps) {
-    null.list[[i]] <- as.matrix(vegdist(t(nulls[[i]]), "jaccard", diag=FALSE,upper=TRUE,binary=T))#add colMeans if this doesn't work
-  }
-  
-  #convert nans to nas
-  null.list <- rapply(null.list, f=function(x) ifelse(is.nan(x),NA,x), how="replace" )
-  
-  #compute means and standard deviation for each species pair 
-  null.mean <- apply(simplify2array(lapply(null.list, as.matrix)),1:2, mean, na.rm = TRUE)
-  colnames(null.mean) <- web.names
-  rownames(null.mean) <- web.names
-  null.mean <- melt(null.mean, value.name="mean")
-  null.sd <- apply(simplify2array(lapply(null.list, as.matrix)),1:2, sd, na.rm = TRUE)
-  colnames(null.sd) <- web.names
-  rownames(null.sd) <- web.names
-  null.sd <- melt(null.sd,value.name="sd")
-  null.mean.sd <- merge(null.mean,null.sd, by=c("Var1","Var2"))
-  null.mean.sd <- null.mean.sd[!null.mean.sd$Var1==null.mean.sd$Var2,]
-  null.mean.sd$network <- network
-  
-  #print into list
-  null.net[[j]] <- null.mean.sd
-  
-  obs.jac <- as.matrix(vegdist(t(web), method="jaccard",upper=F,binary=T))#compute jaccard distance
-  obs.jac <- melt(obs.jac,value.name="jac")#convert to long format
-  obs.jac <- obs.jac[!obs.jac$Var1==obs.jac$Var2,]#remove diagonals
-  obs.jac$network <- network#assign network names
-  obs.jac.list[[j]] <- obs.jac#print into list
-  
-}
-
-#convert list to dataframe
-null.net.long <- rbind.fill(lapply(null.net, as.data.frame))
-obs.jac.long <- rbind.fill(lapply(obs.jac.list, as.data.frame))
-
-#change column names
-colnames(null.net.long)=c("Poll_sp1","Poll_sp2","mean","sd","Network")
-colnames(obs.jac.long)=c("Poll_sp1","Poll_sp2","value.true","Network")
-
-#Merge null and observational dataframnes
-jac.all <- merge(null.net.long,obs.jac.long, by=c("Poll_sp1","Poll_sp2","Network"))
-
-#compute standardised dissimilarity values
-jac.all$std.jac <- abs(jac.all$value.true - jac.all$mean)/jac.all$sd
-
-##Check system time
-end.time <- Sys.time()
-time.taken <- end.time - start.time
-time.taken
-
-setdiff(word(null.net$Poll_sp1,1),poll_famord$IGenus)
-
-#################################
-#END
-#################################
-```
-
-
-```{r jaccard}
-remove_zero_cols <- function(df) {
-  rem_vec <- NULL
-  for(i in 1:ncol(df)){
-    this_sum <- summary(df[,i])
-    zero_test <- length(which(this_sum == 0))
-    if(zero_test == 6) {
-      rem_vec[i] <- names(df)[i]
-    }
-  }
-  features_to_remove <- rem_vec[!is.na(rem_vec)]
-  rem_ind <- which(names(df) %in% features_to_remove)
-  df <- df[,-rem_ind]
-  return(df)
-}
-
-geo.split <- split(geo.wide,geo.wide$Network)
-
-geo.split=lapply(geo.split,function(x)remove_zero_cols(x))
-geo.split$carvalheiro
-geo.split.jac=lapply(geo.split,function(x) vegdist(t(x[,3:length(x)]), method="jaccard",upper=T,binary=T))
-geo.split.jac.long=lapply(geo.split.jac,function(x) melt(as.matrix(x)))
-geo.split.jac.long=do.call("rbind",geo.split.jac.long)
-
-geo.split.jac.long$Network=left(rownames(geo.split.jac.long),11)
-geo.split.jac.long$Network=as.factor(geo.split.jac.long$Network)
-
-head(geo.split.jac.long)
-colnames(geo.split.jac.long)[1:2]=c("Poll_sp1","Poll_sp2")
-
-str(geo.split.jac.long)
-
-#GENUS 1
-geo.split.jac.long$Poll_sp1=gsub("\\."," ",geo.split.jac.long$Poll_sp1)
-geo.split.jac.long$IGenus=word(gsub("\\."," ",geo.split.jac.long$Poll_sp1),1)
-
-#geo.split.jac.long$IGenus=word(gsub("\\_"," ",geo.split.jac.long$IGenus),1)
-
-str(geo.split.jac.long)
-geo.split.jac.long=merge(geo.split.jac.long,poll_famord[,c("IGenus","PolOrder","PolFamily")], by = "IGenus")
-
-colnames(geo.split.jac.long)=c("PGenus1","Poll_sp1","Poll_sp2",
-                               "jac","Network","Order1","Family1")
-
-#GENUS 2
-geo.split.jac.long$IGenus=word(gsub("\\."," ",geo.split.jac.long$Poll_sp2),1)
-#geo.split.jac.long$IGenus=word(gsub("\\_"," ",geo.split.jac.long$IGenus),1)
-
-geo.split.jac.long=merge(geo.split.jac.long,poll_famord[,c("IGenus","PolOrder","PolFamily")], by = "IGenus")
-str(geo.split.jac.long)
-
-colnames(geo.split.jac.long)=c("PGenus2","PGenus1","Poll_sp1","Poll_sp2","jac","Network","Order1","Family1","Order2","Family2")
-str(geo.split.jac.long)
-
-geo.split.jac.long=merge(geo.split.jac.long,reference[,c("Reference","Latitude","Longitude","clim","Network","Connectance","ele")], by = "Network")
-str(geo.split.jac.long)
-head(geo.split.jac.long)
-
-#MERGE WITH NULL DISTRIBUTION#####
-setdiff(geo.split.jac.long$Poll_sp1,null.net$Poll_sp1)
-
-geo.split.jac.long[geo.split.jac.long$Poll_sp2%in% "Trachysiphonella sp2",]
-null.geo=merge(geo.split.jac.long,null.net,by=c("Poll_sp1","Poll_sp2","Network"))%>%droplevels()
-
-#compute z scores
-null.geo$z <- (null.geo$jac - null.geo$mean)/null.geo$sd#print results into list
-head(null.geo)
-#########SUBSET########
-null.geo <- null.geo %>% mutate_if(is.factor,as.character)
-null.geo[null.geo$Family1%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order1")]="Bee"
-null.geo[null.geo$Family1%in%c("Syrphidae"),c("Order1")]="Syrphidae"
-
-null.geo[null.geo$Family2%in%c("Stenotritidae","Apidae","Andrenidae","Colletidae","Megachilidae","Melittidae","Halictidae"),c("Order2")]="Bee"
-null.geo[null.geo$Family2%in%c("Syrphidae"),c("Order2")]="Syrphidae"
-
-null.geo.sub1=subset(null.geo, Order1 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
-null.geo.sub1=subset(null.geo.sub1, Order2 %in% c("Hymenoptera", "Bee","Diptera", "Lepidoptera","Syrphidae","Coleoptera"))
-null.geo.sub1 <- null.geo.sub1 %>% mutate_if(is.character,as.factor)
-
-null.geo.sub1$jac.fam=as.factor(paste(null.geo.sub1$Family1,null.geo.sub1$Family2,sep="_"))
-null.geo.sub1$jac.ord=as.factor(paste(null.geo.sub1$Order1,null.geo.sub1$Order2,sep="_"))
-
-null.geo.sub1$z
-
-write.csv(null.geo.sub1,"data/null_niche.csv")
-
-```
-
-#```{r jaccard z score model}
-#str(nullg)
-#hist(nullg$z)
-#range(nullg$z)
-#null.mod1=lm(z~clim*jac.ord,nullg)
-#summary(null.mod1)
-#plot(null.mod1)
-#lsmeans::lsmeans(null.mod1, pairwise ~ clim|jac.ord)
-#require(lme4)
-
-#lme.null=brm(z~clim*jac.ord+(scale(ele)|Network),nullg,cores=4)
-
-#sjPlot::plot_model(null.mod1)
-
-#ggplot(null.geo.sub1,aes(y=jac.ord,x=clim,col=clim))+facet_grid(~jac.ord)+geom_point()
-
-#```
 
 
 ```{r dissimilarity}
