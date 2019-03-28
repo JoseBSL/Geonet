@@ -16,7 +16,7 @@ library(ggplot2)
 
 sp.links.melt.5$clim <- as.factor(sp.links.melt.5$clim)
 sp.links.melt.5$PolOrder <- as.factor(sp.links.melt.5$PolOrder)
-
+sp.links.melt.5$Latitude <- abs(sp.links.melt.5$Latitude)
 
 options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
@@ -81,15 +81,6 @@ spec_ord_mod_6=brm(value-1 ~ 1 +
                    cores=4,
                    data=sp.links.melt.5)
 
-spec_ord_mod_7=brm(value-1 ~ PolOrder * clim +
-                     (1|Reference/Network),
-                   family=zero_inflated_negbinomial(link="log"),
-                   prior=spec_ord_prior,
-                   control=list(adapt_delta=0.9,max_treedepth=15),
-                   cores=4,
-                   data=sp.links.melt.5)
-
-sum(is.na(sp.links.melt.5$int_tot)==TRUE)
 #8:46
 
 spec_ord_mod_1=add_ic(spec_ord_mod_1,ic=c("waic"))
@@ -102,7 +93,10 @@ spec_ord_mod_6=add_ic(spec_ord_mod_6,ic=c("waic"))
 compare_ic(spec_ord_mod_1,spec_ord_mod_2,spec_ord_mod_4,
            spec_ord_mod_5,spec_ord_mod_6,ic=c("waic"))
 
-compare_ic(spec_ord_mod_2,spec_ord_mod_5,ic=c("waic"))
+compare_ic(spec_ord_mod_2,spec_ord_mod_5,
+           spec_ord_mod_6,ic=c("waic"))
+
+bayes_R2(spec_ord_mod_2)
 
 pp_check(spec_ord_mod_2,type="violin_grouped",group=c("clim"))
 pp_check(spec_ord_mod_2,type="violin_grouped",group=c("PolOrder"))
@@ -178,3 +172,42 @@ spec_predict=predict(spec_ord_mod_2,graph_spec_df,conditions = data.frame(int_to
 spec_graph_df=cbind(graph_spec_df,spec_predict)
 
 write.csv(spec_graph_df,"data/outputs/spec_graph.csv")
+
+specy=spec_ord_plots[[3]]$data
+
+specy$clim=revalue(specy$clim,
+                    c("A"="Tropical", 
+                      "B"="Arid",
+                      "C" = "Temperate",
+                      "D" = "Continental",
+                      "E" = "Polar"))
+
+specy$PolOrder=revalue(specy$PolOrder,
+                        c("Diptera" = "Non-syrphid Diptera",
+                          "Hymenoptera" = "Non-bee Hymenoptera"))
+
+
+group.colors.ord <- c("#1b9e77","#d95f02","#66a61e", "#e7298a", "#7570b3","#e6ab02")
+pd <- position_dodge(width=0.4)
+specy_plot=ggplot(specy,aes(x=clim,y=estimate__,col=PolOrder))+
+  geom_point(position = pd,size=2)+
+  geom_errorbar(aes(ymin=lower__,ymax=upper__),position = pd,width=0.4)+
+  scale_color_manual(values=group.colors.ord)+
+  ggtitle("B) Pollinator generalism")+
+  xlab("Climate zone")+
+  ylab("No. of plant partners")+
+  theme_bw()+
+  theme(legend.position="none")
+
+specy_plot
+#Plot together
+library(cowplot)
+library(gridExtra)
+library(grid)
+Fig1=align_plots(proppy_plot,specy_plot,align="hv", axis="tblr")
+Fig1A <- ggdraw(Fig1[[1]])
+Fig1B <- ggdraw(Fig1[[2]])
+Fig.one=grid.arrange(Fig1A,Fig1B,ncol=1,nrow=2) #7 x 14 inches
+Fig.one
+ggsave(Fig.one,file="graphs/Figure1.pdf",width = 8.5, height = 6,
+       units = c("in"))

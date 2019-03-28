@@ -160,9 +160,39 @@ write.csv(prop_ord_cld,"data/outputs/prop_ord_cld.csv")
 ######################
 #####PLOT TYPE 2#####
 ####################
-group.colors.ord <- c("#1b9e77","#d95f02","#66a61e", "#e7298a", "#7570b3")
-
+group.colors.ord <- c("#1b9e77","#d95f02","#66a61e", "#e7298a", "#7570b3","#e6ab02")
+#1b9e77
+#d95f02
+#66a61e
+#e7298a
+#7570b3
+#e6ab02
 plt_ord <- plot(marginal_effects(prop_ord_mod1))
+
+proppy=plt_ord[[3]]$data
+
+proppy$clim=revalue(proppy$clim,
+                           c("A"="Tropical", 
+                             "B"="Arid",
+                             "C" = "Temperate",
+                             "D" = "Continental",
+                             "E" = "Polar"))
+
+proppy$PolOrder=revalue(proppy$PolOrder,
+                    c("Diptera" = "Non-syrphid Diptera",
+                      "Hymenoptera" = "Non-bee Hymenoptera"))
+
+pd <- position_dodge(width=0.4)
+proppy_plot=ggplot(proppy,aes(x=clim,y=estimate__,col=PolOrder))+
+  geom_point(position = pd,size=2)+
+  geom_errorbar(aes(ymin=lower__,ymax=upper__),position = pd,width=0.4)+
+  scale_color_manual(values=group.colors.ord)+
+  xlab(NULL)+
+  ylab("Prop. of links")+
+  labs(color='Pollinator taxa')+
+  theme_bw()
+
+proppy_plot
 
 prop_plot=plt_ord[[3]]+theme_bw()+theme()+
   xlab("Taxa")+

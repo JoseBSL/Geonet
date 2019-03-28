@@ -43,8 +43,11 @@ clim.zones$zone2[clim.zones$zone %in% c("E")] <- "Polar"
 points.zones <- merge(raster.points,clim.zones, by="layer")
 z <- c("A","B","C","D","E")
 points.zones <- dplyr::filter(points.zones, zone %in% z) %>% droplevels()
-points.zones$zone2 <- factor(points.zones$zone2, 
-                             levels = c("Tropical", "Arid", "Temperate", "Continental", "Polar"))
+points.zones$zone2 <- revalue(points.zones$zone,  c("A" = "Tropical", 
+                                                    "B" = "Arid",
+                                                    "C" = "Temperate",
+                                                    "D" = "Continental",
+                                                    "E" ="Polar"))
 colnames(points.zones)[6] <- "Climate_zone"
 
 # Load and fortify regular data
@@ -82,6 +85,5 @@ map <- map + theme(axis.line.x = element_blank(),
         strip.text = element_text(size=12))
 map <- map + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
 map <- map + theme(panel.border = element_rect(color = "black", fill = NA, size = 0.4))
-map2 <- map + ggtitle("B) Species generalism")
-
+map2 <- map + ggtitle("B) Pollinator generalism")
 ggsave("graphs/generalism_V1.pdf",plot=map,width=15,height=5,units="in")
