@@ -228,6 +228,24 @@ rbind.prop.plot$PolOrder <-  factor(rbind.prop.plot$PolOrder,levels=c("A","B","C
 rbind.prop.plot <- droplevels(rbind.prop.plot)
 rbind.prop.plot$prop_links <- as.numeric(rbind.prop.plot$prop_links)
 
+#COLOURS AND BREAKS
+plot_cols=c("A"="#a6cee3",
+            "B"="#b2df8a",
+            "C"="#fb9a99",
+            "D"="#fdbf6f",
+            "E"="#cab2d6",
+            "F"="#e5c494",
+            "Bee"="#1f78b4",
+            "Coleoptera"="#33a02c",
+            "Lepidoptera"="#e31a1c",
+            "Non-bee Hymenoptera"="#ff7f00",
+            "Non-syrphid Diptera"="#6a3d9a",
+            "Syrphidae"="#b15928")
+
+list_spp=c("Bee","Coleoptera","Lepidoptera","Non-bee Hymenoptera","Non-syrphid Diptera","Syrphidae")
+
+
+##PLOT
 prop.gg=ggplot(rbind.prop.plot,aes(x=`Pollinator taxa`,y=estimate__,col=`Pollinator taxa`))+
   geom_point(aes(y=prop_links,col=PolOrder),show.legend = F,size=0.5,
              position=position_jitterdodge(dodge.width=0,jitter.width = 0.7),
