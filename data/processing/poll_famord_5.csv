@@ -18,7 +18,7 @@ Adela,Adelidae,Lepidoptera
 Adelidae,Adelidae,Lepidoptera
 Nemophora,Adelidae,Lepidoptera
 Pseudoloterus,Aderidae,Coleoptera
-Agromizidae,Agromizidae,Diptera
+Agromizidae,Agromyzidae,Diptera
 Agromyza,Agromyzidae,Diptera
 Agromyzidae,Agromyzidae,Diptera
 Liriomyza,Agromyzidae,Diptera
@@ -530,7 +530,7 @@ Monochrysis,Chrysididae,Hymenoptera
 Notozus,Chrysididae,Hymenoptera
 Omalus,Chrysididae,Hymenoptera
 Pseudospinolia,Chrysididae,Hymenoptera
-Tetrachrysis,Chrysididae ,Hymenoptera
+Tetrachrysis,Chrysididae,Hymenoptera
 Acanthoscelides,Chrysomelidae,Coleoptera
 Adoxia,Chrysomelidae,Coleoptera
 Agelasa,Chrysomelidae,Coleoptera
@@ -632,7 +632,7 @@ Tarundia,Cicadellidae,Hemiptera
 Thamnotettix,Cicadellidae,Hemiptera
 Tituria,Cicadellidae,Hemiptera
 Xestocephalus,Cicadellidae,Hemiptera
-Matsumurella,Cicadellidae,Homoptera
+Matsumurella,Cicadellidae,Hemiptera
 Orientabia,Cimbicidae,Hymenoptera
 Zaraea,Cimbicidae,Hymenoptera
 Betacixius,Cixiidae,Hemiptera
@@ -643,7 +643,7 @@ Eurymetopun,Cleridae,Coleoptera
 Trichodes,Cleridae,Coleoptera
 Xenorthrius,Cleridae,Coleoptera
 Craspedochaeta,Clusiidae,Diptera
-Coccinela,Coccinelidae,Coleoptera
+Coccinela,Coccinellidae,Coleoptera
 Adalia,Coccinellidae,Coleoptera
 Coccinella,Coccinellidae,Coleoptera
 Coccinellidae,Coccinellidae,Coleoptera
@@ -662,7 +662,7 @@ Rodolial,Coccinellidae,Coleoptera
 Scymnus,Coccinellidae,Coleoptera
 Seymnus,Coccinellidae,Coleoptera
 Vibidia,Coccinellidae,Coleoptera
-Menochitus,Coccinellidae,Diptera
+Menochitus,Coccinellidae,Coleoptera
 Ischnura,Coenagrionidae,Odonata
 Cadeguala,Colletidae,Hymenoptera
 Caupolicana,Colletidae,Hymenoptera
@@ -699,7 +699,7 @@ Sicus,Conopidae,Diptera
 Stylogaster,Conopidae,Diptera
 Thecophora,Conopidae,Diptera
 Zodion,Conopidae,Diptera
-Coreidae,Coreidae,Diptera
+Coreidae,Coreidae,Hemiptera
 Anasa,Coreidae,Hemiptera
 Cletus,Coreidae,Hemiptera
 Colpura,Coreidae,Hemiptera
@@ -2763,3 +2763,15 @@ Balataea,Zygaenidae,Lepidoptera
 Balatala,Zygaenidae,Lepidoptera
 Harrisina,Zygaenidae,Lepidoptera
 Zygaena,Zygaenidae,Lepidoptera
+Cteniopus,Tenebrionidae,Coleoptera
+Myrmecoris,Miridae,Hemiptera
+Temnothorax,Formicidae,Hymenoptera
+Discomyza,Ephydridae,Diptera
+Isomira,Tenebrionidae,Coleoptera
+Lasiambia,Chloropidae,Diptera
+Centhorhynchus,Curculionidae,Coleoptera
+Eudorylas,Syrphidae,Diptera
+Peplomyza,Lauxaniidae,Diptera
+Trachysiphonella,Chloropidae,Diptera
+Dexiosoma,Tachinidae,Diptera
+Homoptera,NA,Homoptera

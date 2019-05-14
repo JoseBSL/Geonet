@@ -42,8 +42,9 @@ map <- map + theme(axis.line.x = element_blank(),
   theme(strip.background = element_rect(colour="NA", fill=NA),
         strip.text = element_text(size=12))
 map <- map + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
-map <- map + theme(panel.border = element_rect(color = "black", fill = NA, size = 0.4))
-ggsave("graphs/links_map_V4.pdf",plot=map,width=15,height=5,units="in")
+map1 <- map + theme(panel.border = element_rect(color = "black", fill = NA, size = 0.4))
+map1 <- map1 + ggtitle("Network links")
+ggsave("graphs/links_map_V4.pdf",plot=map,width=15,height=4,units="in")
 
 
 
@@ -52,7 +53,7 @@ ggsave("graphs/links_map_V4.pdf",plot=map,width=15,height=5,units="in")
 # Load and fortify regular data
 levels(links.full.sub$PolOrder)
 str(spec.graph)
-spec.graph=links.full.sub%>%
+spec.graph=links.full.sub %>%
   add_fitted_draws(sp3,n=100,re_formula=NULL)
 
 spec.graph.agg=aggregate(fitted~Network+PolOrder+Latitude+Longitude,data=sp.links.melt.sub, FUN="mean")
@@ -83,7 +84,7 @@ map <- map + theme(axis.line.x = element_line(size=0, colour = "black"),
         strip.text = element_text(size=12))
 map <- map + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
 map <- map + scale_colour_brewer(palette="Dark2")
-map <- map + theme(legend.position="none",panel.border = element_rect(color = "black", fill = NA, size = 1))
-map
+map1 <- map + theme(legend.position="none",panel.border = element_rect(color = "black", fill = NA, size = 1))
+
 ggsave("graphs/specmap.pdf",plot=map,width=15,height=5,units="in")
 
