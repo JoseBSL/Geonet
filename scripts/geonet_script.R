@@ -37,7 +37,6 @@ library(stringr)
 library(taxize)
 library(tidyr)
 library(vegan)
-library(indicspecies)
 
 options(stringsAsFactors = FALSE)
 reference=read.csv("data/ref/references_update.csv",header=T)
@@ -78,6 +77,21 @@ names(myfiles)=reference$Network[1:183]
 ##ADd zeros to Traveset
 myfiles$`Traveset_13`
 myfiles$`Traveset_13`[is.na(myfiles$`Traveset_13`)] <- 0
+
+##Calculate plant richness & amend to reference file
+#62 = carvalheiro network already in long form
+
+plant_richness_list=lapply(myfiles,function(x) nrow(x))
+poll_richness_list=lapply(myfiles,function(x) length(x[,-1]))
+
+unique(carvalheiro$Plant) #62
+unique(carvalheiro$Pollinator) #181
+
+reference$plant_richness=as.integer(c(unlist(plant_richness_list),62))
+reference$poll_richness=as.integer(c(unlist(poll_richness_list),181))
+
+
+
 
 #Melt
 myfiles.melt=melt(myfiles,id.vars=c(1))

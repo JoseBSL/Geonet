@@ -14,6 +14,11 @@ file.remove("ne_110m_admin_0_countries.zip")
 world <- readOGR(".", "ne_110m_admin_0_countries")
 continents.regular <- fortify(world, region="CONTINENT")
 group.colors <- c(Tropical = "#1b9e77", Arid = "#d95f02", Temperate ="#66a61e", Continental = "#e7298a", Polar = "#7570b3")
+
+g.sub$PolOrder=revalue(g.sub$PolOrder,
+                                c("Diptera" = "Non-syrphid Diptera",
+                                  "Hymenoptera" = "Non-bee Hymenoptera")
+
 map <- ggplot()
 map <- map + xlab(NULL) + ylab(NULL)
 map <- map + geom_map(data=continents.regular,map=continents.regular, aes(map_id=id), colour="white", fill="white", size=0.0001) + 
@@ -43,9 +48,9 @@ map <- map + theme(axis.line.x = element_blank(),
         strip.text = element_text(size=12))
 map <- map + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
 map1 <- map + theme(panel.border = element_rect(color = "black", fill = NA, size = 0.4))
-map1 <- map1 + ggtitle("Network links")
-ggsave("graphs/links_map_V4.pdf",plot=map,width=15,height=4,units="in")
-
+map1 <- map1 + ggtitle("A) Proportion of network links")
+map1 <- map1 +labs(color='Pollinator taxa')
+#ggsave("graphs/links_map_V4.pdf",plot=map,width=15,height=4,units="in")
 
 
 ###Specialisation
@@ -57,14 +62,30 @@ spec.graph=links.full.sub %>%
   add_fitted_draws(sp3,n=100,re_formula=NULL)
 
 spec.graph.agg=aggregate(fitted~Network+PolOrder+Latitude+Longitude,data=sp.links.melt.sub, FUN="mean")
-range(spec.graph.agg$fitted)
+
+spec.graph.agg$PolOrder=revalue(spec.graph.agg$PolOrder,
+                                c("Diptera" = "Non-syrphid Diptera",
+                                  "Hymenoptera" = "Non-bee Hymenoptera")
+
+#merge raster and climate zone dfs
+points.zones <- merge(raster.points,clim.zones, by="layer")
+z <- c("A","B","C","D","E")
+points.zones <- dplyr::filter(points.zones, zone %in% z) %>% droplevels()
+points.zones$zone2 <- revalue(points.zones$zone, c("A" = "Tropical", 
+                                                   "B" = "Arid",
+                                                   "C" = "Temperate",
+                                                   "D" = "Continental",
+                                                   "E" ="Polar"))
+colnames(points.zones)[6] <- "Climate_zone"
+                                
+                                
 map <- ggplot()
 map <- map + xlab("Longitude") + ylab("Latitude")
 map <- map + geom_map(data=continents.regular,map=continents.regular, aes(map_id=id), colour="black", fill="white", size=0.4) + 
   expand_limits(x=continents.regular$long, y=continents.regular$lat) + 
   coord_equal()
 map <- map + geom_raster(data=points.zones, 
-                       aes(y=y, x=x, fill=zone2), 
+                       aes(y=y, x=x, fill=Climate_zone), 
                        alpha=0.4) 
 map <- map + geom_point(data=spec.graph.agg,
                         aes(x=Longitude, y=Latitude), 
@@ -81,10 +102,13 @@ map <- map + theme(axis.line.x = element_line(size=0, colour = "black"),
         axis.text=element_text(colour = "black"))+
   theme(axis.ticks.length = unit(2, "mm"))+
   theme(strip.background = element_rect(colour="NA", fill=NA),
-        strip.text = element_text(size=12))
+        strip.text = element_text(size=12),
+        legend.position="none")
 map <- map + theme(axis.title.y=element_text(margin=margin(0,20,0,0)))
 map <- map + scale_colour_brewer(palette="Dark2")
-map1 <- map + theme(legend.position="none",panel.border = element_rect(color = "black", fill = NA, size = 1))
+map2 <- map + theme(legend.position="none",panel.border = element_rect(color = "black", fill = NA, size = 1))
 
-ggsave("graphs/specmap.pdf",plot=map,width=15,height=5,units="in")
+#ggsave("graphs/specmap.pdf",plot=map,width=15,height=5,units="in")
 
+both_maps=grid.arrange(map1,map2,ncol=1,nrow=2)
+ggsave("graphs/both_maps.pdf",plot=both_maps,width=15,height=10,units="in")

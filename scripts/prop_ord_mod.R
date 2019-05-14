@@ -91,6 +91,17 @@ prop_ord_mod6=brm(prop_links~PolOrder+abs_lat+(1|Reference/Network),
                   control=list(adapt_delta=0.9),
                   data=g.sub,cores=4)
 
+prop_ord_mod7=brm(prop_links~PolOrder*abs_lat+I(abs_lat^2)+(1|Reference/Network),
+                  family=Beta(link = "logit"),inits=0,iter=2000,
+                  prior=prop_ord_prior,
+                  control=list(adapt_delta=0.9),
+                  data=g.sub,cores=4)
+
+prop_ord_mod8=brm(prop_links~PolOrder*abs_lat+I(abs_lat^2)+I(abs_lat^3)+(1|Reference/Network),
+                  family=Beta(link = "logit"),inits=0,iter=2000,
+                  prior=prop_ord_prior,
+                  control=list(adapt_delta=0.9),
+                  data=g.sub,cores=4)
 
 emmeans(prop_ord_mod6,"PolOrder")
 
@@ -160,28 +171,105 @@ write.csv(prop_ord_cld,"data/outputs/prop_ord_cld.csv")
 ######################
 #####PLOT TYPE 2#####
 ####################
-group.colors.ord <- c("#1b9e77","#d95f02","#66a61e", "#e7298a", "#7570b3")
 
-plt_ord <- plot(marginal_effects(prop_ord_mod1))
+prop.plot=plot(marginal_effects(prop_ord_mod1))
 
-prop_plot=plt_ord[[3]]+theme_bw()+theme()+
-  xlab("Taxa")+
-  ylab("Prop. of links")+
-  ggtitle("A) Network links")+
-  scale_color_manual(values=group.colors.ord)
+prop.plot.data <-  prop.plot[[3]]$data
 
-plt_ord2 <- plot(marginal_effects(prop_ord_mod5))
 
-prop_plot2=plt_ord2[[3]]+theme_bw()+theme()+
-  facet_wrap(~PolOrder)+
-  xlab("Latitude")+
-  ylab("Prop. of links")+
-  ggtitle("A) Proportion of network links")+
-  scale_fill_brewer(palette="Dark2")+
-  scale_color_brewer(palette="Dark2")+
-  theme(legend.position="none")
 
-prop_plot2
+colnames(prop.plot.data)[1:2] <- c("Pollinator taxa","Climate zone")
+
+prop.plot.data$`Pollinator taxa` <- revalue(prop.plot.data$`Pollinator taxa`,
+                                            c("Bee" = "Bee",
+                                              "Coleoptera" = "Coleoptera",
+                                              "Lepidoptera" = "Lepidoptera",
+                                              "Hymenoptera" = "Non-bee Hymenoptera",
+                                              "Diptera" = "Non-syrphid Diptera",
+                                              "Syrphidae" = "Syrphidae"))
+
+prop.plot.data$`Pollinator taxa` <- factor(prop.plot.data$`Pollinator taxa`,
+                                           levels=c("Bee","Coleoptera","Lepidoptera",
+                                                    "Non-bee Hymenoptera","Non-syrphid Diptera","Syrphidae"))
+
+g.sub2 <- g.sub
+colnames(g.sub2)[6]
+colnames(g.sub2)[18]="Climate zone"
+
+g.sub2$`Pollinator taxa` <- g.sub2$PolOrder
+
+g.sub2$`Pollinator taxa` <- revalue(g.sub2$`Pollinator taxa`,
+                                   c("Bee" = "Bee",
+                                     "Coleoptera" = "Coleoptera",
+                                     "Lepidoptera" = "Lepidoptera",
+                                     "Hymenoptera" = "Non-bee Hymenoptera",
+                                     "Diptera" = "Non-syrphid Diptera",
+                                     "Syrphidae" = "Syrphidae"))
+prop.plot.data$prop_links=c("")
+rbind.prop.plot <- rbind.fill(prop.plot.data,g.sub2)
+
+rbind.prop.plot$`Climate zone` <- factor(rbind.prop.plot$`Climate zone`,levels=c("A","B","C","D","E"))
+
+rbind.prop.plot$`Climate zone` <- revalue(rbind.prop.plot$`Climate zone`,c("A" = "Tropical",
+                                                                           "B" = "Arid",
+                                                                           "C" = "Temperate",
+                                                                           "D" = "Continental",
+                                                                           "E" = "Polar"))
+
+rbind.prop.plot[rbind.prop.plot$`Pollinator taxa`%in%"Non-bee Hymenoptera",]
+rbind.prop.plot$PolOrder <- revalue(rbind.prop.plot$PolOrder,c("Bee" = "A",
+                                                               "Coleoptera" = "B",
+                                                               "Lepidoptera" = "C",
+                                                               "Hymenoptera" = "D",
+                                                               "Diptera" = "E",
+                                                               "Syrphidae"  =      "F"))
+
+rbind.prop.plot$PolOrder <-  factor(rbind.prop.plot$PolOrder,levels=c("A","B","C","D","E","F"))
+rbind.prop.plot <- droplevels(rbind.prop.plot)
+rbind.prop.plot$prop_links <- as.numeric(rbind.prop.plot$prop_links)
+
+#COLOURS AND BREAKS
+plot_cols=c("A"="#a6cee3",
+            "B"="#b2df8a",
+            "C"="#fb9a99",
+            "D"="#fdbf6f",
+            "E"="#cab2d6",
+            "F"="#e5c494",
+            "Bee"="#1f78b4",
+            "Coleoptera"="#33a02c",
+            "Lepidoptera"="#e31a1c",
+            "Non-bee Hymenoptera"="#ff7f00",
+            "Non-syrphid Diptera"="#6a3d9a",
+            "Syrphidae"="#b15928")
+
+list_spp=c("Bee","Coleoptera","Lepidoptera","Non-bee Hymenoptera","Non-syrphid Diptera","Syrphidae")
+
+
+##PLOT
+prop.gg=ggplot(rbind.prop.plot,aes(x=`Pollinator taxa`,y=estimate__,col=`Pollinator taxa`))+
+  geom_point(aes(y=prop_links,col=PolOrder),show.legend = F,size=0.5,
+             position=position_jitterdodge(dodge.width=0,jitter.width = 0.7),
+             alpha=0.5)+
+  geom_point(aes(col=`Pollinator taxa`),
+             size=2,show.legend = F)+
+  geom_errorbar(aes(ymin=lower__,ymax=upper__,col=`Pollinator taxa`),
+                width=0.4,show.legend = F)+
+  facet_wrap(~`Climate zone`,ncol=5)+
+  theme_bw()+
+  ylab("Proportion of links")+
+  xlab(NULL)+
+  scale_color_manual(breaks=list_spp,values=plot_cols,name="Pollinator taxa")+
+  theme(
+        strip.background = element_blank(),
+        legend.box.background = element_rect(colour = "black"),
+        strip.text = element_text(face = "bold",size=14),
+        panel.spacing = unit(0.5,"lines"),
+        axis.text.x=element_blank(),
+        aspect.ratio = 1,
+        axis.ticks.x = element_blank())
+prop.gg
+ggsave(prop.gg,file="prop links plot.pdf",device = "pdf",dpi=320,width=15,height=5,units = c("in"))
+
 
 ##save models
 

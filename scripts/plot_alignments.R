@@ -19,4 +19,4 @@ Fig3=align_plots(prop_plot2, Figure_Spec_Ord2,align="hv", axis="tblr")
 Fig3A <- ggdraw(Fig3[[1]])
 Fig3B <- ggdraw(Fig3[[2]]) #7 x 14 inches
 
-grid.arrange(Fig3A,Fig3B,ncol=1,nrow=2) #7 x 14 inches
+grid.arrange(Fig3A,Fig3B,ncol=1,nrow=2) #8 x 6 inches
