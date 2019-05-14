@@ -147,67 +147,80 @@ write.csv(spec_ord_cld,"data/outputs/spec_ord_cld.csv")
 #####PLOT#####
 #############
 
-#spec_ord_groups=spec_sum[!duplicated(spec_sum$PolFamily),c("PolOrder","PolFamily")]
-#spec_order=arrange(spec_ord_groups,PolOrder,PolFamily)
+spec.plot=plot(marginal_effects(spec_ord_mod_2,
+                                conditions = data.frame(int_tot = 100)))
 
-group.colors.ord <- c("#1b9e77","#d95f02","#66a61e", "#e7298a", "#7570b3")
-group.colors.ord <- c("#1b9e77","#d95f02","#66a61e", "#e7298a", "#7570b3")
-
-spec_ord_plots=plot(marginal_effects(spec_ord_mod_2,
-                     conditions = data.frame(int_tot = 100)))
-
-Figure_Spec_Ord=spec_ord_plots[[3]]+theme_bw()+
-  xlab("Taxa")+
-  ylab("Species generalisation") +
-  ggtitle("B) Species generalisation")+
-  scale_colour_manual(values=group.colors.ord)
-
-Figure_Spec_Ord #3 x 7
-
-graph_spec_df=sp.links.melt.5 %>% 
-  distinct(clim,PolOrder,Network,Reference,int_tot,Longitude,Latitude)
-
-spec_predict=predict(spec_ord_mod_2,graph_spec_df,conditions = data.frame(int_tot = 100))
-
-spec_graph_df=cbind(graph_spec_df,spec_predict)
-
-write.csv(spec_graph_df,"data/outputs/spec_graph.csv")
-
-specy=spec_ord_plots[[3]]$data
-
-specy$clim=revalue(specy$clim,
-                    c("A"="Tropical", 
-                      "B"="Arid",
-                      "C" = "Temperate",
-                      "D" = "Continental",
-                      "E" = "Polar"))
-
-specy$PolOrder=revalue(specy$PolOrder,
-                        c("Diptera" = "Non-syrphid Diptera",
-                          "Hymenoptera" = "Non-bee Hymenoptera"))
+spec.plot.data <-  spec.plot[[3]]$data
 
 
-group.colors.ord <- c("#1b9e77","#d95f02","#66a61e", "#e7298a", "#7570b3","#e6ab02")
-pd <- position_dodge(width=0.4)
-specy_plot=ggplot(specy,aes(x=clim,y=estimate__,col=PolOrder))+
-  geom_point(position = pd,size=2)+
-  geom_errorbar(aes(ymin=lower__,ymax=upper__),position = pd,width=0.4)+
-  scale_color_manual(values=group.colors.ord)+
-  ggtitle("B) Pollinator generalism")+
-  xlab("Climate zone")+
-  ylab("No. of plant partners")+
+
+colnames(spec.plot.data)[1:2] <- c("Pollinator taxa","Climate zone")
+
+spec.plot.data$`Pollinator taxa` <- revalue(spec.plot.data$`Pollinator taxa`,
+                                            c("Bee" = "Bee",
+                                              "Coleoptera" = "Coleoptera",
+                                              "Lepidoptera" = "Lepidoptera",
+                                              "Hymenoptera" = "Non-bee Hymenoptera",
+                                              "Diptera" = "Non-syrphid Diptera",
+                                              "Syrphidae" = "Syrphidae"))
+
+spec.plot.data$`Pollinator taxa` <- factor(spec.plot.data$`Pollinator taxa`,
+                                           levels=c("Bee","Coleoptera","Lepidoptera",
+                                                    "Non-bee Hymenoptera","Non-syrphid Diptera","Syrphidae"))
+
+sp.links.melt.6 <- sp.links.melt.5
+colnames(sp.links.melt.6)[6]
+colnames(sp.links.melt.6)[18]="Climate zone"
+
+sp.links.melt.6$`Pollinator taxa` <- sp.links.melt.6$PolOrder
+
+sp.links.melt.6$`Pollinator taxa` <- revalue(sp.links.melt.6$`Pollinator taxa`,
+                                    c("Bee" = "Bee",
+                                      "Coleoptera" = "Coleoptera",
+                                      "Lepidoptera" = "Lepidoptera",
+                                      "Hymenoptera" = "Non-bee Hymenoptera",
+                                      "Diptera" = "Non-syrphid Diptera",
+                                      "Syrphidae" = "Syrphidae"))
+spec.plot.data$value=c("")
+rbind.spec.plot <- rbind.fill(spec.plot.data,sp.links.melt.6)
+
+rbind.spec.plot$`Climate zone` <- factor(rbind.spec.plot$`Climate zone`,levels=c("A","B","C","D","E"))
+
+rbind.spec.plot$`Climate zone` <- revalue(rbind.spec.plot$`Climate zone`,c("A" = "Tropical",
+                                                                           "B" = "Arid",
+                                                                           "C" = "Temperate",
+                                                                           "D" = "Continental",
+                                                                           "E" = "Polar"))
+
+rbind.spec.plot[rbind.spec.plot$`Pollinator taxa`%in%"Non-bee Hymenoptera",]
+rbind.spec.plot$PolOrder <- revalue(rbind.spec.plot$PolOrder,c("Bee" = "A",
+                                                               "Coleoptera" = "B",
+                                                               "Lepidoptera" = "C",
+                                                               "Hymenoptera" = "D",
+                                                               "Diptera" = "E",
+                                                               "Syrphidae"  =      "F"))
+
+rbind.spec.plot$PolOrder <-  factor(rbind.spec.plot$PolOrder,levels=c("A","B","C","D","E","F"))
+rbind.spec.plot <- droplevels(rbind.spec.plot)
+rbind.spec.plot$value <- as.numeric(rbind.spec.plot$value)
+
+spec.gg=ggplot(rbind.spec.plot,aes(x=`Pollinator taxa`,y=estimate__+1,col=`Pollinator taxa`))+
+  geom_point(aes(y=value,col=PolOrder),show.legend = F,size=0.5,
+             position=position_jitterdodge(dodge.width=0,jitter.width = 0.7,jitter.height = 0.2),
+             alpha=0.5)+
+  geom_point(aes(col=`Pollinator taxa`),
+             size=2,show.legend = F)+
+  geom_errorbar(aes(ymin=lower__+1,ymax=upper__+1,col=`Pollinator taxa`),
+                width=0.4,show.legend =F)+
+  facet_wrap(~`Climate zone`,ncol=5)+
   theme_bw()+
-  theme(legend.position="none")
+  ylab("Normalised generalism")+
+  xlab(NULL)+
+  scale_y_continuous(breaks=c(1,4,7,10,14),limits=c(1,14))+
+  scale_color_manual(breaks=list_spp,values=plot_cols,name="Pollinator taxa")+
+  theme(
+    strip.text.x = element_blank(),
+        panel.spacing = unit(0.5,"lines"),strip.background =element_rect(fill="white"),axis.text.x=element_blank(),aspect.ratio = 1,axis.ticks.x = element_blank())
+spec.gg
+ggsave(spec.gg,file="generalism plot.pdf",device = "pdf",dpi=320,width=15,height=5,units = c("in"))
 
-specy_plot
-#Plot together
-library(cowplot)
-library(gridExtra)
-library(grid)
-Fig1=align_plots(proppy_plot,specy_plot,align="hv", axis="tblr")
-Fig1A <- ggdraw(Fig1[[1]])
-Fig1B <- ggdraw(Fig1[[2]])
-Fig.one=grid.arrange(Fig1A,Fig1B,ncol=1,nrow=2) #7 x 14 inches
-Fig.one
-ggsave(Fig.one,file="graphs/Figure1.pdf",width = 8.5, height = 6,
-       units = c("in"))
