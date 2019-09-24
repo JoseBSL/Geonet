@@ -1,4 +1,4 @@
-# Geonet
+# Geonet project 
 
 This is the code and data from the article:
 
