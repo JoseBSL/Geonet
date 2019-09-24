@@ -20,7 +20,7 @@ Manu E. Saunders $^1$,$^2$, Liam K. Kendall $^1$,$^3$, Jose B. Lanuza $^1$, Mark
 
 *4* Hawkesbury Institute for the Environment, Western Sydney University, Penrith NSW, Australia
 
-*5*Department of Conservation - Te Papa Atawhai, Auckland, New Zealand
+*5* Department of Conservation - Te Papa Atawhai, Auckland, New Zealand
 
 **DOI**
 
