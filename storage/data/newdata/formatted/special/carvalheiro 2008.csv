@@ -1,0 +1,507 @@
+Insect,Order_family,Plant,PFamily,value,Network
+Oedemera lurida Marsham,Coleoptera Oedemeridae,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Oedemera nobilis Scopoli,Coleoptera Oedemeridae,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Rhinophora lepida Meigen,Diptera Rhinophoridae,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Heteronychia haemorrhoa Meigen,Diptera Sarcophagidae,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Eristalis arbustorum L.,Diptera Syrphidae,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Paragus haemorrhous Meigen,Diptera Syrphidae,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Syritta pipiens L.,Diptera Syrphidae,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Eriothrix rufomaculata DeGeer,Diptera Tachinidae,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Phasia pusilla Meigen,Diptera Tachinidae,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Solieria pacifica Meigen,Diptera Tachinidae,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Heteroptera sp2,Heteroptera,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Heteroptera sp4,Heteroptera,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Heteroptera sp7,Heteroptera,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Andrena minutula Kirby,Hymenoptera Andrenidae,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Hylaeus hyalinatus Smith,Hymenoptera Colletidae,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Halictus tumulorum L.,Hymenoptera Halictidae,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Sphecodes niger Hagen,Hymenoptera Halictidae,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Hymenoptera sp1,Hymenoptera,Achillea millefolium L.,Asteraceae,1,carvalheiro_2008
+Cteniopus sulphurous L.,Coleoptera Tenebrionidae,Allium sphaerocephalon L.,Alliaceae,1,carvalheiro_2008
+Sphaerophoria scripta L.,Diptera Syrphidae,Allium sphaerocephalon L.,Alliaceae,1,carvalheiro_2008
+Myrmecoris gracilis R.F.Sahlberg  _,Heteroptera Miridae,Allium sphaerocephalon L.,Alliaceae,1,carvalheiro_2008
+Bombus lapidarius L.,Hymenoptera Apidae,Allium sphaerocephalon L.,Alliaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Allium sphaerocephalon L.,Alliaceae,1,carvalheiro_2008
+Halictus tumulorum L.,Hymenoptera Halictidae,Allium sphaerocephalon L.,Alliaceae,1,carvalheiro_2008
+Lasioglossum calceatum Scopoli,Hymenoptera Halictidae,Allium sphaerocephalon L.,Alliaceae,1,carvalheiro_2008
+Lasioglossum leucopus Kirby,Hymenoptera Halictidae,Allium sphaerocephalon L.,Alliaceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Allium sphaerocephalon L.,Alliaceae,1,carvalheiro_2008
+Lasioglossum smeathmanellum Kirby,Hymenoptera Halictidae,Allium sphaerocephalon L.,Alliaceae,1,carvalheiro_2008
+Discomyza incurva Fall‚n,Diptera Ephydridae,Apiaceae sp.,Apiaceae,1,carvalheiro_2008
+Helophilus pendulus L.,Diptera Syrphidae,Apiaceae sp.,Apiaceae,1,carvalheiro_2008
+Solieria pacifica Meigen,Diptera Tachinidae,Apiaceae sp.,Apiaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Apiaceae sp.,Apiaceae,1,carvalheiro_2008
+Arge pagana Panzer,Hymenoptera Argidae,Apiaceae sp.,Apiaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Apiaceae sp.,Apiaceae,1,carvalheiro_2008
+Hymenoptera sp3,Hymenoptera,Apiaceae sp.,Apiaceae,1,carvalheiro_2008
+Tenthredo sp.,Hymenoptera Tenthredinidae,Apiaceae sp.,Apiaceae,1,carvalheiro_2008
+Meligethes solidus Kugelann,Coleoptera Nitidulidae,Asteraceae sp.,Asteraceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Buddleja davidii Franchet*,Scrophulariaceae,1,carvalheiro_2008
+Meligethes solidus Kugelann,Coleoptera Nitidulidae,Bellis perenis L.,Asteraceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Clinopodium acinos (L.) Kuntze,Lamiaceae,1,carvalheiro_2008
+Lasius alienus Foerster  _,Hymenoptera Formicidae,Clinopodium acinos (L.) Kuntze,Lamiaceae,1,carvalheiro_2008
+Lasius niger L.,Hymenoptera Formicidae,Clinopodium acinos (L.) Kuntze,Lamiaceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Clinopodium acinos (L.) Kuntze,Lamiaceae,1,carvalheiro_2008
+Helophilus pendulus L.,Diptera Syrphidae,Clinopodium ascendens (Jord.) Samp.,Lamiaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Clinopodium ascendens (Jord.) Samp.,Lamiaceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Clinopodium ascendens (Jord.) Samp.,Lamiaceae,1,carvalheiro_2008
+Hymenoptera sp4,Hymenoptera,Clinopodium ascendens (Jord.) Samp.,Lamiaceae,1,carvalheiro_2008
+Melangyna umbellatarum Fabricius,Diptera Syrphidae,Cotoneaster franchetti Bois * ¥,Rosaceae,1,carvalheiro_2008
+Bombus lapidarius L.,Hymenoptera Apidae,Cotoneaster franchetti Bois * ¥,Rosaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Cotoneaster franchetti Bois * ¥,Rosaceae,1,carvalheiro_2008
+Bombus pratorum L.,Hymenoptera Apidae,Cotoneaster franchetti Bois * ¥,Rosaceae,1,carvalheiro_2008
+Bombus terrestris L.,Hymenoptera Apidae,Cotoneaster franchetti Bois * ¥,Rosaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Cotoneaster franchetti Bois * ¥,Rosaceae,1,carvalheiro_2008
+Lasius alienus Foerster  _,Hymenoptera Formicidae,Cotoneaster franchetti Bois * ¥,Rosaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Cotoneaster horizontalis Decne * ¥,Rosaceae,1,carvalheiro_2008
+Lasius alienus Foerster  _,Hymenoptera Formicidae,Cotoneaster horizontalis Decne * ¥,Rosaceae,1,carvalheiro_2008
+Isomira murina L.,Coleoptera Tenebrionidae,Crataegus monogyna Jacq.,Rosaceae,1,carvalheiro_2008
+Byturus tomentosus Fabricius,Coleoptera Byturidae,Crataegus monogyna Jacq.,Rosaceae,1,carvalheiro_2008
+Cantharis decipiens Baudi,Coleoptera Cantharidae,Crataegus monogyna Jacq.,Rosaceae,1,carvalheiro_2008
+Grammoptera ruficornis Fabricius,Coleoptera Cerambycidae,Crataegus monogyna Jacq.,Rosaceae,1,carvalheiro_2008
+Meligethes aeneus Fabricius,Coleoptera Nitidulidae,Crataegus monogyna Jacq.,Rosaceae,1,carvalheiro_2008
+Cetonia aurata L.,Coleoptera Scarabaeidae,Crataegus monogyna Jacq.,Rosaceae,1,carvalheiro_2008
+Megaselia sp.,Diptera Phoridae,Crataegus monogyna Jacq.,Rosaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Crataegus monogyna Jacq.,Rosaceae,1,carvalheiro_2008
+Cteniopus sulphurous L.,Coleoptera Tenebrionidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Meligethes obscurus Erichson,Coleoptera Nitidulidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Meligethes solidus Kugelann,Coleoptera Nitidulidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Oedemera lurida Marsham,Coleoptera Oedemeridae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Oedemera nobilis Scopoli,Coleoptera Oedemeridae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Bombylius major L.,Diptera Bombyliidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Epistrophe grossularia Meigen,Diptera Syrphidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Meliscaeva auricollis Meigen,Diptera Syrphidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Myathropa florea L.,Diptera Syrphidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Paragus haemorrhous Meigen,Diptera Syrphidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Myrmecoris gracilis R.F.Sahlberg  _,Heteroptera Miridae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Homoptera sp1,Homoptera,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Homoptera sp2,Homoptera,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Homoptera sp3,Homoptera,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Bombus hortorum L.,Hymenoptera Apidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Bombus terrestris L.,Hymenoptera Apidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Lasioglossum fulvicorne Kirby,Hymenoptera Halictidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Lasioglossum villosulum Kirby,Hymenoptera Halictidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Aglais urticae L.,Lepidoptera Nymphalidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Pieris napi L.,Lepidoptera Pieridae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Melanargia galathea L.,Lepidoptera Nymphalidae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Pyronia tithonus L.,Lepidoptera Satyridae,Centranthus ruber (L.) DC. * ¥,Valerianaceae,1,carvalheiro_2008
+Anaspis pulicaria Costa,Coleoptera Scraptiidae,Cornus sanguinea L.,Cornaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Cornus sanguinea L.,Cornaceae,1,carvalheiro_2008
+Lasius niger L.,Hymenoptera Formicidae,Cornus sanguinea L.,Cornaceae,1,carvalheiro_2008
+Anaspis pulicaria Costa,Coleoptera Scraptiidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Orthocladiinae cf. sp.,Diptera Chironomidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Lauxaniidae sp1,Diptera Lauxaniidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Sepsis cynipsea L.,Diptera Sepsidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Helophilus pendulus L.,Diptera Syrphidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Meliscaeva cinctella Zetterstedt,Diptera Syrphidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Platycheirus albimanus Fabricius,Diptera Syrphidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Sphaerophoria scripta L.,Diptera Syrphidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Syrphus vitripennis Meigen,Diptera Syrphidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Eriothrix rufomaculata DeGeer,Diptera Tachinidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Heteroptera sp8,Heteroptera,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Apis mellifera L.,Hymenoptera Apidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Hylaeus communis Nylander,Hymenoptera Colletidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Lasioglossum leucopus Kirby,Hymenoptera Halictidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Lasioglossum smeathmanellum Kirby,Hymenoptera Halictidae,Clematis vitalba L.,Ranunculaceae,1,carvalheiro_2008
+Eudorylas sp.,Diptera Pipunculidae,Clinopodium vulgare L.,Lamiaceae,1,carvalheiro_2008
+Sepsis cf. fulgens Meigen,Diptera Sepsidae,Clinopodium vulgare L.,Lamiaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Carlina vulgaris L.,Asteraceae,1,carvalheiro_2008
+Meligethes aeneus Fabricius,Coleoptera Nitidulidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Meligethes obscurus Erichson,Coleoptera Nitidulidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Meligethes solidus Kugelann,Coleoptera Nitidulidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Oedemera lurida Marsham,Coleoptera Oedemeridae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Heterostylodes nominabilis Collin,Diptera Anthomyiidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Eristalis tenax L.,Diptera Syrphidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Ferdinandea cuprea Scopoli,Diptera Syrphidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Melanostoma mellinum L.,Diptera Syrphidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Melanostoma scalare Fabricius,Diptera Syrphidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Metasyrphus corollae Fabricius,Diptera Syrphidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Bombus lapidarius L.,Hymenoptera Apidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Bombus terrestris L.,Hymenoptera Apidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Halictus tumulorum L.,Hymenoptera Halictidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Lasioglossum calceatum Scopoli,Hymenoptera Halictidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Lasioglossum villosulum Kirby,Hymenoptera Halictidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Sphecodes niger Hagen,Hymenoptera Halictidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Hoplitis spinulosa Kirby,Hymenoptera Megachilidae,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Thysanoptera sp5,Thysanoptera,Crepis sp.,Asteraceae,1,carvalheiro_2008
+Rhagonycha fulva Scopoli,Coleoptera Cantharidae,Eupatorium cannabinum L.,Asteraceae,1,carvalheiro_2008
+Eusphalerum luteum Marsham,Coleoptera Staphylinidae,Eupatorium cannabinum L.,Asteraceae,1,carvalheiro_2008
+Sarcophaga nigriventris Meigen,Diptera Sarcophagidae,Eupatorium cannabinum L.,Asteraceae,1,carvalheiro_2008
+Eristalis tenax L.,Diptera Syrphidae,Eupatorium cannabinum L.,Asteraceae,1,carvalheiro_2008
+Syritta pipiens L.,Diptera Syrphidae,Eupatorium cannabinum L.,Asteraceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Eupatorium cannabinum L.,Asteraceae,1,carvalheiro_2008
+Eriothrix rufomaculata DeGeer,Diptera Tachinidae,Eupatorium cannabinum L.,Asteraceae,1,carvalheiro_2008
+Heteroptera sp9,Heteroptera,Eupatorium cannabinum L.,Asteraceae,1,carvalheiro_2008
+Lasioglossum albipes Fabricius,Hymenoptera Halictidae,Eupatorium cannabinum L.,Asteraceae,1,carvalheiro_2008
+Meligethes aeneus Fabricius,Coleoptera Nitidulidae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Meligethes atratus Oliver,Coleoptera Nitidulidae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Meligethes flavimanus Stephens,Coleoptera Nitidulidae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Meligethes solidus Kugelann,Coleoptera Nitidulidae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Bombylius major L.,Diptera Bombyliidae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Melanostoma scalare Fabricius,Diptera Syrphidae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Platycheirus albimanus Fabricius,Diptera Syrphidae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Platycheirus amplus Curran cf.,Diptera Syrphidae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Heteroptera sp9,Heteroptera,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Andrena bicolor Fabricius,Hymenoptera Andrenidae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Bombus pratorum L.,Hymenoptera Apidae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Lasius alienus Foerster  _,Hymenoptera Formicidae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Lasioglossum parvulum Schenck,Hymenoptera Halictidae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Pieris napi L.,Lepidoptera Pieridae,Geranium robertianum L.,Geraniaceae,1,carvalheiro_2008
+Rhinophora lepida Meigen,Diptera Rhinophoridae,Geranium rotundifolia L.,Geraniaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Geranium rotundifolia L.,Geraniaceae,1,carvalheiro_2008
+Meligethes aeneus Fabricius,Coleoptera Nitidulidae,Geum urbanum L.,Rosaceae,1,carvalheiro_2008
+Trachysiphonella sp1,Diptera Chloropidae,Gallium verum L.,Rubiaceae,1,carvalheiro_2008
+Discomyza incurva Fall‚n,Diptera Ephydridae,Gallium verum L.,Rubiaceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Gallium verum L.,Rubiaceae,1,carvalheiro_2008
+Paragus haemorrhous Meigen,Diptera Syrphidae,Gallium verum L.,Rubiaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Gallium verum L.,Rubiaceae,1,carvalheiro_2008
+Myrmica lobicornis Nylander,Hymenoptera Formicidae,Gallium verum L.,Rubiaceae,1,carvalheiro_2008
+Vespula vulgaris L.,Hymenoptera  Vespidae,Gallium verum L.,Rubiaceae,1,carvalheiro_2008
+Bombus lapidarius L.,Hymenoptera Apidae,Hippocrepis comosa L.,Fabaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Hippocrepis comosa L.,Fabaceae,1,carvalheiro_2008
+Meligethes solidus Kugelann,Coleoptera Nitidulidae,Hippocrepis comosa L.,Fabaceae,1,carvalheiro_2008
+Oedemera lurida Marsham,Coleoptera Oedemeridae,Hippocrepis comosa L.,Fabaceae,1,carvalheiro_2008
+Sarcophaga spp.,Diptera Sarcophagidae,Hedera helix L.,Araliaceae,1,carvalheiro_2008
+Sciaridae Gen2 sp.,Diptera Sciaridae,Hedera helix L.,Araliaceae,1,carvalheiro_2008
+Helophilus pendulus L.,Diptera Syrphidae,Hedera helix L.,Araliaceae,1,carvalheiro_2008
+Myathropa florea L.,Diptera Syrphidae,Hedera helix L.,Araliaceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Hedera helix L.,Araliaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Hedera helix L.,Araliaceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Hedera helix L.,Araliaceae,1,carvalheiro_2008
+Hymenoptera sp5,Hymenoptera,Hedera helix L.,Araliaceae,1,carvalheiro_2008
+Vespula vulgaris L.,Hymenoptera  Vespidae,Hedera helix L.,Araliaceae,1,carvalheiro_2008
+Aphthona herbigrada Curtis,Coleoptera Chrysomelidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Meligethes solidus Kugelann,Coleoptera Nitidulidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Oedemera lurida Marsham,Coleoptera Oedemeridae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Oedemera nobilis Scopoli,Coleoptera Oedemeridae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Delia sp.,Diptera Anthomyiidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Pegoplata aestiva Meigen,Diptera Anthomyiidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Melangyna umbellatarum Fabricius,Diptera Syrphidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Melanostoma mellinum L.,Diptera Syrphidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Melanostoma mellinum L.,Diptera Syrphidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Melanostoma scalare Fabricius,Diptera Syrphidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Paragus haemorrhous Meigen,Diptera Syrphidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Platycheirus albimanus Fabricius,Diptera Syrphidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Sphaerophoria scripta L.,Diptera Syrphidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Eriothrix rufomaculata DeGeer,Diptera Tachinidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Heteroptera sp5,Heteroptera,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Bombus lapidarius L.,Hymenoptera Apidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Ceratina cyanea Kirby,Hymenoptera Apidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Lasius alienus Foerster  _,Hymenoptera Formicidae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Hymenoptera sp6,Hymenoptera,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Pieris napi L.,Lepidoptera Pieridae,Helianthemum nummularium (L.)Mill.,Cistaceae,1,carvalheiro_2008
+Cteniopus sulphurous L.,Coleoptera Tenebrionidae,Hypericum perforatum L.,Hypericaceae,1,carvalheiro_2008
+Pegoplata aestiva Meigen,Diptera Anthomyiidae,Hypericum perforatum L.,Hypericaceae,1,carvalheiro_2008
+Anthomyiidae sp2,Diptera Anthomyiidae,Hypericum perforatum L.,Hypericaceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Hypericum perforatum L.,Hypericaceae,1,carvalheiro_2008
+Melanostoma scalare Fabricius,Diptera Syrphidae,Hypericum perforatum L.,Hypericaceae,1,carvalheiro_2008
+Platycheirus albimanus Fabricius,Diptera Syrphidae,Hypericum perforatum L.,Hypericaceae,1,carvalheiro_2008
+Platycheirus scutatus Meigen,Diptera Syrphidae,Hypericum perforatum L.,Hypericaceae,1,carvalheiro_2008
+Sphaerophoria scripta L.,Diptera Syrphidae,Hypericum perforatum L.,Hypericaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Hypericum perforatum L.,Hypericaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Hypericum perforatum L.,Hypericaceae,1,carvalheiro_2008
+Meligethes obscurus Erichson,Coleoptera Nitidulidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Meligethes solidus Kugelann,Coleoptera Nitidulidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Anaspis pulicaria Costa,Coleoptera Scraptiidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Heterostylodes nominabilis Collin,Diptera Anthomyiidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Eristalis tenax L.,Diptera Syrphidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Ferdinandea cuprea Scopoli,Diptera Syrphidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Platycheirus albimanus Fabricius,Diptera Syrphidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Syrphus vitripennis Meigen,Diptera Syrphidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Lasioglossum calceatum Scopoli,Hymenoptera Halictidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Lasioglossum smeathmanellum Kirby,Hymenoptera Halictidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Lasioglossum villosulum Kirby,Hymenoptera Halictidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Hoplitis spinulosa Kirby,Hymenoptera Megachilidae,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Hymenoptera sp7,Hymenoptera,Hieracium sp.,Asteraceae,1,carvalheiro_2008
+Polyommatus icarus Rottemburg,Lepidoptera Lycaenidae,Inula conyzae (Griess.) Meikle ,Asteraceae,1,carvalheiro_2008
+Curculionidae sp1,Coleoptera Curculionidae,Lotus corniculatus L.,Fabaceae,1,carvalheiro_2008
+Bombus lapidarius L.,Hymenoptera Apidae,Lotus corniculatus L.,Fabaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Lotus corniculatus L.,Fabaceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Lotus corniculatus L.,Fabaceae,1,carvalheiro_2008
+Polyommatus icarus Rottemburg,Lepidoptera Lycaenidae,Lotus corniculatus L.,Fabaceae,1,carvalheiro_2008
+Delia sp.,Diptera Anthomyiidae,Lactuca serriola L.,Asteraceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Lactuca serriola L.,Asteraceae,1,carvalheiro_2008
+Eupeodes luniger Meigen,Diptera Syrphidae,Lactuca serriola L.,Asteraceae,1,carvalheiro_2008
+Melanostoma mellinum L.,Diptera Syrphidae,Lactuca serriola L.,Asteraceae,1,carvalheiro_2008
+Melanostoma scalare Fabricius,Diptera Syrphidae,Lactuca serriola L.,Asteraceae,1,carvalheiro_2008
+Metasyrphus luniger Meigen,Diptera Syrphidae,Lactuca serriola L.,Asteraceae,1,carvalheiro_2008
+Sphaerophoria scripta L.,Diptera Syrphidae,Lactuca serriola L.,Asteraceae,1,carvalheiro_2008
+Syritta pipiens L.,Diptera Syrphidae,Lactuca serriola L.,Asteraceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Lactuca serriola L.,Asteraceae,1,carvalheiro_2008
+Lasioglossum smeathmanellum Kirby,Hymenoptera Halictidae,Lactuca serriola L.,Asteraceae,1,carvalheiro_2008
+Cteniopus sulphurous L.,Coleoptera Tenebrionidae,Leucanthemum vulgare Lam.,Asteraceae,1,carvalheiro_2008
+Oedemera nobilis Scopoli,Coleoptera Oedemeridae,Leucanthemum vulgare Lam.,Asteraceae,1,carvalheiro_2008
+Anaspis pulicaria Costa,Coleoptera Scraptiidae,Leucanthemum vulgare Lam.,Asteraceae,1,carvalheiro_2008
+Lasiambia palposa Fall‚n,Diptera Chloropidae,Leucanthemum vulgare Lam.,Asteraceae,1,carvalheiro_2008
+Paragus haemorrhous Meigen,Diptera Syrphidae,Leucanthemum vulgare Lam.,Asteraceae,1,carvalheiro_2008
+Syrphus torvus Osten Sacken,Diptera Syrphidae,Leucanthemum vulgare Lam.,Asteraceae,1,carvalheiro_2008
+Volucella pellucens L.,Diptera Syrphidae,Leucanthemum vulgare Lam.,Asteraceae,1,carvalheiro_2008
+Heteroptera sp6,Heteroptera,Leucanthemum vulgare Lam.,Asteraceae,1,carvalheiro_2008
+Bombus hortorum L.,Hymenoptera Apidae,Leucanthemum vulgare Lam.,Asteraceae,1,carvalheiro_2008
+Bombus lucorum L.,Hymenoptera Apidae,Leucanthemum vulgare Lam.,Asteraceae,1,carvalheiro_2008
+Bombus pratorum L.,Hymenoptera Apidae,Leucanthemum vulgare Lam.,Asteraceae,1,carvalheiro_2008
+Lepidoptera sp2,Lepidoptera,Leucanthemum vulgare Lam.,Asteraceae,1,carvalheiro_2008
+Conioscinella sp.,Diptera Chloropidae,Medicago lupina L.,Fabaceae,1,carvalheiro_2008
+Platycheirus albimanus Fabricius,Diptera Syrphidae,Medicago lupina L.,Fabaceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Medicago lupina L.,Fabaceae,1,carvalheiro_2008
+Hymenoptera sp8,Hymenoptera,Medicago lupina L.,Fabaceae,1,carvalheiro_2008
+Meligethes aeneus Fabricius,Coleoptera Nitidulidae,Mycelis muralis (L.) Dumort ,Asteraceae,1,carvalheiro_2008
+Baccha sp.,Diptera Syrphidae,Mycelis muralis (L.) Dumort ,Asteraceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Mycelis muralis (L.) Dumort ,Asteraceae,1,carvalheiro_2008
+Ferdinandea cuprea Scopoli,Diptera Syrphidae,Mycelis muralis (L.) Dumort ,Asteraceae,1,carvalheiro_2008
+Melanostoma scalare Fabricius,Diptera Syrphidae,Mycelis muralis (L.) Dumort ,Asteraceae,1,carvalheiro_2008
+Platycheirus clypeatus Meigen,Diptera Syrphidae,Mycelis muralis (L.) Dumort ,Asteraceae,1,carvalheiro_2008
+Platycheirus scutatus Meigen,Diptera Syrphidae,Mycelis muralis (L.) Dumort ,Asteraceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Melampyrum pratense L.,Scrophulariaceae,1,carvalheiro_2008
+Meligethes aeneus Fabricius,Coleoptera Nitidulidae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Oedemera lurida Marsham,Coleoptera Oedemeridae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Melangyna umbellatarum Fabricius,Diptera Syrphidae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Heteroptera sp10,Heteroptera,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Heteroptera sp8,Heteroptera,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Bombus lucorum L.,Hymenoptera Apidae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Bombus vestalis Geoffroy,Hymenoptera Apidae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Halictus tumulorum L.,Hymenoptera Halictidae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Lasioglossum villosulum Kirby,Hymenoptera Halictidae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Hoplitis spinulosa Kirby,Hymenoptera Megachilidae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Polyommatus icarus Rottemburg,Lepidoptera Lycaenidae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Gonepteryx rhamni L.,Lepidoptera Pieridae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Melanargia galathea L.,Lepidoptera Nymphalidae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Pyronia tithonus L.,Lepidoptera Satyridae,Origanum vulgare L.,Lamiaceae,1,carvalheiro_2008
+Melanostoma mellinum L.,Diptera Syrphidae,Plantago lanceolata L.,Plantaginaceae,1,carvalheiro_2008
+Hymenoptera sp9,Hymenoptera,Plantago lanceolata L.,Plantaginaceae,1,carvalheiro_2008
+Meligethes solidus Kugelann,Coleoptera Nitidulidae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Oedemera nobilis Scopoli,Coleoptera Oedemeridae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Heterostylodes nominabilis Collin,Diptera Anthomyiidae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Dasysyrphus tricinctus Fall‚n,Diptera Syrphidae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Sphaerophoria scripta L.,Diptera Syrphidae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Andrena sp3,Hymenoptera Andrenidae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Ceratina cyanea Kirby,Hymenoptera Apidae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Lasioglossum smeathmanellum Kirby,Hymenoptera Halictidae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Lasioglossum villosulum Kirby,Hymenoptera Halictidae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Hoplitis spinulosa Kirby,Hymenoptera Megachilidae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Polyommatus icarus Rottemburg,Lepidoptera Lycaenidae,Pilosella officinarum F.W. Schultz & Sch. Bip,Asteraceae,1,carvalheiro_2008
+Phyllobius roboretanus Gredler _,Coleoptera Curculionidae,Potentilla sterilis (L.) Garcke,Rosaceae,1,carvalheiro_2008
+Meligethes obscurus Erichson,Coleoptera Nitidulidae,Potentilla sterilis (L.) Garcke,Rosaceae,1,carvalheiro_2008
+Myrmica ruginoides L.,Hymenoptera Formicidae,Potentilla sterilis (L.) Garcke,Rosaceae,1,carvalheiro_2008
+Trachysiphonella sp2,Diptera Chloropidae,Rosa canina L.,Rosaceae,1,carvalheiro_2008
+Meligethes aeneus Fabricius,Coleoptera Nitidulidae,Rosa arvensis Huds.,Rosaceae,1,carvalheiro_2008
+Anaspis frontalis L.,Coleoptera Scraptiidae,Rosa arvensis Huds.,Rosaceae,1,carvalheiro_2008
+Platypalpus nigritarsis Fall‚n cf. ,Diptera Hybotidae,Rosa arvensis Huds.,Rosaceae,1,carvalheiro_2008
+Meliscaeva auricollis Meigen,Diptera Syrphidae,Rosa arvensis Huds.,Rosaceae,1,carvalheiro_2008
+Bombus hortorum L.,Hymenoptera Apidae,Rosa arvensis Huds.,Rosaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Rosa arvensis Huds.,Rosaceae,1,carvalheiro_2008
+Bombus pratorum L.,Hymenoptera Apidae,Rosa arvensis Huds.,Rosaceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Rosa arvensis Huds.,Rosaceae,1,carvalheiro_2008
+Meligethes flavimanus Stephens,Coleoptera Nitidulidae,Rosa canina L.,Rosaceae,1,carvalheiro_2008
+Anaspis pulicaria Costa,Coleoptera Scraptiidae,Rosa canina L.,Rosaceae,1,carvalheiro_2008
+Metasyrphus cf. latilunulatus Collin,Diptera Syrphidae,Rosa canina L.,Rosaceae,1,carvalheiro_2008
+Bombus pratorum L.,Hymenoptera Apidae,Rosa canina L.,Rosaceae,1,carvalheiro_2008
+Byturus tomentosus Fabricius,Coleoptera Byturidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Strangalia maculata Poda,Coleoptera Cerambycidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Anthonomus rubi Herbst,Coleoptera Curculionidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Mordellistena neuwaldeggiana Panzer,Coleoptera Mordellidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Meligethes aeneus Fabricius,Coleoptera Nitidulidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Meligethes solidus Kugelann,Coleoptera Nitidulidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Anaspis pulicaria Costa,Coleoptera Scraptiidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Eusphalerum luteum Marsham,Coleoptera Staphylinidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Peplomyza litura Meigen,Diptera Lauxaniidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Eristalis intricarius L.,Diptera Syrphidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Meliscaeva auricollis Meigen,Diptera Syrphidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Platycheirus albimanus Fabricius,Diptera Syrphidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Dexiosoma caninum Fabricius,Diptera Fabricius,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Heteroptera sp6,Heteroptera,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Heteroptera sp10,Heteroptera,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Apis mellifera L.,Hymenoptera Apidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Bombus lapidarius L.,Hymenoptera Apidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Bombus terrestris L.,Hymenoptera Apidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Myrmica sp3,Hymenoptera Formicidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Halictus tumulorum L.,Hymenoptera Halictidae,Rubus fruticosus L.,Rosaceae,1,carvalheiro_2008
+Meligethes solidus Kugelann,Coleoptera Nitidulidae,Ranunculus sp1,Ranunculaceae,1,carvalheiro_2008
+Heterostylodes nominabilis Collin,Diptera Anthomyiidae,Ranunculus sp1,Ranunculaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Ranunculus sp1,Ranunculaceae,1,carvalheiro_2008
+Lasioglossum smeathmanellum Kirby,Hymenoptera Halictidae,Ranunculus sp1,Ranunculaceae,1,carvalheiro_2008
+Thysanoptera sp3,Thysanoptera,Ranunculus sp1,Ranunculaceae,1,carvalheiro_2008
+Thysanoptera sp4,Thysanoptera,Ranunculus sp1,Ranunculaceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Ranunculus sp2,Ranunculaceae,1,carvalheiro_2008
+Sarcophaga nigriventris Meigen,Diptera Sarcophagidae,Senecio jacobaea L.,Asteraceae,1,carvalheiro_2008
+Eupeodes luniger Meigen,Diptera Syrphidae,Senecio jacobaea L.,Asteraceae,1,carvalheiro_2008
+Platycheirus albimanus Fabricius,Diptera Syrphidae,Senecio jacobaea L.,Asteraceae,1,carvalheiro_2008
+Phyllobius roboretanus Gredler _,Coleoptera Curculionidae,Sorbus aria (L.) Crantz,Rosaceae,1,carvalheiro_2008
+Meligethes obscurus Erichson,Coleoptera Nitidulidae,Sorbus aria (L.) Crantz,Rosaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Sorbus aria (L.) Crantz,Rosaceae,1,carvalheiro_2008
+Lasius alienus Foerster  _,Hymenoptera Formicidae,Sorbus aria (L.) Crantz,Rosaceae,1,carvalheiro_2008
+Meligethes aeneus Fabricius,Coleoptera Nitidulidae,Sonchus arvensis L.,Asteraceae,1,carvalheiro_2008
+Pegoplata aestiva Meigen,Diptera Anthomyiidae,Sonchus arvensis L.,Asteraceae,1,carvalheiro_2008
+Epistrophe grossularia Meigen,Diptera Syrphidae,Sonchus arvensis L.,Asteraceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Sonchus arvensis L.,Asteraceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Sonchus arvensis L.,Asteraceae,1,carvalheiro_2008
+Lasioglossum villosulum Kirby,Hymenoptera Halictidae,Sonchus arvensis L.,Asteraceae,1,carvalheiro_2008
+Meligethes solidus Kugelann,Coleoptera Nitidulidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Delia sp.,Diptera Anthomyiidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Lucilia illustris Meigen,Diptera Calliphoridae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Epistrophe grossularia Meigen,Diptera Syrphidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Eristalis arbustorum L.,Diptera Syrphidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Eristalis pertinax Scopoli,Diptera Syrphidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Eristalis tenax L.,Diptera Syrphidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Eupeodes luniger Meigen,Diptera Syrphidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Helophilus pendulus L.,Diptera Syrphidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Syrphus torvus Osten Sacken,Diptera Syrphidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Heteroptera sp3,Heteroptera,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Bombus lapidarius L.,Hymenoptera Apidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Lasius alienus Foerster  _,Hymenoptera Formicidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Myrmica sp4,Hymenoptera Formicidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Hoplitis claviventris Thomson,Hymenoptera Megachilidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Hymenoptera sp10,Hymenoptera,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Polyommatus icarus Rottemburg,Lepidoptera Lycaenidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Lepidoptera sp1,Lepidoptera,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Aglais urticae L.,Lepidoptera Nymphalidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Pieris napi L.,Lepidoptera Pieridae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Melanargia galathea L.,Lepidoptera Nymphalidae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Pyronia tithonus L.,Lepidoptera Satyridae,Scabiosa columbaria L.,Dipsacaceae,1,carvalheiro_2008
+Anthonomus rubi Herbst,Coleoptera Curculionidae,Solanum dulcamara L.,Solanaceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Solanum dulcamara L.,Solanaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Solanum dulcamara L.,Solanaceae,1,carvalheiro_2008
+Lucilia illustris Meigen,Diptera Calliphoridae,Senecio jacobaea L.,Asteraceae,1,carvalheiro_2008
+Phyllobius roboretanus Gredler _,Coleoptera Curculionidae,Sanguisorba minor Scop.,Rosaceae,1,carvalheiro_2008
+Oedemera lurida Marsham,Coleoptera Oedemeridae,Sanguisorba minor Scop.,Rosaceae,1,carvalheiro_2008
+Platycheirus clypeatus Meigen,Diptera Syrphidae,Sanguisorba minor Scop.,Rosaceae,1,carvalheiro_2008
+Centhorhynchus sp.,Coleoptera Curculionidae,Sisymbrium officinale (L.) Scop. *,Brassicaceae,1,carvalheiro_2008
+Anthomyiidae sp1,Diptera Anthomyiidae,Sisymbrium officinale (L.) Scop. *,Brassicaceae,1,carvalheiro_2008
+Rhinophora lepida Meigen,Diptera Rhinophoridae,Sisymbrium officinale (L.) Scop. *,Brassicaceae,1,carvalheiro_2008
+Sphaerophoria scripta L.,Diptera Syrphidae,Sisymbrium officinale (L.) Scop. *,Brassicaceae,1,carvalheiro_2008
+Halictus tumulorum L.,Hymenoptera Halictidae,Sisymbrium officinale (L.) Scop. *,Brassicaceae,1,carvalheiro_2008
+Isomira murina L.,Coleoptera Tenebrionidae,Smyrnium olusatrum L.* ¥,Apiaceae,1,carvalheiro_2008
+Agrypnus murinus L.,Coleoptera Elateridae,Smyrnium olusatrum L.* ¥,Apiaceae,1,carvalheiro_2008
+Meligethes solidus Kugelann,Coleoptera Nitidulidae,Smyrnium olusatrum L.* ¥,Apiaceae,1,carvalheiro_2008
+Delia sp.,Diptera Anthomyiidae,Smyrnium olusatrum L.* ¥,Apiaceae,1,carvalheiro_2008
+Sarcophaga spp.,Diptera Sarcophagidae,Smyrnium olusatrum L.* ¥,Apiaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Smyrnium olusatrum L.* ¥,Apiaceae,1,carvalheiro_2008
+Hymenoptera sp2,Hymenoptera,Smyrnium olusatrum L.* ¥,Apiaceae,1,carvalheiro_2008
+Anthomyia liturata Robineau-Desvoidy,Diptera Anthomyiidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Pollenia rudis Fabricius,Diptera Calliphoridae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Neomyia cornicina Fabricius,Diptera Muscidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Sarcophaga nigriventris Meigen,Diptera Sarcophagidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Sarcophaga subvicina Rohdendorf,Diptera Sarcophagidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Episyrphus balteatus DeGeer,Diptera Syrphidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Eristalis interruptus Poda,Diptera Syrphidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Eristalis tenax L.,Diptera Syrphidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Helophilus pendulus L.,Diptera Syrphidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Metasyrphus latifasciatus Macquart,Diptera Syrphidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Paragus haemorrhous Meigen,Diptera Syrphidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Platycheirus albimanus Fabricius,Diptera Syrphidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Sphaerophoria scripta L.,Diptera Syrphidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Sphaerophoria scripta L.,Diptera Syrphidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Tachina fera L.,Diptera Tachinidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Bombus vestalis Geoffroy,Hymenoptera Apidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Lasioglossum calceatum Scopoli,Hymenoptera Halictidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Lasioglossum fulvicorne Kirby,Hymenoptera Halictidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Lasioglossum quadrinotatum Schenck,Hymenoptera Halictidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Lasioglossum smeathmanellum Kirby,Hymenoptera Halictidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Polyommatus icarus Rottemburg,Lepidoptera Lycaenidae,Solidago virgaurea L.,Asteraceae,1,carvalheiro_2008
+Oedemera lurida Marsham,Coleoptera Oedemeridae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Pegoplata aestiva Meigen,Diptera Anthomyiidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Lucilia illustris Meigen,Diptera Calliphoridae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Lasiambia palposa Fall‚n,Diptera Chloropidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Conops quadrifasciatus De Geer,Diptera Conopidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Brachicoma devia Fallen,Diptera Sarcophagidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Sciaridae Gen1 sp.,Diptera Sciaridae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Eristalis arbustorum L.,Diptera Syrphidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Melanostoma mellinum L.,Diptera Syrphidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Platycheirus albimanus Fabricius,Diptera Syrphidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Sphaerophoria scripta L.,Diptera Syrphidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Syrphus vitripennis Meigen,Diptera Syrphidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Eriothrix rufomaculata DeGeer,Diptera Tachinidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Heteroptera sp9,Heteroptera,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Bombus lapidarius L.,Hymenoptera Apidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Bombus terrestris L.,Hymenoptera Apidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Hylaeus communis Nylander,Hymenoptera Colletidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Halictus tumulorum L.,Hymenoptera Halictidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Lasioglossum calceatum Scopoli,Hymenoptera Halictidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Hoplitis spinulosa Kirby,Hymenoptera Megachilidae,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Hymenoptera sp11,Hymenoptera,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Thysanoptera sp1  _,Thysanoptera,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Thysanoptera sp2,Thysanoptera,Senecio sp.,Asteraceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Tamus communis L.,Dioscoreaceae,1,carvalheiro_2008
+Phyllobius roboretanus Gredler _,Coleoptera Curculionidae,Trinia glauca (L.) Dummort ¥,Apiaceae,1,carvalheiro_2008
+Myrmecoris gracilis R.F.Sahlberg  _,Heteroptera Miridae,Trinia glauca (L.) Dummort ¥,Apiaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Trinia glauca (L.) Dummort ¥,Apiaceae,1,carvalheiro_2008
+Lasius alienus Foerster  _,Hymenoptera Formicidae,Trinia glauca (L.) Dummort ¥,Apiaceae,1,carvalheiro_2008
+Temnothorax albipennis Curtis  _,Hymenoptera Formicidae,Trinia glauca (L.) Dummort ¥,Apiaceae,1,carvalheiro_2008
+Thysanoptera sp1  _,Thysanoptera,Trinia glauca (L.) Dummort ¥,Apiaceae,1,carvalheiro_2008
+Sarcophaga carnaria L.,Diptera Sarcophagidae,Torilis japonica (Houtt.) DC,Apiaceae,1,carvalheiro_2008
+Sarcophaga nigriventris Meigen,Diptera Sarcophagidae,Torilis japonica (Houtt.) DC,Apiaceae,1,carvalheiro_2008
+Cheilosia soror Zetterstedt,Diptera Syrphidae,Torilis japonica (Houtt.) DC,Apiaceae,1,carvalheiro_2008
+Epistrophe grossularia Meigen,Diptera Syrphidae,Torilis japonica (Houtt.) DC,Apiaceae,1,carvalheiro_2008
+Paragus haemorrhous Meigen,Diptera Syrphidae,Torilis japonica (Houtt.) DC,Apiaceae,1,carvalheiro_2008
+Sphaerophoria scripta L.,Diptera Syrphidae,Torilis japonica (Houtt.) DC,Apiaceae,1,carvalheiro_2008
+Syrphus ribesii L.,Diptera Syrphidae,Torilis japonica (Houtt.) DC,Apiaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Torilis japonica (Houtt.) DC,Apiaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Torilis japonica (Houtt.) DC,Apiaceae,1,carvalheiro_2008
+Halictus tumulorum L.,Hymenoptera Halictidae,Torilis japonica (Houtt.) DC,Apiaceae,1,carvalheiro_2008
+Lasioglossum leucopus Kirby,Hymenoptera Halictidae,Torilis japonica (Houtt.) DC,Apiaceae,1,carvalheiro_2008
+Lasioglossum morio Fabricius,Hymenoptera Halictidae,Torilis japonica (Houtt.) DC,Apiaceae,1,carvalheiro_2008
+Ectemnius continuus Fabricius,Hymenoptera Crabronidae,Torilis japonica (Houtt.) DC,Apiaceae,1,carvalheiro_2008
+Lasiambia palposa Fall‚n,Diptera Chloropidae,Thymus polytrichus A. Kerner ex Borb‡s,Lamiaceae,1,carvalheiro_2008
+Chloropidae sp1,Diptera Chloropidae,Thymus polytrichus A. Kerner ex Borb‡s,Lamiaceae,1,carvalheiro_2008
+Paragus haemorrhous Meigen,Diptera Syrphidae,Thymus polytrichus A. Kerner ex Borb‡s,Lamiaceae,1,carvalheiro_2008
+Lasius alienus Foerster  _,Hymenoptera Formicidae,Thymus polytrichus A. Kerner ex Borb‡s,Lamiaceae,1,carvalheiro_2008
+Phyllobius viridiaeris Laicharting,Coleoptera Curculionidae,Trifolium pratense L.,Fabaceae,1,carvalheiro_2008
+Myrmecoris gracilis R.F.Sahlberg  _,Heteroptera Miridae,Trifolium pratense L.,Fabaceae,1,carvalheiro_2008
+Meligethes obscurus Erichson,Coleoptera Nitidulidae,Teucrium scorodonia L.,Lamiaceae,1,carvalheiro_2008
+Epistrophe grossularia Meigen,Diptera Syrphidae,Teucrium scorodonia L.,Lamiaceae,1,carvalheiro_2008
+Bombus hortorum L.,Hymenoptera Apidae,Teucrium scorodonia L.,Lamiaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Teucrium scorodonia L.,Lamiaceae,1,carvalheiro_2008
+Ochlodes venata Bremer & Grey,Lepidoptera Hesperiidae,Teucrium scorodonia L.,Lamiaceae,1,carvalheiro_2008
+Aphantopus hyperantus L.,Lepidoptera Nymphalidae,Teucrium scorodonia L.,Lamiaceae,1,carvalheiro_2008
+Apion ulicis Forster,Coleoptera Curculionidae,Ulex europaeus L.,Fabaceae,1,carvalheiro_2008
+Anaspis pulicaria Costa,Coleoptera Scraptiidae,Ulex europaeus L.,Fabaceae,1,carvalheiro_2008
+Muscidae sp1,Diptera Muscidae,Ulex europaeus L.,Fabaceae,1,carvalheiro_2008
+Heteroptera sp1,Heteroptera,Ulex europaeus L.,Fabaceae,1,carvalheiro_2008
+Bombus pascuorum Scopoli,Hymenoptera Apidae,Ulex europaeus L.,Fabaceae,1,carvalheiro_2008
+Lasius alienus Foerster  _,Hymenoptera Formicidae,Ulex europaeus L.,Fabaceae,1,carvalheiro_2008
+Lepidoptera sp3,Lepidoptera,Ulex europaeus L.,Fabaceae,1,carvalheiro_2008
+Isomira murina L.,Coleoptera Tenebrionidae,Viburnum lantana L.,Caprifoliaceae,1,carvalheiro_2008
+Formica fusca L. _,Hymenoptera Formicidae,Viburnum lantana L.,Caprifoliaceae,1,carvalheiro_2008
+Lasius alienus Foerster  _,Hymenoptera Formicidae,Viburnum lantana L.,Caprifoliaceae,1,carvalheiro_2008
+Meligethes solidus Kugelann,Coleoptera Nitidulidae,Verbascum thapsus L.,Scrophulariaceae,1,carvalheiro_2008
+Halictus tumulorum L.,Hymenoptera Halictidae,Verbascum thapsus L.,Scrophulariaceae,1,carvalheiro_2008
+Anaspis pulicaria Costa,Coleoptera Scraptiidae,Viburnum lantana L.,Caprifoliaceae,1,carvalheiro_2008
