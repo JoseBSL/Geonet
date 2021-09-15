@@ -2,7 +2,6 @@
 ##Specialisation model
 ###
 
-
 library(brms)
 library(emmeans)
 library(plotrix)
@@ -17,10 +16,6 @@ library(ggplot2)
 sp.links.melt.5$clim <- as.factor(sp.links.melt.5$clim)
 sp.links.melt.5$PolOrder <- as.factor(sp.links.melt.5$PolOrder)
 sp.links.melt.5$Latitude <- abs(sp.links.melt.5$Latitude)
-
-options(mc.cores = parallel::detectCores())
-rstan_options(auto_write = TRUE)
-
 
 ###Sum with offset
 spec_ord_prior=prior(normal(0,2),class="b")+
@@ -222,5 +217,6 @@ spec.gg=ggplot(rbind.spec.plot,aes(x=`Pollinator taxa`,y=estimate__+1,col=`Polli
     strip.text.x = element_blank(),
         panel.spacing = unit(0.5,"lines"),strip.background =element_rect(fill="white"),axis.text.x=element_blank(),aspect.ratio = 1,axis.ticks.x = element_blank())
 spec.gg
+
 ggsave(spec.gg,file="generalism plot.pdf",device = "pdf",dpi=320,width=15,height=5,units = c("in"))
 
