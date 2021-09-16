@@ -4,24 +4,29 @@
 
 library(brms)
 library(emmeans)
-library(plotrix)
 library(plyr)
-library(rstan)
 library(dplyr)
 library(tidybayes)
-library(tidyverse)
-library(DescTools)
 library(ggplot2)
 library(performance)
 
 options(brms.backend="cmdstanr")
+
+#variables
+range(sp.links.melt.5$int_tot)
+sp.links.melt.5$scale_tot <- scale(sp.links.melt.5$int_tot)
+
+range(sp.links.melt.5$scale_tot)
+plot(sp.links.melt.5$int_tot~sp.links.melt.5$scale_tot)
+#minus 1 so account for truncation in count model
+sp.links.melt.5$value2 <- sp.links.melt.5$value-1
 
 ###Sum with offset
 spec_ord_prior=prior(normal(0,2),class="b")+
   prior(normal(0,5),class="Intercept")+
   prior(normal(0,2),class="sd")
 
-spec_ord_mod_1=brm(value-1 ~ animal.order * clim + 
+spec_ord_mod_1=brm(value2 ~ animal.order * clim + 
                offset(log(int_tot)) + 
                (1|Reference/Network),
                family=negbinomial(link="log"),
@@ -29,21 +34,30 @@ spec_ord_mod_1=brm(value-1 ~ animal.order * clim +
                cores=4,
                data=sp.links.melt.5)
 
-conditional_effects(spec_ord_mod_1)
+spec_ord_mod_2=brm(value2 ~ animal.order * clim + 
+                     scale_tot + 
+                     (1|Reference/Network),
+                   family=negbinomial(link="log"),
+                   prior=spec_ord_prior,
+                   cores=4,
+                   data=sp.links.melt.5)
 
-bayes_R2(spec_ord_mod_1)
+conditional_effects(spec_ord_mod_2)
+
+r2(spec_ord_mod_1)
+r2(spec_ord_mod_2)
 #Marg. r2: 35,
 
+brms::pp_check(spec_ord_mod_1)+xlim(0,20)
 
 ###################
 #####PAIRWISE#####
 #################
+pairwise.spec <- emmeans(spec_ord_mod_2,~animal.order:clim,
+                               type="response")
 
-pairwise.spec <- emmeans(spec_ord_mod_1,~animal.order:clim,
-                               type="response",offset=log(100))
-
-pairwise.spec.contrasts <- contrast(pairwise.spec,"pairwise",
-                                    type="response")
+pairwise.spec.contrasts <- as.data.frame(contrast(emmeans(spec_ord_mod_2,~animal.order:clim),
+                                                  "pairwise"))
 
 ###############
 #####PLOT#####
@@ -128,7 +142,8 @@ spec.gg <- ggplot(rbind.spec.plot,aes(x=`Pollinator taxa`,
         axis.text.x=element_text(angle = 45, vjust = 1, hjust=1),
         aspect.ratio = 1,axis.ticks.x = element_blank())
 
-ggsave(spec.gg,file="plots/generalism plot.pdf",
-       device = "pdf",
-       dpi=320,width=15,height=5,units = c("in"))
+spec.gg
 
+
+##save models
+save(spec_ord_mod_2,file="data/models/spec_ord_mod_2.RData",compress="xz")

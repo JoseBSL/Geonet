@@ -5,14 +5,22 @@ library(brms)
 library(plyr)
 library(dplyr)
 library(emmeans)
+library(ggplot2)
 
 options(brms.backend="cmdstanr")
 
 ##Priors
 prop_ord_prior <- prior(normal(0,5), class = Intercept) +  
   prior(normal(0,2), class = b) + 
-  prior(normal(0,10), class = phi) + 
   prior(normal(0,0.4), class = sd)
+
+g.sub%>%
+  filter(animal.order%in%c("Hymenoptera",
+                           "Coleoptera",
+                           "Lepidoptera"))%>%
+  summarise(sum(order_links))
+
+3326/sum(g.sub$order_links)
 
 #Model
 prop_ord_mod1=brm(prop_links~animal.order*clim+(1|Reference/Network),
@@ -20,7 +28,6 @@ prop_ord_mod1=brm(prop_links~animal.order*clim+(1|Reference/Network),
                   inits=0,
                   iter=2000,
                   prior=prop_ord_prior,
-                  #control=list(adapt_delta=0.99),
                   data=g.sub,cores=4)
 
 pp_check(prop_ord_mod1,nsamples=100)
@@ -35,8 +42,9 @@ performance::r2(prop_ord_mod1)
 pairwise.prop.links <- emmeans(prop_ord_mod1,~animal.order:clim,
                                type="response")
 
-pairwise.prop.contrasts <- contrast(pairwise.prop.links,"pairwise",
-                                    type="response")
+pairwise.prop.contrasts <- as.data.frame(contrast(emmeans(prop_ord_mod1,
+                                                          ~animal.order:clim),
+                                                  "pairwise"))
 
 ######################
 #####PLOT TYPE 2#####
@@ -145,8 +153,6 @@ prop.gg=ggplot(rbind.prop.plot,
         axis.ticks.x = element_blank())
 
 prop.gg
-
-ggsave(prop.gg,file="plots/prop links plot.pdf",device = "pdf",dpi=320,width=15,height=5,units = c("in"))
 
 ##save models
 save(prop_ord_mod1,file="data/models/prop_ord_mod1.RData",compress="xz")
