@@ -12,6 +12,16 @@ totals <- geonet%>%
   count()%>%
   arrange(desc(n))
 
+#insect poll numbers
+geonet.insects <- geonet%>%filter(animal.order%in%c("Coleoptera","Bee",
+                                  "Hymenoptera","Diptera",
+                                  "Lepidoptera"))
+
+levels(factor(geonet.insects$animal.family))
+levels(factor(geonet.insects$animal.order))
+levels(factor(geonet.insects$Pollinator))
+
+
 #insect totals
 sum(totals[1:6,2])/sum(totals[,2])
 
