@@ -23,9 +23,6 @@ ggsave(prop.spec.plots,
 prop.map.grob <- ggplotGrob(prop.map)
 spec.map.grob <- ggplotGrob(spec.map)
 
-rbind(prop.map.grob,
-      spec.map.grob)
-
 ggsave(rbind(prop.map.grob,
              spec.map.grob),
        file="plots and tables/fig 3 - map.jpg",

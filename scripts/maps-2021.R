@@ -11,14 +11,14 @@ library(maptools)
 library(tidybayes)
 
 #load predicted generalisation values for each taxa group in each network
-gen_predict <- sp.links.melt.5[!duplicated(sp.links.melt.5[,c("Network","animal.order")]),]
-gen.predict.df <- cbind(gen_predict,predict(spec_ord_mod_1,newdata=gen_predict))
+gen_predict <- sp.links.melt.5[!duplicated(sp.links.melt.5[,c("Network",
+                                                              "animal.order")]),]
+gen_predict$int_tot <- 100
+gen.predict.df <- cbind(gen_predict,predict(spec_ord_mod_1,
+                                            newdata=gen_predict))
 gen.predict.df$animal.order <- revalue(gen.predict.df$animal.order,
                                        c("Hymenoptera" = "Non-bee Hymenoptera",
                                          "Diptera" = "Non-syrphid Diptera"))
-
-
-#gen_predict=read.csv("data/outputs/spec_graph.csv")
 
 # Get Natural Earth shapefiles
 #download.file(url="http://www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries.zip",

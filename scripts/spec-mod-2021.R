@@ -13,11 +13,7 @@ library(performance)
 options(brms.backend="cmdstanr")
 
 #variables
-range(sp.links.melt.5$int_tot)
-sp.links.melt.5$scale_tot <- scale(sp.links.melt.5$int_tot)
 
-range(sp.links.melt.5$scale_tot)
-plot(sp.links.melt.5$int_tot~sp.links.melt.5$scale_tot)
 #minus 1 so account for truncation in count model
 sp.links.melt.5$value2 <- sp.links.melt.5$value-1
 
@@ -34,36 +30,31 @@ spec_ord_mod_1=brm(value2 ~ animal.order * clim +
                cores=4,
                data=sp.links.melt.5)
 
-spec_ord_mod_2=brm(value2 ~ animal.order * clim + 
-                     scale_tot + 
-                     (1|Reference/Network),
-                   family=negbinomial(link="log"),
-                   prior=spec_ord_prior,
-                   cores=4,
-                   data=sp.links.melt.5)
-
-conditional_effects(spec_ord_mod_2)
-
-r2(spec_ord_mod_1)
-r2(spec_ord_mod_2)
-#Marg. r2: 35,
-
 brms::pp_check(spec_ord_mod_1)+xlim(0,20)
 
 ###################
 #####PAIRWISE#####
 #################
-pairwise.spec <- emmeans(spec_ord_mod_2,~animal.order:clim,
-                               type="response")
+#does not work with offset
+#pairwise.spec <- emmeans(spec_ord_mod_1,~animal.order:clim,
+#                         offset=log(100))
+#                         type="response")
 
-pairwise.spec.contrasts <- as.data.frame(contrast(emmeans(spec_ord_mod_2,~animal.order:clim),
+pairwise.spec.contrasts <- as.data.frame(contrast(emmeans(spec_ord_mod_1,
+                                                          ~animal.order:clim),
                                                   "pairwise"))
 
+#write.csv(pairwise.spec.contrasts,"specialisataion contrasts.csv")
 ###############
 #####PLOT#####
 #############
 
-spec.plot=as.data.frame(pairwise.spec)
+spec.plot=plot(conditional_effects(spec_ord_mod_1,
+                                   conditions = list(int_tot=100)))
+
+spec.plot <- spec.plot[[3]]$data%>%
+  select(animal.order,clim,estimate__,lower__,upper__)
+
 spec.plot[,3:5] <- spec.plot[,3:5]+1
 
 colnames(spec.plot)[1:2] <- c("Pollinator taxa","Climate zone")
@@ -115,22 +106,23 @@ rbind.spec.plot <- droplevels(rbind.spec.plot)
 #rbind.spec.plot$value <- as.numeric(rbind.spec.plot$value)
 
 spec.gg <- ggplot(rbind.spec.plot,aes(x=`Pollinator taxa`,
-                                   y=prob,col=`Pollinator taxa`))+
+                                   y=estimate__,col=`Pollinator taxa`))+
   geom_point(aes(y=value,col=animal.order),show.legend = F,size=0.5,
              position=position_jitterdodge(dodge.width=0,
                                            jitter.width = 0.7,
-                                           jitter.height = 0.05),
+                                           jitter.height = 0.005),
              alpha=0.5)+
   geom_point(aes(col=`Pollinator taxa`),
              size=2,show.legend = F)+
-  geom_errorbar(aes(ymin=lower.HPD,
-                    ymax=upper.HPD,
+  geom_errorbar(aes(ymin=lower__,
+                    ymax=upper__,
                     col=`Pollinator taxa`),
                 width=0.4,show.legend =F)+
   facet_wrap(~`Climate zone`,ncol=5)+
   theme_bw()+
   ylab("Normalised generalism")+
   xlab(NULL)+
+  #ylim(0,0.2)+
   scale_y_log10()+
   #scale_y_continuous(breaks=c(1,4,7,10,14),limits=c(1,14))+
   scale_color_manual(breaks=list_spp,
@@ -146,4 +138,4 @@ spec.gg
 
 
 ##save models
-save(spec_ord_mod_2,file="data/models/spec_ord_mod_2.RData",compress="xz")
+#save(spec_ord_mod_2,file="data/models/spec_ord_mod_1.RData",compress="xz")
