@@ -8,19 +8,17 @@ This is the code and data from the article:
 
 **Authors** 
 
-Manu E. Saunders $^1$,$^2$, Liam K. Kendall $^1$,$^3$, Jose B. Lanuza $^1$, Mark A. Hall $^4$, Romina Rader $^1$, Jamie R. Stavert $^1$,$5$
+Manu E. Saunders <sup>1</sup>, Liam K. Kendall <sup>2</sup>, Jose B. Lanuza <sup>1</sup>, Mark A. Hall <sup>3</sup>, Romina Rader <sup>1</sup>, Jamie R. Stavert <sup>1,4</sup>
 
 **Affiliations**
 
 *1* Ecosystem Management, School of Environmental and Rural Science, University of New England, Armidale NSW Australia
 
-*2* UNE Business School, University of New England, Armidale NSW Australia
+*2* Centre for Environmental and Climate Science, Lund University, Lund, Sweden
 
-*3* CSIRO Agriculture, Brisbane QLD 4001, Australia
+*3* Hawkesbury Institute for the Environment, Western Sydney University, Penrith NSW, Australia
 
-*4* Hawkesbury Institute for the Environment, Western Sydney University, Penrith NSW, Australia
-
-*5* Department of Conservation - Te Papa Atawhai, Auckland, New Zealand
+*4* Department of Conservation - Te Papa Atawhai, Auckland, New Zealand
 
 **DOI**
 
