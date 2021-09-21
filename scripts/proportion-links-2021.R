@@ -14,13 +14,6 @@ prop_ord_prior <- prior(normal(0,5), class = Intercept) +
   prior(normal(0,2), class = b) + 
   prior(normal(0,0.4), class = sd)
 
-g.sub%>%
-  filter(animal.order%in%c("Hymenoptera",
-                           "Coleoptera",
-                           "Lepidoptera"))%>%
-  summarise(sum(order_links))
-
-3326/sum(g.sub$order_links)
 
 #Model
 prop_ord_mod1=brm(prop_links~animal.order*clim+(1|Reference/Network),
@@ -31,9 +24,8 @@ prop_ord_mod1=brm(prop_links~animal.order*clim+(1|Reference/Network),
                   data=g.sub,cores=4)
 
 pp_check(prop_ord_mod1,nsamples=100)
-#conditional_effects(prop_ord_mod1)
-performance::r2(prop_ord_mod1)
-#Cond. 43, marginal 42
+
+
 
 ###################
 #####PAIRWISE#####
@@ -49,8 +41,9 @@ pairwise.prop.contrasts <- as.data.frame(contrast(emmeans(prop_ord_mod1,
 ######################
 #####PLOT TYPE 2#####
 ####################
+prop.effects <- plot(conditional_effects(prop_ord_mod1))
 
-prop.plot=as.data.frame(pairwise.prop.links)
+prop.plot=prop.effects[[3]]$data
 
 colnames(prop.plot)[1:2] <- c("Pollinator taxa","Climate zone")
 
@@ -121,7 +114,7 @@ list_spp=c("Bee","Coleoptera","Lepidoptera","Non-bee Hymenoptera","Non-syrphid D
 ##PLOT
 prop.gg=ggplot(rbind.prop.plot,
                aes(x=`Pollinator taxa`,
-                   y=response,
+                   y=estimate__,
                    col=`Pollinator taxa`))+
   geom_point(aes(y=prop_links,
                  col=animal.order),
@@ -132,8 +125,8 @@ prop.gg=ggplot(rbind.prop.plot,
              alpha=0.5)+
   geom_point(aes(col=`Pollinator taxa`),
              size=2,show.legend = F)+
-  geom_errorbar(aes(ymin=lower.HPD,
-                    ymax=upper.HPD,
+  geom_errorbar(aes(ymin=lower__,
+                    ymax=upper__,
                     col=`Pollinator taxa`),
                 width=0.4,
                 show.legend = F)+
